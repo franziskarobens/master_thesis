@@ -60,10 +60,10 @@ It is a strictly monotone function \todo{Is this function really strictly monoto
 
 Let $\theta \in [0, 1]$, $T \sim Bin(n , \theta)$ and $U_1, \ldots, U_n \overset{iid}{\sim} U[0, 1]$. It holds 
 \[
-    T \sim \sumonen  \1 ( U_i < \theta )
+    T \sim \sum_{i=1}^n   \mathds{1} ( U_i < \theta )
 \]
 
-We can see this by finding the CDF of $X_i := \mathbb \1 ( U_i < \theta )$. 
+We can see this by finding the CDF of $X_i := \mathds{1} ( U_i < \theta )$. 
 $X_i$ can take values of 0 and 1. $X_i$ takes the value 1 if and only if $U_i < \theta$, so
 
 \begin{align*}
@@ -74,16 +74,16 @@ $X_i$ can take values of 0 and 1. $X_i$ takes the value 1 if and only if $U_i < 
 where the last equality comes from the fact that $U_i$ is standard uniformly distributed. 
 So it holds $X_i \sim Bin(1, \theta)$ and since the sum is again binomial, it holds
 \[
-    \sum_{i = 1}^n \underbrace{\1 ( U_i < \theta )}_{\sim Bin(1, \theta)} \sim Bin(n, \theta)
+    \sum_{i = 1}^n \underbrace{\mathds{1} ( U_i < \theta )}_{\sim Bin(1, \theta)} \sim Bin(n, \theta)
 \]
 and therefore
 \[
-    T \sim \sum_{i = 1}^n \1 ( U_i < \theta ).
+    T \sim \sum_{i = 1}^n \mathds{1} ( U_i < \theta ).
 \]
 
 So we can define the DGF
 \[
-    \tau (\mathbf{U}, \theta) = \sumonen \1 ( U_i < \theta ).
+    \tau (\mathbf{U}, \theta) = \sum_{i=1}^n \mathds{1} ( U_i < \theta ).
 \]
 
 Fix $n = 2, \mathbf{U} = (0.2, 0.8), T = 1$. 
@@ -91,9 +91,9 @@ Plotting $\tau(\mathbf{U}, .)$ gives Figure \todo{Figure einbinden}
 
 The equation
 \begin{align*}
-      t &= \1 (U_1 < \theta) + \1 (U_2 < \theta)& \\
+      t &= \mathds{1} (U_1 < \theta) + \mathds{1} (U_2 < \theta)& \\
     \implies
-    1 &= \1 (0.2 < \theta) + \1 (0.8 < \theta)&
+    1 &= \mathds{1} (0.2 < \theta) + \mathds{1} (0.8 < \theta)&
 \end{align*}
   
 

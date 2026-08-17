@@ -1,14 +1,14 @@
 \begin{definition}
 Let $X = (X_1, \dots, X_n)$ be a random sample with distribution depending on an unknown parameter $\theta \in \Theta$. A \emph{confidence interval} for $\theta$ at confidence level $1 - \alpha$, $\alpha \in (0,1)$, is a pair of statistics $L(X), U(X)$ with $L(X) \leq U(X)$ such that
 \[
-    \P_\theta\big(\theta \in [L(X), U(X)]\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
+    \mathbb{P}_\theta\big(\theta \in [L(X), U(X)]\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
 \]
 \end{definition}
 
 \begin{definition}
 If only a lower bound is of interest, $[L(X), \infty)$ is called a \emph{one-sided lower confidence interval}, satisfying
 \[
-    \P_\theta\big(\theta \geq L(X)\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
+    \mathbb{P}_\theta\big(\theta \geq L(X)\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
 \]
 Analogously, $(-\infty, U(X)]$ is called a \emph{one-sided upper confidence interval}.
 \end{definition}
@@ -21,38 +21,41 @@ In \cite{Sundberg2001} various methods for obtaining a confidence interval are d
 
 The MLE $\hat \theta$ of independent exponentially distributed random variables $X_1, \ldots , X_n$ is given by
 \[
-    \hat \theta_n = \frac{1}{\frac{1}{n}\sumonen X_i}
+    \hat \theta_n = \frac{1}{\frac{1}{n} \sum_{i=1}^n  X_i}
 \]
 
 \[
-    \hat \theta _n \overset{d}{\longrightarrow} \mathcal{N (\theta, )}
+    \hat \theta_n \overset{d}{\longrightarrow} \mathcal{N} (\theta, \mathcal I (\theta)^{-1})
 \]
 
-Asymptotically, it holds 
+Replacing the variance by the observed variance:
 \[
-    \hat \theta \sim \mathcal{N} \left(\theta , \mathcal{I}^{-1}( \theta) \right)
+	\hat \theta_n \overset{d}{\longrightarrow} \mathcal{N} (\theta, \mathcal I (\hat \theta_n)^{-1})
 \]
+
+Note that this only holds if the sample size $n$ is very large.
+
 Using this, we know
 \[
-    \sqrt{\mathcal I (\theta )} \left(\hat \theta - \theta \right) \sim \mathcal N (0, 1)
+    \sqrt{\mathcal I (\hat \theta_n )} \left(\hat \theta_n - \theta \right) \sim \mathcal N (0, 1)
 \]
 
 
-For example for $X_1, \ldots , X_n \overset{iid}{\sim} \mathcal \Exp(\theta)$, the Fisher information can be obtained by calculating the Likelihood function
+For example for $X_1, \ldots , X_n \overset{iid}{\sim} \text{Exp}(\theta)$, the Fisher information can be obtained by calculating the Likelihood function
 
 \[
     L(\theta; \mathbf{x}) 
     =
-    \prodonen  \theta \exp(- \theta x_i)
+    \prod_{i=1}^n  \theta \exp(- \theta x_i)
     =
-    \theta^n \exp \left( - \theta \sumonen x_i \right)
+    \theta^n \exp \left( - \theta \sum_{i=1}^n  x_i \right)
 \]
 
-\begin{align*}
-    l(\theta) &= n \log( \theta ) - \theta \sumonen x_i \\
-    l'(\theta) &= \frac{n}{\theta} - \sumonen x_i \\
-    l''(\theta) &= - \frac{n}{\theta^2}
-\end{align*}
+\begin{align}
+    l(\theta) &= n \log( \theta ) - \theta \sum_{i=1}^n  x_i  \label{log likelihood exp} \\
+    l'(\theta) &= \frac{n}{\theta} - \sum_{i=1}^n  x_i \notag \\
+    l''(\theta) &= - \frac{n}{\theta^2} \notag
+\end{align}
 
 So the Fisher information is 
 \[
@@ -61,42 +64,332 @@ So the Fisher information is
 and therefore the MLE has distribution 
 
 \[
-    \hat \theta \sim \mathcal{N} \left(\theta , \frac{ \theta^2}{n} \right)
+    \hat \theta_n \sim \mathcal{N} \left(\theta , \frac{ \hat \theta_n^2}{n} \right)
 \]
 
 So we can get the standardized MLE 
 \[
-    \sqrt{n}\frac{\hat \theta - \theta}{\theta} \sim \mathcal{N} \left(0 , 1 \right)
+    \sqrt{n}\frac{\hat \theta_n - \theta}{\hat \theta_n} \sim \mathcal{N} \left(0 , 1 \right)
 \]
 
 With the knowledge of the distribution of the standardized MLE, one can construct an exact confidence interval. Notice that 
 \begin{align*}
-    \P
+    \mathbb{P}
     \left(
-    z_{\alpha /2} \leq \sqrt{n}\frac{\hat \theta - \theta}{\theta} \leq z_{1 - \frac{\alpha}{2}}
+    z_{\alpha /2} \leq \sqrt{n}\frac{\hat \theta_n - \theta}{\hat \theta_n} \leq z_{1 - \frac{\alpha}{2}}
     \right) 
     =
     1 - \alpha
 \end{align*}
 and by transforming the event one gets 
 \begin{align*}
-    \P
+    \mathbb{P}
     \left(
-        1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}} 
+        \hat \theta_n \left(1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}\right) 
     \leq 
         \theta 
     \leq
-        1 - \frac{z_{\frac{\alpha}{2}}}{\sqrt{n}}
+        \hat \theta_n \left(1 - \frac{z_{\frac{\alpha}{2}}}{\sqrt{n}} \right)
     \right) 
     =
     1 - \alpha
 \end{align*}
+and using the fact that $z_q = - z_{1-q}$ for all $q \in (0, 1)$, we obtain
+\begin{align*}
+	\mathbb{P}
+	\left(
+	\hat \theta_n \left(1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}\right) 
+	\leq 
+	\theta 
+	\leq
+	\hat \theta_n \left(1 + \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}} \right)
+	\right) 
+	=
+	1 - \alpha
+\end{align*}
 
-So we can define the exact confidence interval for $\theta$ by
+So we can define the asymptotic confidence interval for $\theta$ by
 \[
-    CI_{1-\alpha}^{2} (\theta)
+    C1_{1-\alpha} (\theta)
     =
     \left[
-        ..., ...
+        \hat \theta_n \left(1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}\right) 
+        ,
+        \hat \theta_n \left(1 + \frac{z_1 - {\frac{\alpha}{2}}}{\sqrt{n}} \right)
     \right]
 \]
+
+
+\section{C2}
+
+For the CI C2, instead of substituting the variance $\mathcal I (\theta)^{-1}$ by the observed variance like in C1, we use the actual variance
+
+\begin{equation} \label{MLE is normally distributed}
+	\hat \theta_n \sim \mathcal N \left( \theta, \mathcal I (\theta)^{-1} \right)
+\end{equation}
+
+with $\mathcal I (\theta) = \frac{n}{\theta ^2}$
+\[
+	\mathbb{P} \left( 
+		z_{\frac{\alpha}{2}}
+	\leq
+		\sqrt{n} \frac{\hat \theta_n - \theta}{\theta} 
+	\leq 
+		z_{1 - \frac{\alpha}{2}}
+	 \right)
+	 =
+	 1 - \alpha
+\]
+and performing similar steps as for C1, we get
+
+\[
+	\mathbb{P} \left( 
+			\frac{\hat \theta_n}{\frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}} + 1}
+		\leq
+			\theta
+		\leq 
+			\frac{\hat \theta_n}{- \frac{z_{ 1 - \frac{\alpha}{2}}}{\sqrt{n}} + 1}
+	\right)
+	=
+	1 - \alpha
+\]
+so the confidence interval C2 is given by
+
+\[
+	 C2_{1-\alpha} (\theta)
+	=
+	\left[
+	\frac{\hat \theta_n}{1 + \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}} 
+	,
+	\frac{\hat \theta_n}{1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}}
+	\right]
+\]
+
+
+\section{C3}
+
+Use the Delta method with the function $g(\theta) = \log (\theta)$ and the knowledge from \eqref{MLE is normally distributed}.
+
+\[
+	g(\theta) \sim \mathcal N \left( g(\theta) , \left( g'(\theta) \right)^2 \mathcal I (\theta)^{-1} \right),
+\]
+
+so we can conclude that 
+
+\[
+	\log(\hat \theta_n) 
+	\sim 
+	\mathcal N \left( \log(\theta) , \left( \frac{1}{\theta^2} \frac{\theta^2}{n} \right) \right) 
+	\sim 
+	\mathcal N \left( \log(\theta) , \left( \frac{1}{n} \right) \right)
+\]
+
+
+So
+\begin{align*}
+	\log(\hat \theta_n) - \log(\theta) \sim 
+	\mathcal N \left( 0 , \left( \frac{1}{n} \right) \right) \\
+	\sim 
+	\sqrt{n} \left( \log(\hat \theta_n) - \log(\theta) \right)
+	\sim \mathcal N ( 0, 1 )
+\end{align*}
+
+\begin{align*}
+	\mathbb{P} 
+		\left(
+			 	z_{\frac{\alpha}{2}} 
+			\leq
+				\sqrt{n} \left( \log(\hat \theta_n) - \log(\theta) \right)
+			\leq
+				z_{1 - \frac{\alpha}{2}}
+		\right)
+		=
+		1 - \alpha
+\end{align*}
+
+
+\begin{align*}
+	\mathbb{P} 
+	\left(
+		\hat \theta_n \exp \left( - \frac{z_{1 - \frac{p}{2}}}{\sqrt{n}} \right) 
+	\leq
+		\theta
+	\leq
+		\hat \theta_n \exp \left( \frac{z_{1 - \frac{p}{2}}}{\sqrt{n}} \right) 
+	\right)
+	=
+	1 - \alpha
+\end{align*}
+
+\[
+	C3_{1-\alpha} (\theta)
+	=
+	\left[
+		\hat \theta_n \exp \left( - \frac{z_{1 - \frac{p}{2}}}{\sqrt{n}} \right)  
+	,
+		\hat \theta_n \exp \left( \frac{z_{1 - \frac{p}{2}}}{\sqrt{n}} \right) 
+	\right]
+\]
+
+\section{C4}
+
+Use again Delta method with $g(\theta) = \theta ^{- \frac{1}{3}}$. It holds $g'(\theta) = - \frac{1}{3} \theta ^{- \frac{4}{3}}$, so $ \left( g'(\theta) \right) =  \frac{1}{9} \theta ^{- \frac{8}{3}}$
+
+\[
+		\hat\theta ^{- \frac{1}{3}} 
+	\sim
+		\mathcal N 
+			\left(  
+				\theta ^{- \frac{1}{3}} , 
+				\frac{1}{9} \theta ^{- \frac{8}{3}} \frac{\theta^2}{n}
+	 		\right)
+	\sim
+		\mathcal N 
+			\left(  
+				\theta ^{- \frac{1}{3}} , 
+				\frac{1}{9n} \theta ^{- \frac{2}{3}}
+			\right)
+\]
+
+So we can standardize this by
+\[
+	3 \sqrt{n} 
+	\frac{
+		\hat\theta ^{- \frac{1}{3}}  - \theta ^{- \frac{1}{3}}  
+		}{
+		\theta^{- \frac{1}{3}}
+	}
+	\sim
+	\mathcal N (0, 1)
+\]
+
+
+So 
+\[
+	\mathbb{P} \left( 
+		z_{\frac{\alpha}{2}}
+		\leq
+			3 \sqrt{n} 
+		\frac{
+			\hat\theta ^{- \frac{1}{3}}  - \theta ^{- \frac{1}{3}}  
+		}{
+			\theta^{- \frac{1}{3}}
+		}
+		\leq
+		z_{1 - \frac{\alpha}{2}}
+	 \right)
+	 =
+	 1 - \alpha
+\]
+
+Transforming
+\[
+	\mathbb{P} \left( 
+			\frac{\hat \theta_n}{\left( 1 + \frac{z_{1 - \frac{p}{2}}}{3 \sqrt{n}} \right)^3}
+		\leq
+			\theta 
+		\leq
+			\frac{\hat \theta_n}{\left( 1 - \frac{z_{1 - \frac{p}{2}}}{3 \sqrt{n}} \right)^3}
+	\right)
+	= 1 - \alpha
+\]
+
+\[
+	C4_{1-\alpha} (\theta)
+	=
+	\left[
+		\frac{\hat \theta_n}{\left( 1 + \frac{z_{1 - \frac{p}{2}}}{3 \sqrt{n}} \right)^3} 
+	,
+		\frac{\hat \theta_n}{\left( 1 - \frac{z_{1 - \frac{p}{2}}}{3 \sqrt{n}} \right)^3}
+	\right]
+\]
+
+
+\section{C5}
+Likelihood-based CI
+
+Wilks Theorem:
+\[
+	- 2 \left\{ l(\hat \theta) - l(\theta) \right\}
+	\sim 
+	\chi_1^2
+\]
+
+In our setting the log likelihood function is given by \eqref{log likelihood exp}
+\begin{align*}
+	l(\hat \theta) - l(\theta) 
+	&= 
+	- n \log(\hat \theta) -  \frac{\sum_{i=1}^n x_i}{\hat \theta} - \left(
+	- n \log( \theta) -  \frac{\sum_{i=1}^n x_i}{ \theta}
+	\right)  \\
+	&=
+	- n \log \left( \frac{\hat \theta}{\theta} \right) - \left( \frac{1}{\hat \theta} - \frac{1}{\theta}  \right) \sum_{i=1}^n x_i
+\end{align*}
+
+
+\begin{align*}
+	-2 \left\{ l(\hat \theta) - l(\theta) \right\}
+	&=
+	2 n \log \left( \frac{\hat \theta}{\theta} \right) +2  \left( \frac{1}{\hat \theta} - \frac{1}{\theta}  \right) \sum_{i=1}^n x_i
+\end{align*}
+
+
+\textcolor{red}{($\star$) Ich glaube es unterscheidet sich hier sehr stark je nachdem ob man es wie in Sundberg mit Censoring betrachtet oder ohne. Hier will ich ohne betrachten. Schaue auch nochmal ob theta oder 1/theta Parameter ist. Das muss konsistent sein.}
+
+
+\section{C6}
+
+Since $Y_1, \ldots , Y_n \overset{iid}{\sim} \text{Exp} \left( \frac{1}{\theta} \right)$, 
+it holds $\sum_{i=1}^n Y_i \sim \text{Gamma} \left(n, \frac{1}{\theta} \right)$. Scale this with $\frac{1}{2 \theta}$ and get 
+\[
+	\frac{\sum_{i=1}^n  Y_i}{2 \theta} \sim \text{Gamma}(n, 2) \sim \chi^2_{2n}
+\]
+and the $\text{Gamma}(n, 2)$ distribution is equal to the chi squared distribution with $2n$ degrees of freedom. 
+
+\begin{align*}
+	\mathbb{P}
+	\left( 
+		 \chi^2_{2n, \frac{\alpha}{2}}
+		 \leq
+		 \frac{\sum_{i=1}^n  Y_i}{2 \theta}
+		 \leq 
+		 \chi^2_{2n, 1 - \frac{\alpha}{2}}
+	\right) 
+	= 1 - \alpha \\
+	\mathbb{P}
+	\left( 
+	\frac{
+		\hat \theta n
+		}{
+		2 \chi^2_{2n, 1- \frac{\alpha}{2}}
+		}
+	\leq
+	\theta
+	\leq 
+	\frac{
+		\hat \theta n
+	}{
+		2 \chi^2_{2n, \frac{\alpha}{2}}
+	} 
+	\right)
+	= 1 - \alpha
+\end{align*}
+
+\[
+	C6_{1-\alpha} (\theta)
+	=
+	\left[
+	\frac{
+		\hat \theta n
+	}{
+		2 \chi^2_{2n, 1- \frac{\alpha}{2}}
+	}
+	,
+	\frac{
+		\hat \theta n
+	}{
+		2 \chi^2_{2n, \frac{\alpha}{2}}
+	} 
+	\right]
+\]
+\textcolor{red}{($\star$) Hier ist im Paper von Sundberg 2 nicht im Nenner der Bounds sondern im Zähler. Nochmal nachrechnen!}
