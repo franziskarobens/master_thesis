@@ -1,0 +1,102 @@
+\begin{definition}
+Let $X = (X_1, \dots, X_n)$ be a random sample with distribution depending on an unknown parameter $\theta \in \Theta$. A \emph{confidence interval} for $\theta$ at confidence level $1 - \alpha$, $\alpha \in (0,1)$, is a pair of statistics $L(X), U(X)$ with $L(X) \leq U(X)$ such that
+\[
+    \P_\theta\big(\theta \in [L(X), U(X)]\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
+\]
+\end{definition}
+
+\begin{definition}
+If only a lower bound is of interest, $[L(X), \infty)$ is called a \emph{one-sided lower confidence interval}, satisfying
+\[
+    \P_\theta\big(\theta \geq L(X)\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
+\]
+Analogously, $(-\infty, U(X)]$ is called a \emph{one-sided upper confidence interval}.
+\end{definition}
+
+
+In \cite{Sundberg2001} various methods for obtaining a confidence interval are defined and tested.
+
+
+\section{C1}
+
+The MLE $\hat \theta$ of independent exponentially distributed random variables $X_1, \ldots , X_n$ is given by
+\[
+    \hat \theta_n = \frac{1}{\frac{1}{n}\sumonen X_i}
+\]
+
+\[
+    \hat \theta _n \overset{d}{\longrightarrow} \mathcal{N (\theta, )}
+\]
+
+Asymptotically, it holds 
+\[
+    \hat \theta \sim \mathcal{N} \left(\theta , \mathcal{I}^{-1}( \theta) \right)
+\]
+Using this, we know
+\[
+    \sqrt{\mathcal I (\theta )} \left(\hat \theta - \theta \right) \sim \mathcal N (0, 1)
+\]
+
+
+For example for $X_1, \ldots , X_n \overset{iid}{\sim} \mathcal \Exp(\theta)$, the Fisher information can be obtained by calculating the Likelihood function
+
+\[
+    L(\theta; \mathbf{x}) 
+    =
+    \prodonen  \theta \exp(- \theta x_i)
+    =
+    \theta^n \exp \left( - \theta \sumonen x_i \right)
+\]
+
+\begin{align*}
+    l(\theta) &= n \log( \theta ) - \theta \sumonen x_i \\
+    l'(\theta) &= \frac{n}{\theta} - \sumonen x_i \\
+    l''(\theta) &= - \frac{n}{\theta^2}
+\end{align*}
+
+So the Fisher information is 
+\[
+    \mathcal I (\theta) = \frac{n}{\theta^2}
+\]
+and therefore the MLE has distribution 
+
+\[
+    \hat \theta \sim \mathcal{N} \left(\theta , \frac{ \theta^2}{n} \right)
+\]
+
+So we can get the standardized MLE 
+\[
+    \sqrt{n}\frac{\hat \theta - \theta}{\theta} \sim \mathcal{N} \left(0 , 1 \right)
+\]
+
+With the knowledge of the distribution of the standardized MLE, one can construct an exact confidence interval. Notice that 
+\begin{align*}
+    \P
+    \left(
+    z_{\alpha /2} \leq \sqrt{n}\frac{\hat \theta - \theta}{\theta} \leq z_{1 - \frac{\alpha}{2}}
+    \right) 
+    =
+    1 - \alpha
+\end{align*}
+and by transforming the event one gets 
+\begin{align*}
+    \P
+    \left(
+        1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}} 
+    \leq 
+        \theta 
+    \leq
+        1 - \frac{z_{\frac{\alpha}{2}}}{\sqrt{n}}
+    \right) 
+    =
+    1 - \alpha
+\end{align*}
+
+So we can define the exact confidence interval for $\theta$ by
+\[
+    CI_{1-\alpha}^{2} (\theta)
+    =
+    \left[
+        ..., ...
+    \right]
+\]

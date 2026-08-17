@@ -1,0 +1,24 @@
+\pagestyle{scrheadings}
+\KOMAoptions{twoside=false}
+\bibliographystyle{unsrtnat}
+\TitlePageStyle{ISW}
+\ihead[]{\headmark}
+\ohead[]{\pagemark}
+\chead{}
+\cfoot[\pagemark]{}
+
+\makeatletter
+\renewcommand*{\germanordinalmalerefereename}[1]{%
+  \ifnum #1<\@ne
+    \PackageError{uni-titlepage}{Ordinal of `#1' not defined}{%
+      This package does only define German ordinal names for referees from 1}%
+  \else
+    \ifcase #1\or Erstgutachten\or Zweitgutachten\or Drittgutachten%
+    \or Viertgutachten\else
+      \PackageError{uni-titlepage}{Ordinal of `#1' not defined}{%
+        This package does only define German ordinal names for referees up
+        to 4}%
+    \fi
+  \fi
+}
+\makeatother

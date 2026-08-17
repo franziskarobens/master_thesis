@@ -1,0 +1,224 @@
+%%
+%% This is file `title-ISW.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% uni-titlepage.dtx  (with options: `driver,ISW')
+%% Copyright (c) 2009-2022 by Markus Kohm <komascript(at)gmx.info>
+%% 
+%% This file was generated from file(s) of uni-titlepage distribution.
+%% 
+%% ----------------------------------------------------------------------
+%% 
+%% This work may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, version 1.3c of the license.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%% 
+%% This work has the LPPL maintenance status "maintained".
+%% 
+%% The Current Maintainer and author of this work is Markus Kohm.
+%% 
+%% This file may only be distributed together with
+%% the file `uni-titlepage.dtx'.
+%% You may however distribute the file `uni-titlepage.dtx' without this file.
+%% 
+\ProvidesFile{%
+  title%
+  -ISW%
+ .def%
+}[%
+2025-05-21 v1.2 E. Cramer
+KOMA presents the title page project
+]
+\begingroup
+  \def\PackageNotLoadedError#1{%
+    \GenericError{%
+      (#1)\@spaces\@spaces\@spaces\@spaces
+    }{%
+      File `#1' Error: package `uni-titlepage' hasn't been loaded%
+    }{%
+      This definition file was made to be loaded by package
+      `uni-titlepage'.\MessageBreak
+      You may not use it without package `uni-titlepage'!\MessageBreak
+      See the documentation of package `uni-titlepage' for explanation.%
+    }%
+  }%
+  \ifx\csname uni-titlepage.sty@vers\endcsname\relax
+    \PackageNotLoadedError{%
+    }%
+  \fi
+\endgroup
+%
+\DefineFamilyMember[%
+  ISW%
+]{title}
+\providecommand*{\presentationinformationISW}{%
+  to optain the degree\\
+  \usenonemptytitleelement{academicgrade}\\
+  of  \usenonemptytitleelement{discipline}\\
+}
+\providecaptionname{american,australian,british,canadian,%
+  english,newzealand,UKenglish,USenglish}{\presentationinformationISW}{%
+  to optain the degree\\
+  \usenonemptytitleelement{academicgrade}\\
+  of  \usenonemptytitleelement{discipline}\\
+}%
+\providecaptionname*{american,australian,british,canadian,%
+  english,newzealand,UKenglish,USenglish}{\presentedbyname}{submitted to the\\
+     Faculty of Mathematics, Computer Science and Natural Sciences\\
+of RWTH Aachen University\\ by
+}%
+\providecaptionname{german,ngerman,austrian,naustrian,%
+  swissgerman,nswissgerman}{\presentationinformationISW}{%
+  zur Erlangung des Grades eines\\
+  \usenonemptytitleelement{academicgrade}\\
+  im Studiengang \usenonemptytitleelement{discipline}\\
+}%
+\providecaptionname*{german,ngerman,austrian,naustrian,%
+  swissgerman,nswissgerman}{\advisorname}{Betreuung}
+%
+\providecaptionname{german,ngerman,austrian,naustrian,%
+  swissgerman,nswissgerman}{\advisorname}{Betreuung}
+
+\NowButAfterBeginDocument
+{%
+  \providecaptionname{german,ngerman,austrian,naustrian,
+    swissgerman,nswissgerman}{\presentedbyname}{vorgelegt von}%
+  \scr@ifundefinedorrelax{captionsgerman}{}{%
+    \renewcaptionname{german}{\presentedbyname}{der Fakult\"at f\"ur Mathematik, Informatik und Naturwissenschaften\\
+der Rheinisch-Westf\"alischen Technischen Hochschule Aachen\\ vorgelegt von}%
+    \renewcaptionname{german}{\ordinalfemalerefereename}{%
+      \ordinalfemalecorrectorname}%
+  }%
+  \scr@ifundefinedorrelax{captionsngerman}{}{%
+    \renewcaptionname{ngerman}{\presentedbyname}{vorgelegt von}%
+    \renewcaptionname{ngerman}{\ordinalmalerefereename}{%
+      \germanordinalmalecorrectorname}%
+    \renewcaptionname{ngerman}{\ordinalfemalerefereename}{%
+      \germanordinalfemalecorrectorname}%
+  }%
+  \scr@ifundefinedorrelax{captionsaustrian}{}{%
+    \renewcaptionname{austrian}{\presentedbyname}{vorgelegt von}%
+    \renewcaptionname{austrian}{\ordinalmalerefereename}{%
+      \germanordinalmalecorrectorname}%
+    \renewcaptionname{austrian}{\ordinalfemalerefereename}{%
+      \germanordinalfemalecorrectorname}%
+  }%
+  \scr@ifundefinedorrelax{captionsnaustrian}{}{%
+    \renewcaptionname{naustrian}{\presentedbyname}{vorgelegt von}%
+    \renewcaptionname{naustrian}{\ordinalmalerefereename}{%
+      \germanordinalmalecorrectorname}%
+    \renewcaptionname{naustrian}{\ordinalfemalerefereename}{%
+      \germanordinalfemalecorrectorname}%
+  }%
+  \scr@ifundefinedorrelax{captionsswissgerman}{}{%
+    \renewcaptionname{swissgerman}{\presentedbyname}{vorgelegt von}%
+    \renewcaptionname{swissgerman}{\ordinalmalerefereename}{%
+      \germanordinalmalecorrectorname}%
+    \renewcaptionname{swissgerman}{\ordinalfemalerefereename}{%
+      \germanordinalfemalecorrectorname}%
+  }%
+  \scr@ifundefinedorrelax{captionsnswissgerman}{}{%
+    \renewcaptionname{nswissgerman}{\presentedbyname}{vorgelegt von}%
+    \renewcaptionname{nswissgerman}{\ordinalmalerefereename}{%
+      \germanordinalmalecorrectorname}%
+    \renewcaptionname{nswissgerman}{\ordinalfemalerefereename}{%
+      \germanordinalfemalecorrectorname}%
+  }%
+}
+
+\renewcommand*{\inittitle}{%
+  \ifx\@place\@empty
+    \place{%
+      Aachen%
+    }
+  \fi
+  \ifx\@mainlogo\@empty
+    \IfFileExists{rwth-isw-en-cmyk.jpg}{%
+      \scr@ifundefinedorrelax{includegraphics}{%
+        \if@atdocument\else\RequirePackage{graphicx}\fi
+      }{}%
+      \scr@ifundefinedorrelax{includegraphics}{}{%
+        \mainlogo{%
+          \includegraphics[width=80mm]
+                          {rwth-isw-en-cmyk.jpg}
+        }%
+      }%
+    }{}%
+  \fi
+  \ifx\@titlepagefont\@empty
+    \renewcommand*{\@titlepagefont}{%
+      \normalfont
+    }%
+  \fi
+}
+\renewcommand*{\makemaintitle}{%
+  \begin{%
+    titlepage}
+    \providecaptionname{german,ngerman,austrian,naustrian,%
+      swissgerman,nswissgerman}{\indatename}{}
+    \providecaptionname{american,australian,british,canadian,%
+      english,newzealand,UKenglish,USenglish}{\indatename}{}
+    \providecaptionname{american,australian,british,canadian,%
+         english,newzealand,UKenglish,USenglish}{\presentedbyname}{submitted to the\\
+            Faculty of Mathematics, Computer Science and Natural Sciences\\
+            of RWTH Aachen University\\ 
+            by}
+    \providecaptionname{american,australian,british,canadian,%
+        english,newzealand,UKenglish,USenglish}{\refereename}{Reviewer}
+    \providecaptionname{american,australian,british,canadian,%
+        english,newzealand,UKenglish,USenglish}{\advisorname}{Supervisor}
+    \providecaptionname{german,ngerman,austrian,naustrian,%
+      swissgerman,nswissgerman}{\advisorname}{Betreuung}
+    \setlength{\parskip}{\z@}%
+    \setlength{\parindent}{\z@}%
+    \setlength{\parfillskip}{\z@\@plus 1fil}%
+    \linespread{1}\selectfont
+    \@titlepagefont
+    \vspace*{.5\baselineskip}
+    %\hfill
+%    \begin{tabular}[r]{@{}c@{}}
+%      \raisebox{\dimexpr\ht\strutbox-\height}{\@secondlogo}\\
+%    \end{tabular}\par
+    \vspace{5\baselineskip}
+    \centering
+    {\LARGE\bfseries\titlefont{\@title\par}}%
+    \vspace{5\baselineskip}
+    {\Large\subject@font{\@subject\par}}%
+    \vspace{\baselineskip}
+    \presentationinformationISW\par
+    \vspace{3\baselineskip}
+    \presentedbyname\\[\baselineskip]
+    {\Large\csname @authorfont\endcsname{\usenonemptytitleelement{author}\par
+    \vspace{.5\baselineskip}}}
+    \matriculationnumbername\ \usenonemptytitleelement{matriculationnumber}\par%
+    \vfill
+    \centering
+    \begin{minipage}{60mm}
+    \@hangfrom{\advisorname: }{\@advisor\par}%
+    \newcommand*{\test@male@female}[1][m]{%
+      \global\advance\@tempcnta by\@ne
+      \Ifstr{##1}{f}{\def\fe@male{female}}{\def\fe@male{male}}%
+      \@hangfrom{\csname ordinal\fe@male refereename\endcsname{\@tempcnta}: }%
+      \def\and{\par\test@male@female}%
+    }%
+    \@tempcnta \z@
+    \expandafter\test@male@female\@referee
+    \end{minipage}\par
+    \vspace{1\baselineskip}\centering
+    \@place, \Ifstr{\indatename}{}{}{\indatename\ }\@date\par
+    \centering\vspace{2\baselineskip}
+    \begin{tabular}[t]{@{}c@{}}
+      \raisebox{\dimexpr\ht\strutbox-\height}{\@mainlogo}\\
+      \@chair\\
+    \end{tabular}\par
+  \end{%
+    titlepage}
+}
+\endinput
+%%
+%% End of file `title-ISW.def'.

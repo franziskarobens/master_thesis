@@ -1,0 +1,35 @@
+\chapter{Different CI under type I Censoring}
+
+
+Assume $Y_1, \ldots , Y_N \sim \text{Exp} \left(\frac{1}{\theta} \right)$. The likelihood function for the uncensored data is given by
+\begin{align*}
+    \prod_{i=1}^N f(y_i) &= \prod_{i=1}^N \frac{1}{\theta} \exp\left( - \frac{y_i}{\theta} \right) = 
+    \theta^{-N} 
+    \exp\left( - \frac{1}{\theta}  \sum_{i=1}^N  y_i \right)
+\end{align*}
+
+The censored data on the other hand 
+\[
+    P(Y_i > C) = \exp \left(- \frac{C}{\theta} \right)
+\]
+and therefore 
+\[
+    \exp \left(- \frac{C}{\theta} \right)^{n-N} 
+\]
+
+Multiply \eqref{} and \eqref{} and obtain
+\begin{align*}
+    L(\theta) 
+    =
+    \theta^{-N} 
+    \exp\left( - \frac{1}{\theta}  \sum_{i=1}^N  y_i \right) \cdot 
+    \exp \left(- \frac{C}{\theta} \right)^{n-N} 
+    \\
+    =
+    \theta^{-N} 
+    \exp\left( - \frac{1}{\theta} 
+    \left( 
+    \sum_{i=1}^N  y_i 
+    + (n-N)C
+    \right)\right) 
+\end{align*}
