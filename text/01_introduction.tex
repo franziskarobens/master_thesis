@@ -1,22 +1,47 @@
 \chapter{Idea: Table of contents}
 
+
+
 \begin{enumerate}
     \item Confidence Intervals Basics 
     \begin{enumerate}
         \item Asymptotic
         \item Bootstrap
         \item Pivoting the cdf
-        \item Difference: exact CI and per simulation
+        \item Difference: exact CI and asympotitc CI (show my simulation plot n vs coverage prob)
         \item per using Lindqvist (data generating function $\tau(\textbf{u}, \theta)$
     \end{enumerate}
         
     \item Censoring Basics
     \begin{enumerate}
         \item Different schemes: Type I, II, Hybrid, Unified
-        \item Problems: especially while constructing Confidence Intervals
+        \item Problems with censoring: especially while constructing Confidence Intervals
+        \item 
     \end{enumerate}
 
     \item Exact CI for Type II censored exponential data (pivoting the cdf/ see Introduction of Lindqvist2024)
     
+    \item Jeng: CI Methoden vorstellen (NORM, TNORM, LLR)
+    \item Auch CI OHNE Exponentialverteilung besprechen
+    \item wie kann ich die DGF auf Hybrid zensierte daten anwenden? Mehrere $c_i$ speichern. Das implementieren
     
 \end{enumerate}
+
+
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{lll}
+		\toprule
+		Author & Censoring & Method/Model \\
+		\midrule
+		Jeng          & I               &                                  \\
+		Sundberg      & I               & Exponential                      \\
+		Wright        & I               & Two Parameter Exponential        \\
+		Cramer2014a   & alle            & Pivoting CDF for Exponential     \\
+		Lindqvist     & I, hybrid type II & Simulation Exponential        \\
+		Cramer2024    & alle            &                                  \\
+		\bottomrule
+	\end{tabular}
+	\caption{Paper im Überblick}
+\end{table}

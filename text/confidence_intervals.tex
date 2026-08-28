@@ -1,11 +1,13 @@
-\begin{definition}
+\chapter{Confidence Intervals}
+
+\begin{definition}[Confidence Interval]
 Let $X = (X_1, \dots, X_n)$ be a random sample with distribution depending on an unknown parameter $\theta \in \Theta$. A \emph{confidence interval} for $\theta$ at confidence level $1 - \alpha$, $\alpha \in (0,1)$, is a pair of statistics $L(X), U(X)$ with $L(X) \leq U(X)$ such that
 \[
     \mathbb{P}_\theta\big(\theta \in [L(X), U(X)]\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
 \]
 \end{definition}
 
-\begin{definition}
+\begin{definition}[Confidence Bounds]
 If only a lower bound is of interest, $[L(X), \infty)$ is called a \emph{one-sided lower confidence interval}, satisfying
 \[
     \mathbb{P}_\theta\big(\theta \geq L(X)\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
@@ -14,10 +16,146 @@ Analogously, $(-\infty, U(X)]$ is called a \emph{one-sided upper confidence inte
 \end{definition}
 
 
+
+\section{Exact vs. Asymptotic CIs}
+
+\textcolor{red}{($\star$) Exact vs Asymptotic CI, plot x = n, y = P(noncoverage), dann müsste man bei exact sehen, dass n keinen einfluss auf p(nc) hat und bei asymptotischen CI sieht man dass diese mit größeren n besser wird, gib kleines Beispiel und plots (siehe \texttt{exact\_vs\_asymptotic.R})}
+
+\begin{definition}[Exact confidence interval]
+	A confidence interval $CI$ for a parameter $\theta$ is called \textbf{exact}, if and only if
+	\[
+		\mathbb{P}_{\theta} \left( \theta \in CI \right) = 1 - \alpha.
+	\]
+\end{definition}
+
+\begin{definition}[Asymptotic confidence interval]
+	A confidence interval $CI$ for a parameter $\theta$ is called \textbf{asymptotic}, if
+	\[
+	\mathbb{P}_{\theta} \left( \theta \in CI \right) \overset{n \leftarrow \infty}{\rightarrow} 1 - \alpha.
+	\]
+	where $n$ is the sample size.
+\end{definition}
+
+So the main difference between exact and asymtotic confidence intervals is, that exact confidence intervals guarantee a confidence niveau of $1 - \alpha$ even for a small sample size $n$, but asymptotic confidence intervals only have confidence niveau for large $n$.
+
+\begin{example}[Exact vs. Asymptotic Confidence Interval]
+	Let $X_1, \ldots , X_n \overset{iid}{\sim} \mathcal N (\mu, \sigma)$. Consider two cases.
+	
+	
+	\textbf{Case 1: standard deviation $\sigma$ is known} \\
+	In this case we can construct an exact confidence interval the following way.
+	Observe that the arithmetic mean of the observations fulfils $\bar X = \frac{1}{n} \sum_{i=1}^n X_i \sim \mathcal N \left( \mu, \frac{\sigma^2}{n} \right)$ and by scaling this term, we get
+	\[
+		\frac{\sqrt{n}(\bar X - \mu)}{\sigma} \sim \mathcal N (0, 1).
+	\]
+	This distribution holds for every sample size $n$ so it is not only asymptotic. 
+	Let $\alpha \in (0, 1)$ be arbitrary. We can construct a confidence interval by 
+	\begin{align}
+		& 1 - \alpha \notag \\
+		=&
+		1 - \frac{\alpha}{2} - \frac{\alpha}{2} \notag \\
+		=&
+		\mathbb{P} \left( z_{\frac{\alpha}{2}} \leq 
+		\frac{\sqrt{n}(\bar X - \mu)}{\sigma}
+		\leq z_{1 - \frac{\alpha}{2}} \right) \notag \\
+		=&
+		\mathbb{P} 
+		\left( 
+		\frac{\sigma}{\sqrt{n}} z_{\frac{\alpha}{2}} \leq \bar X - \mu \leq \frac{\sigma}{\sqrt{n}} z_{1 - \frac{\alpha}{2}}		
+		\right)  \notag \\
+		=&
+		\mathbb{P} 
+		\left( 
+		\bar X - \frac{\sigma}{\sqrt{n}} z_{\frac{\alpha}{2}} \geq  \mu \geq \bar X - \frac{\sigma}{\sqrt{n}} z_{1 - \frac{\alpha}{2}}		
+		\right)
+	\end{align}
+	For the quantiles of the normal distributino it holds $z_p = - z_{1-p}$ for all $p \in (0, 1)$, so we can substitute the quantile $z_{\frac{\alpha}{2}}$ above. The $1- \alpha$ confidence interval is given by
+	\[
+		CI_{1 - \alpha}^{\text{exact}} (\mu) 
+		=
+		\left[ 
+		\bar X - \frac{\sigma}{\sqrt{n}} z_{1 - \frac{\alpha}{2}}
+		,
+		\bar X + \frac{\sigma}{\sqrt{n}} z_{1 - \frac{\alpha}{2}}
+		\right]
+	\]
+	We have shown that the probability that the real parameter $\mu$ is in $CI_{1 - \alpha}^{\text{exact}} (\mu)$ is $1 - \alpha$ independently of the sample size $n$, so $CI_{1 - \alpha}^{\text{exact}} (\mu)$ is an exact confidence interval. 
+	
+	
+	\textbf{Case 2: standard deviation $\sigma$ is unknown} \\
+	
+	
+	From the Central Limit Theorem, we know that
+	\[
+		\frac{\sqrt{n} (\bar X - \mu)}{\sigma} \overset{n \rightarrow \infty}{\longrightarrow} \mathcal N (0, 1).
+	\]
+	Since $\sigma$ is unknown, we need to substitute it somehow.
+	It holds 
+	\[
+		S_n := \sqrt{\frac{1}{n-1} \sum_{i=1}^n \left( X_i - \bar X \right)^2 }  \overset{p}{\longrightarrow} \sigma 
+	\]
+	\textcolor{red}{($\star$) Warum ist $S_n$ so verteilt?}
+	
+	With Slutsky's Theorem, we can conclude that 
+	\[
+		\frac{\sqrt{n} (\bar X - \mu)}{S_n} \overset{n \rightarrow \infty}{\longrightarrow} \mathcal N (0, 1).
+	\]
+	and with that knowledge we can create a $1 - \alpha$ confidence interval similarily to case 1
+	\[
+		CI_{1 - \alpha}^{\text{asymptotic}} (\mu) 
+		=
+		\left[ 
+		\bar X - \frac{S_n}{\sqrt{n}} z_{1 - \frac{\alpha}{2}}
+		,
+		\bar X + \frac{S_n}{\sqrt{n}} z_{1 - \frac{\alpha}{2}}
+		\right].
+	\]
+	This confidence interval is only asymptotic because \textcolor{red}{($\star$) Warum nur asymptotic? Warum funktioniert die einsetzung mit slutsky nur asymptotic?}
+	
+	
+	In Figure~\ref{fig:exact_vs_asymptotic}, we can see the non-coverage probability of the intervals $CI_{1 - \alpha}^{\text{exact}} (\mu)$ and $CI_{1 - \alpha}^{\text{asymptotic}} (\mu)$ dependent on the sample size. In Listing~\ref{listing:exact vs asymptotic} is the code used for generating Figure~\ref{fig:exact_vs_asymptotic}. 
+	
+	We can observe that \(CI_{1-\alpha}^{\mathrm{exact}}(\mu)\) maintains a non-coverage probability close to \(\alpha=0.1\) for all sample sizes $n$, while the non-coverage probability of \(CI_{1-\alpha}^{\mathrm{asymptotic}}(\mu)\) approaches \(\alpha\) as \(n\) increases.
+	
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.8\textwidth]{figures/exact\_vs\_asymptotic\_CI.png}
+		\caption{Non-coverage probability of \(CI_{1-\alpha}^{\mathrm{exact}}(\mu)\) and \(CI_{1-\alpha}^{\mathrm{asymptotic}}(\mu)\) based on 1000 Monte Carlo simulations for each sample size \(n=2,\ldots,100\). For each simulation, a sample from \(N(\mu,\sigma^2)\) with \(\mu=10\) and \(\sigma=100\) is generated, and it is recorded whether \(\mu\) is contained in the respective confidence interval.}
+		\label{fig:exact_vs_asymptotic}
+	\end{figure}
+		
+\end{example}
+
+
+
+
+\section{CIs from Sundberg}
+
 In \cite{Sundberg2001} various methods for obtaining a confidence interval are defined and tested.
 
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{c|l|c|c|l}
+		\hline
+		Name & Used assumption & $c_l$ & $c_u$ & Notes \\
+		\hline
+		$C1$ & $\sqrt{n} \frac{\hat \theta - \theta}{\hat \theta} \sim \mathcal N (0, 1)$ & $1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}$ &  $1 + \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}$ & \\
+		$C2$ & $\sqrt{n} \frac{\hat \theta - \theta}{\theta} \sim \mathcal N (0, 1)$ &  $\frac{1}{1 + \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}}$ &  $\frac{1}{1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}}$ & \\
+		$C3$ & Delta method with $g(x) = \log(x)$ &  $\exp \left( - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}} \right)$ &  $\exp \left( \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}} \right)$ & \\
+		$C4$ & Delta method with $g(x) = x^{- \frac{1}{3}}$ & $\frac{1}{\left( 1 + \frac{z_{1 - \frac{\alpha}{2}}}{3 \sqrt{n}} \right)^3}$ & $\frac{1}{\left( 1 - \frac{z_{1 - \frac{\alpha}{2}}}{3 \sqrt{n}} \right)^3}$ & \\
+		$C5$ & Likelihood function & & & $c_l$ and $c_u$ are the solutions of $2n \left( \frac{\hat \theta}{\theta} - 1 - \log \left( \frac{\hat \theta}{\theta}  \right) \right) \leq z_{1 - \frac{\alpha}{2}}^2$ \\
+		$C6$ & & $\frac{2n}{\chi^2_{2n, 1 - \frac{\alpha}{2}}}$ &$\frac{2n}{\chi^2_{2n, \frac{\alpha}{2}}}$ & \\
+		$C7$ & & $\frac{2n}{\chi^2_{2n+1, 1 - \frac{\alpha}{2}}}$ & $\frac{2n}{\chi^2_{2n+1, \frac{\alpha}{2}}}$ & \\
+		\hline
+	\end{tabular}
+	\caption{Overview of the confidence intervals presented by \cite{Sundberg2001}.}
+	\label{tab:confidence_intervals}
+\end{table}
+\textcolor{red}{($\star$) This table should better be in the end of this section such that i can also include important information i discussed before, like when to use C7 instead of C6, ...}
 
-\section{C1}
+
+
+\subsection{C1}
 
 The MLE $\hat \theta$ of independent exponentially distributed random variables $X_1, \ldots , X_n$ is given by
 \[
@@ -120,7 +258,9 @@ So we can define the asymptotic confidence interval for $\theta$ by
 \]
 
 
-\section{C2}
+\subsection{C2}
+
+\textcolor{red}{($\star$) Problem mit $N \in \{1, 2\}\}$ erklären}
 
 For the CI C2, instead of substituting the variance $\mathcal I (\theta)^{-1}$ by the observed variance like in C1, we use the actual variance
 
@@ -166,7 +306,7 @@ so the confidence interval C2 is given by
 \]
 
 
-\section{C3}
+\subsection{C3}
 
 Use the Delta method with the function $g(\theta) = \log (\theta)$ and the knowledge from \eqref{MLE is normally distributed}.
 
@@ -231,7 +371,7 @@ So
 	\right]
 \]
 
-\section{C4}
+\subsection{C4}
 
 Use again Delta method with $g(\theta) = \theta ^{- \frac{1}{3}}$. It holds $g'(\theta) = - \frac{1}{3} \theta ^{- \frac{4}{3}}$, so $ \left( g'(\theta) \right) =  \frac{1}{9} \theta ^{- \frac{8}{3}}$
 
@@ -305,7 +445,7 @@ Transforming
 \]
 
 
-\section{C5}
+\subsection{C5}
 Likelihood-based CI
 
 Wilks Theorem:
@@ -337,7 +477,7 @@ In our setting the log likelihood function is given by \eqref{log likelihood exp
 \textcolor{red}{($\star$) Ich glaube es unterscheidet sich hier sehr stark je nachdem ob man es wie in Sundberg mit Censoring betrachtet oder ohne. Hier will ich ohne betrachten. Schaue auch nochmal ob theta oder 1/theta Parameter ist. Das muss konsistent sein.}
 
 
-\section{C6}
+\subsection{C6}
 
 Since $Y_1, \ldots , Y_n \overset{iid}{\sim} \text{Exp} \left( \frac{1}{\theta} \right)$, 
 it holds $\sum_{i=1}^n Y_i \sim \text{Gamma} \left(n, \frac{1}{\theta} \right)$. Scale this with $\frac{1}{2 \theta}$ and get 
@@ -392,4 +532,16 @@ and the $\text{Gamma}(n, 2)$ distribution is equal to the chi squared distributi
 	} 
 	\right]
 \]
-\textcolor{red}{($\star$) Hier ist im Paper von Sundberg 2 nicht im Nenner der Bounds sondern im Zähler. Nochmal nachrechnen!}
+\textcolor{red}{($\star$) Hier ist im Paper von Sundberg 2 nicht im Nenner der Bounds sondern im Zähler. Nochmal nachrechnen! Lösung: Benutze $T_N$. Das hier ist bis jetzt falsch}
+
+
+\subsection{C7}
+
+
+\textcolor{red}{($\star$) Auch an anderen beispielen austesten}
+\textcolor{red}{($\star$) Ich möchte generell in allen Ci von Sundberg die herleitung kleinschrittiger machen sodass bezüglich dieser Intervalle keine Fragen mehr offen bleiben (genau die zugrundeliegende verteilung erklären und warum diese gilt, die Umformung zum standardized und zum CI vornehmen)}
+
+\textcolor{red}{($\star$) am ende oder anfang tabelle mit allen CI und deren zugrundeliegenden Annahmen erstellen (das auch für die CI von Jeng zB)}
+
+\section{Figures aus Sundberg replizieren}
+Non-Coverage probabilities simulieren

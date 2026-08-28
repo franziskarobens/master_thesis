@@ -1,3 +1,9 @@
+\chapter{Data Generating Function}
+
+\begin{definition}[Data generating function]
+	\textcolor{red}{($\star$) TBD}
+\end{definition}
+
 If we have a random variable $T$ with parameter $\theta$, a data generating function (DGF) with respect to $T$ is a function $\tau$, 
 \(
     \tau(\mathbf{U}, \theta) 
@@ -19,83 +25,85 @@ Example:
 \end{enumerate}
 
 
-\subsection{Example: DGF, Normal distribution} \label{example: DGF normal}
-Let $T \sim \mathcal{N}(\theta, 1)$. Then we can say that 
-\[
-    T \sim \theta + U
-\]
-where $U \sim \mathcal{N}(0, 1)$. So $U$ does not depend on the parameter $\theta$. We can define the DGF
-\begin{equation*}
-    \tau(U, \theta) = \theta + U.
-\end{equation*}
+\begin{example}[Example: DGF, Normal distribution] \label{example: DGF normal} 
+	Let $T \sim \mathcal{N}(\theta, 1)$. Then we can say that 
+	\[
+	T \sim \theta + U
+	\]
+	where $U \sim \mathcal{N}(0, 1)$. So $U$ does not depend on the parameter $\theta$. We can define the DGF
+	\begin{equation*}
+		\tau(U, \theta) = \theta + U.
+	\end{equation*}
+	
+	If $\theta$ is given, the DGF $\tau$ generates simulated data of $T$. Assume we observe $T= t$ and $U = u$ is given. Then we can get a best estimate of the parameter $\theta$ by inverting $\tau$:
+	\begin{align*}
+		t &= \tau(u, \theta) = \theta + u \\
+		\implies \theta &= t - u
+	\end{align*}
+	So the inversion is $\hat \theta (u, t) = t-u$. 
+	
+	In this example, the inversion works perfectly, because $\tau$ is as a function of $\theta$ bijective and therefore invertible. There are also DGFs which can not be inverted, as one can see in Example \ref{example: non invertible DGF}.
+	
+\end{example}
 
-If $\theta$ is given, the DGF $\tau$ generates simulated data of $T$. Assume we observe $T= t$ and $U = u$ is given. Then we can get a best estimate of the parameter $\theta$ by inverting $\tau$:
-\begin{align*}
-    t &= \tau(u, \theta) = \theta + u \\
-   \implies \theta &= t - u
-\end{align*}
-So the inversion is $\hat \theta (u, t) = t-u$. 
+\begin{example}[Example: DGF with $n > 1$]
+	We can generalize Example \ref{example: DGF normal} by defining
+	$T = \sum_{i=1}^n X_i$ where $X_1, \ldots , X_n \overset{iid}{\sim} \mathcal{N}(\theta, 1)$.  Again use the interpretation as in Example \ref{example: DGF normal}: $X_i = \theta + U_i$ for $i \in \{1, \ldots, n\}$ with $U_1, \ldots , U_n \overset{iid}{\sim} \mathcal{N}(0, 1)$. Then it holds $T = \sum_{i=1} ^n \theta + U_i = n \theta + \sum_{i=1} ^n U_i$, so the DGF is defined as 
+	\[
+	    \tau (\mathbf{U}, \theta )  = n \theta + \sum_{i=1} ^n U_i.
+	\]
+	This again is invertible with
+	\[
+	    \hat \theta(\mathbf{u}, t ) = \frac{t - \sum_{i=1} ^n u_i}{n}.
+	\]
+	
+	Figure \textcolor{red}{($\star$) insert Figure} shows the DGF $\tau(\mathbf{U}, .)$.
+	
+	It is a strictly monotone function \textcolor{red}{($\star$) Is this function really strictly monotone or something else?) and therefore bijective, so we can always find a $\theta$ given $T$ and $U$.}
+\end{example}
 
-In this example, the inversion works perfectly, because $\tau$ is as a function of $\theta$ bijective and therefore invertible. There are also DGFs which can not be inverted, as one can see in Example \ref{example: non invertible DGF}.
+\begin{example}[Non invertible DGF] \label{example: non invertible DGF}
+	
+	Let $\theta \in [0, 1]$, $T \sim Bin(n , \theta)$ and $U_1, \ldots, U_n \overset{iid}{\sim} U[0, 1]$. It holds 
+	\[
+	    T \sim \sum_{i=1}^n   \mathds{1} ( U_i < \theta )
+	\]
+	
+	We can see this by finding the CDF of $X_i := \mathds{1} ( U_i < \theta )$. 
+	$X_i$ can take values of 0 and 1. $X_i$ takes the value 1 if and only if $U_i < \theta$, so
+	
+	\begin{align*}
+	    \mathbb P (X_i = 1) 
+	    = 
+	    \mathbb P (U_i < \theta)  = \theta
+	\end{align*}
+	where the last equality comes from the fact that $U_i$ is standard uniformly distributed. 
+	So it holds $X_i \sim Bin(1, \theta)$ and since the sum is again binomial, it holds
+	\[
+	    \sum_{i = 1}^n \underbrace{\mathds{1} ( U_i < \theta )}_{\sim Bin(1, \theta)} \sim Bin(n, \theta)
+	\]
+	and therefore
+	\[
+	    T \sim \sum_{i = 1}^n \mathds{1} ( U_i < \theta ).
+	\]
+	
+	So we can define the DGF
+	\[
+	    \tau (\mathbf{U}, \theta) = \sum_{i=1}^n \mathds{1} ( U_i < \theta ).
+	\]
+	
+	Fix $n = 2, \mathbf{U} = (0.2, 0.8), T = 1$. 
+	Plotting $\tau(\mathbf{U}, .)$ gives Figure \textcolor{red}{($\star$) Figure einfügen}
+	
+	The equation
+	\begin{align*}
+	      t &= \mathds{1} (U_1 < \theta) + \mathds{1} (U_2 < \theta)& \\
+	    \implies
+	    1 &= \mathds{1} (0.2 < \theta) + \mathds{1} (0.8 < \theta)&
+	\end{align*}
+	  
+	
+	delivers solutions for $\theta$: $\theta \in (0.2, 0.8]$. So there are infinite many solutions. In particular the solution is not unique. So the DGF $\tau$ in not invertible.
 
-\subsection{Example: DGF with $n > 1$}
-
-We can generalize Example \ref{example: DGF normal} by defining
-$T = \sum_{i=1}^n X_i$ where $X_1, \ldots , X_n \overset{iid}{\sim} \mathcal{N}(\theta, 1)$.  Again use the interpretation as in Example \ref{example: DGF normal}: $X_i = \theta + U_i$ for $i \in \{1, \ldots, n\}$ with $U_1, \ldots , U_n \overset{iid}{\sim} \mathcal{N}(0, 1)$. Then it holds $T = \sum_{i=1} ^n \theta + U_i = n \theta + \sum_{i=1} ^n U_i$, so the DGF is defined as 
-\[
-    \tau (\mathbf{U}, \theta )  = n \theta + \sum_{i=1} ^n U_i.
-\]
-This again is invertible with
-\[
-    \hat \theta(\mathbf{u}, t ) = \frac{t - \sum_{i=1} ^n u_i}{n}.
-\]
-
-Figure \todo{} shows the DGF $\tau(\mathbf{U}, .)$.
-
-It is a strictly monotone function \todo{Is this function really strictly monotone or something else?} and therefore bijective, so we can always find a $\theta$ given $T$ and $U$.
-
-
-
-\subsection{Example: Non invertible DGF} \label{example: non invertible DGF}
-
-Let $\theta \in [0, 1]$, $T \sim Bin(n , \theta)$ and $U_1, \ldots, U_n \overset{iid}{\sim} U[0, 1]$. It holds 
-\[
-    T \sim \sum_{i=1}^n   \mathds{1} ( U_i < \theta )
-\]
-
-We can see this by finding the CDF of $X_i := \mathds{1} ( U_i < \theta )$. 
-$X_i$ can take values of 0 and 1. $X_i$ takes the value 1 if and only if $U_i < \theta$, so
-
-\begin{align*}
-    \mathbb P (X_i = 1) 
-    = 
-    \mathbb P (U_i < \theta)  = \theta
-\end{align*}
-where the last equality comes from the fact that $U_i$ is standard uniformly distributed. 
-So it holds $X_i \sim Bin(1, \theta)$ and since the sum is again binomial, it holds
-\[
-    \sum_{i = 1}^n \underbrace{\mathds{1} ( U_i < \theta )}_{\sim Bin(1, \theta)} \sim Bin(n, \theta)
-\]
-and therefore
-\[
-    T \sim \sum_{i = 1}^n \mathds{1} ( U_i < \theta ).
-\]
-
-So we can define the DGF
-\[
-    \tau (\mathbf{U}, \theta) = \sum_{i=1}^n \mathds{1} ( U_i < \theta ).
-\]
-
-Fix $n = 2, \mathbf{U} = (0.2, 0.8), T = 1$. 
-Plotting $\tau(\mathbf{U}, .)$ gives Figure \todo{Figure einbinden}
-
-The equation
-\begin{align*}
-      t &= \mathds{1} (U_1 < \theta) + \mathds{1} (U_2 < \theta)& \\
-    \implies
-    1 &= \mathds{1} (0.2 < \theta) + \mathds{1} (0.8 < \theta)&
-\end{align*}
-  
-
-delivers solutions for $\theta$: $\theta \in (0.2, 0.8]$. So there are infinite many solutions. In particular the solution is not unique. So the DGF $\tau$ in not invertible.
+\end{example}
 
