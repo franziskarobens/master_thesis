@@ -1,0 +1,51 @@
+\chapter{Fragen}
+
+
+\begin{enumerate}
+	\item 
+	In Sundberg Section 3: Hier wird eine Methode vorgestellt, wie man ohne Simulation die non coverage Wahrscheinlichkeit berechnen kann.
+	Das ist die Grundlage für die Figures 2-5. Wenn man das Konfidenzintervall $CI = [c_l \hat \theta, c_u \hat \theta]$ betrachtet (C1, C2, C3, C4, C6, C7), dann ist die non coverage W'keit gegeben durch.
+	\[
+		\mathbb{P} \left( \text{non coverage} \right)
+		=
+		1 - \mathbb{P} \left( \text{coverage} \right)
+		=
+		1 - \mathbb{P} \left( c_l \hat \theta \leq \theta \leq c_u \hat \theta \right)
+		=
+		1 - 
+			\mathbb{P} \left( \theta \leq c_u \hat \theta \right)  
+			+ 
+			\mathbb{P} \left( \theta \leq c_l \hat \theta \right) 
+	\]
+	Den Term $\mathbb{P} \left( \theta \leq c_l \hat \theta \right)$, kann man mit der ersten Equation in Section 3 von Sundberg mit $t = \hat \theta / c_l$ berechnen.
+	\[
+		\mathbb{P} \left( \theta < c_l \hat \theta  \right) 
+		=
+		\mathbb{P} \left( \theta / c_l < \hat \theta  \right)
+		=
+		1 - \mathbb{P} \left( \theta / c_l > \hat \theta  \right)
+	\]
+	
+	Jedoch lebt diese Equation davon, dass man das Gesetz der totalen Wahrscheinlichkeit auf $N$ anwendet, doch nun ist $t$ auch abhängig von $N$, weil $c_l$ von $N$ abhängig ist.
+	Das macht die Berechnung sehr viel schwerer.
+	
+	In Sundberg benutzt man $F(. | N)$, nämlich
+	\[
+		\mathbb{P} \left( \hat \theta < t \right)
+		=
+		\mathbb{E}_N
+		\left[
+			F(Nt - (n-N)C | N)
+		\right]
+	\]
+	doch in unserem Fall, hängt $t$ auch von $N$ ab.
+	\textcolor{red}{($\star$) Idee: einfach beim Erwartungswert die Summe nehmen und dann auch $t$ in Abhängigkeit von $N$ darstellen.}
+	
+	\item Wie kann ich die Idee von Section 3 in Sundberg auf C5 anwenden? C5 hat keine Form wie $CI = [c_l \hat \theta, c_u \hat \theta]$. Wie kann ich dann trotzdem die non coverage W'keit ohne Simulation bestimmen?
+	
+	\item 
+	Welcher wahre Parameter für $\theta$ wird in Sundberg Figures 2-5 verwendet? Ist das überhaupt notwendig zu wissen, um die Plots zu erstellen.
+	
+	\item 
+	Für Sundberg C2 gilt $c_l > c_u$ für $N \in \{1, 2\}, \alpha = 0.1$ und damit ist das Konfidenzintervall nicht valid
+\end{enumerate}

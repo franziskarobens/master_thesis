@@ -1,19 +1,62 @@
 \chapter{Confidence Intervals}
 
 \begin{definition}[Confidence Interval]
-Let $X = (X_1, \dots, X_n)$ be a random sample with distribution depending on an unknown parameter $\theta \in \Theta$. A \emph{confidence interval} for $\theta$ at confidence level $1 - \alpha$, $\alpha \in (0,1)$, is a pair of statistics $L(X), U(X)$ with $L(X) \leq U(X)$ such that
+Let $\mathbf X = (X_1, \dots, X_n)$ be a random sample with distribution depending on an unknown parameter $\theta \in \Theta$. A \emph{confidence interval} $CI$ for $\theta$ at confidence level $1 - \alpha$, $\alpha \in (0,1)$, 
+is an interval
 \[
-    \mathbb{P}_\theta\big(\theta \in [L(X), U(X)]\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
+	CI = [L(\mathbf X), U(\mathbf X)]
+\]
+where $L(\mathbf X)$ and $U(\mathbf X)$ are statistics satisfying $L(\mathbf X) \leq U(\mathbf X)$ and
+\[
+    \mathbb{P}_\theta \big( L(\mathbf X) \leq \theta \leq  U(\mathbf X) \big) \geq 1 - \alpha
+\]
+for all $\theta \in \Theta$.
+\end{definition}
+
+
+
+
+\begin{definition}[Lower Confidence Bound/ One-Sided Lower Confidence Interval]
+	
+The statistic $L(\mathbf X)$ is a lower $1 - \alpha$ confidence bound for $\theta$ if 
+\[
+	\mathbb{P}_\theta \big( L(\mathbf X) \leq \theta \big) \geq 1 - \alpha
+\]
+for all $\theta \in \Theta$.
+The corresponding one-sided lower confidence interval is 
+\[
+	CI = [L(\mathbf X) , \infty )
 \]
 \end{definition}
 
-\begin{definition}[Confidence Bounds]
-If only a lower bound is of interest, $[L(X), \infty)$ is called a \emph{one-sided lower confidence interval}, satisfying
-\[
-    \mathbb{P}_\theta\big(\theta \geq L(X)\big) \geq 1 - \alpha \quad \text{for all } \theta \in \Theta.
-\]
-Analogously, $(-\infty, U(X)]$ is called a \emph{one-sided upper confidence interval}.
+Analogously, we can define a \emph{one-sided upper confidence interval}.
+
+\begin{definition}[Upper Confidence Bound/ One-Sided Upper Confidence Interval]
+	
+	The statistic $U(\mathbf X)$ is an upper $1 - \alpha$ confidence bound for $\theta$ if 
+	\[
+	\mathbb{P}_\theta \big( \theta \leq  U(\mathbf X) \big) \geq 1 - \alpha
+	\]
+	for all $\theta \in \Theta$.
+	The corresponding one-sided upper confidence interval is 
+	\[
+	CI = (- \infty, U(\mathbf X) ].
+	\]
 \end{definition}
+
+
+If the parameter space $\Theta$ is a strict subset of $\mathbb{R}$, a one-sided confidence interval need not extend all the way to $\pm\infty$. Since $\theta \in \Theta$ is already known a priori, it is natural to intersect the interval with $\Theta$:
+\[
+CI_{\text{lower}} = \big[ L(\mathbf X),\, \infty \big) \cap \Theta
+\qquad \text{or} \qquad
+CI_{\text{upper}} = \big( -\infty,\, U(\mathbf X) \big] \cap \Theta,
+\]
+for the one-sided lower and upper confidence interval, respectively. This intersection does not affect the coverage guarantee: $\mathbb{P}_\theta\big(\theta \ge L(\mathbf X)\big) \ge 1-\alpha$ and $\mathbb{P}_\theta\big(\theta \le U(\mathbf X)\big) \ge 1-\alpha$ are only required to hold for $\theta \in \Theta$, so excluding values outside $\Theta$ removes no admissible outcome and hence leaves the respective coverage probability unchanged.
+
+For example, if $\theta$ denotes the mean of an exponential distribution, so that $\Theta = (0, \infty)$, the one-sided upper confidence interval becomes
+\[
+CI = \big( 0,\, U(\mathbf X) \big].
+\]
 
 
 
@@ -31,12 +74,14 @@ Analogously, $(-\infty, U(X)]$ is called a \emph{one-sided upper confidence inte
 \begin{definition}[Asymptotic confidence interval]
 	A confidence interval $CI$ for a parameter $\theta$ is called \textbf{asymptotic}, if
 	\[
-	\mathbb{P}_{\theta} \left( \theta \in CI \right) \overset{n \leftarrow \infty}{\rightarrow} 1 - \alpha.
+	\mathbb{P}_{\theta} \left( \theta \in CI \right) \overset{n \to \infty}{\longrightarrow} 1 - \alpha.
 	\]
 	where $n$ is the sample size.
 \end{definition}
 
-So the main difference between exact and asymtotic confidence intervals is, that exact confidence intervals guarantee a confidence niveau of $1 - \alpha$ even for a small sample size $n$, but asymptotic confidence intervals only have confidence niveau for large $n$.
+So the main difference between exact and asymtotic confidence intervals is, that exact confidence intervals guarantee a confidence niveau of $1 - \alpha$ even for a small sample size $n$, but asymptotic confidence intervals only have confidence niveau $1 - \alpha$ in the limit $n \to \infty$.
+
+	
 
 \begin{example}[Exact vs. Asymptotic Confidence Interval]
 	Let $X_1, \ldots , X_n \overset{iid}{\sim} \mathcal N (\mu, \sigma)$. Consider two cases.
@@ -296,7 +341,7 @@ and performing similar steps as for C1, we get
 so the confidence interval C2 is given by
 
 \[
-	 C2_{1-\alpha} (\theta)
+	C2_{1-\alpha} (\theta)
 	=
 	\left[
 	\frac{\hat \theta_n}{1 + \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}} 
@@ -304,6 +349,56 @@ so the confidence interval C2 is given by
 	\frac{\hat \theta_n}{1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}}
 	\right]
 \]
+
+For certain small sample sizes $n$, the interval $C2_{1-\alpha}(\theta)$ has a negative upper bound and a positive lower bound. In this case, it is not a valid interval. This can be seen in Figure~\ref{fig:sundberg_alpha_comparison}, which plots the sample size $n$ against the quantity $c_u - c_l$. This quantity is proportional to the width of the interval. The exact width is obtained by multiplying $c_u - c_l$ by $\hat\theta_n$.
+
+The range of small $n$ for which $c_u - c_l$ is negative depends on $\alpha$. 
+For $\alpha = 0.01$, the interval is invalid for $n \leq 6$, as shown in Figure~\ref{fig:sundberg_alpha_001}.
+For $\alpha = 0.1$, the interval is invalid for $n \in \{0, 1, 2\}$, as shown in Figure~\ref{fig:sundberg_alpha_01}. 
+
+It holds 
+\[
+	\frac{z_{1- \frac{\alpha}{2}}}{\sqrt{n}} > 1
+	\quad \text{if and only if} \quad
+	n < z_{1-\alpha/2}^2
+\]
+and exactly in this case, the denominator of the upper bound $1 - \frac {z_{1-\alpha/2}}{\sqrt{n}}$ is negative, while the lower bound is always positive for all $n \in \mathbb N _0$ and $\alpha \in (0, 1)$. 
+So the confidence interval $C2_{1-\alpha}(\theta)$ is invalid if $n < z_{1 - \frac{\alpha}{2}}^2$.
+
+The range of $n$ changes with $\alpha$ because the critical value $z_{1-\alpha/2}^2$ increases as $\alpha$ decreases. In other words, a smaller significance level leads to a larger critical value, which increases the range of sample sizes for which $c_u$ is negative.
+
+For example, when $\alpha = 0.1$, the interval is invalid for all
+\[
+n < z_{0.95}^2 \approx 2.706.
+\]
+When $\alpha = 0.01$, the interval is invalid for all
+\[
+n < z_{0.995}^2 \approx 6.635.
+\]
+Thus, a smaller significance level results in a larger range of sample sizes for which the interval is invalid. This is consistent with the observations shown in Figure~\ref{fig:sundberg_alpha_comparison}.
+
+\begin{figure}[htbp]
+	\centering
+	
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/sundberg_C2/C2_Sundberg_alpha_0.01.png}
+		\caption{$\alpha = 0.01$}
+		\label{fig:sundberg_alpha_001}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/sundberg_C2/C2_Sundberg_alpha_0.1.png}
+		\caption{$\alpha = 0.1$}
+		\label{fig:sundberg_alpha_01}
+	\end{subfigure}
+	
+	\caption{Quantity $c_u - c_l$ for the multiplier of confidence interval $C2_{1-\alpha} (\theta)$ for different $\alpha$}
+	\label{fig:sundberg_alpha_comparison}
+\end{figure}
+
+\textcolor{red}{($\star$) Auch nur wenn $\hat \theta_n > 0$. Was wenn nicht?}
 
 
 \subsection{C3}
