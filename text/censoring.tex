@@ -1,0 +1,61 @@
+\chapter{Censored Data}
+
+
+For the following definitions we use Chapter 6.5 in the script~\cite{Cramer2026Script}.
+
+\textcolor{red}{($\star$) Kann ich das unveröffentliche skript einfach so zitieren? Und es funktioniert noch nicht. wie öffne ich die .bib?}
+
+\begin{definition}[Type-I Censored Data]
+	Let $X_1, \dots, X_n$ be random variables with CDF $F_X$, and let $C > 0$ be a fixed, deterministic censoring time. Define the observed random variables as
+	\[
+	Y_i = \min(X_i, C), \quad i = 1, \dots, n.
+	\]
+	The data $Y_1, \ldots, Y_n$ is called \textbf{Type-I censored data} with censoring time $C$. An observation is called \textbf{uncensored} if $X_i \leq C$ (equivalently $Y_i = X_i$), and \textbf{censored} if $X_i > C$ and the exact value of $X_i$ remains unknown.
+	The cumulative distribution function of $Y_i$ is given by
+	\[
+	F_Y(t) =
+	\begin{cases}
+		F_X(t), & t < C, \\[2pt]
+		1, & t \ge C.
+	\end{cases}
+	\]
+\end{definition}
+
+together with the censoring indicators
+\[
+\delta_i = \mathds{1}_{\{X_i \le C\}}, \qquad i = 1, \dots, n.
+\]
+
+The number of uncensored observations
+\[
+N = \sum_{i=1}^{n} \mathds{1} (X_i \leq C) = \sum_{i=1}^n \mathds{1} _{(- \infty, C])} (X_i)
+\]
+is random, since it depends on the realizations of $X_1, \dots, X_n$, whereas the censoring time $C$ is fixed in advance. This is what distinguishes Type-I censoring from Type-II censoring, where instead the number of observed failures is fixed and the censoring time is random.
+
+
+\begin{definition}[Type-II Censored Data]
+	Let $X_1, \dots, X_n$ be random variables with CDF $F_X$, and let $m \in \{1, \dots, n\}$ be a fixed number of observed failures. Let
+	\[
+	X_{1:n} \leq X_{2:n} \leq \cdots \leq X_{n:n}
+	\]
+	denote the ordered observations. The data are called \textbf{Type-II censored data} if observation stops when the $m$-th failure occurs, that is, at the random censoring time
+	\[
+	C = X_{m:n}.
+	\]
+	
+	The first $m$ observations
+	\[
+	X_{1:n}, \dots, X_{m:n}
+	\]
+	are observed exactly and are therefore uncensored. The remaining observations
+	\[
+	X_{(m+1):n}, \dots, X_{n:n}
+	\]
+	are censored, since their exact values are unknown and only the information
+	\[
+	X_i > X_{m:n}
+	\]
+	is available.
+\end{definition}
+
+Thus, the number of uncensored observations is fixed and equal to $m$, while the censoring time $X_{m:n}$ is random. This distinguishes Type-II censoring from Type-I censoring, where the censoring time is fixed and the number of uncensored observations is random.
