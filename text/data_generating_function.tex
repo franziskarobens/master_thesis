@@ -107,3 +107,149 @@ Example:
 
 \end{example}
 
+
+Theorem 1 in \cite{Lindqvist2025simulated} is given by 
+\begin{theorem}\label{theorem:dgf-upper bound}
+	Define \[\bar \theta ( \mathbf u, t) = \sup \{ \theta: \tau (\mathbf u, \theta) \leq t \}\}\] and let $a(t)$ be a left continuous function such that
+	\[
+		\mathbb{P} \left( \bar \theta (\mathbf U, t)  \geq a(t)\right) \leq \alpha
+	\]
+	for all $t$ and $\alpha \in (0, 1)$. 
+	Then $a(T)$ is an upper confidence bound for $\theta$ that is $\mathbb{P} \left( \theta \geq a(T) \right) \leq \alpha $ for all $\alpha \in (0, 1)$.
+\end{theorem}
+
+\begin{example}
+	Suppose $U \sim \text{Exp}(1)$ and $T \sim \text{Exp} \left( \frac{1}{\theta} \right)$. Then we can express $T$ in terms of the function $\tau$ if we define it as 
+	\[ \tau (u , \theta ) = u \cdot \theta\].
+	because then 
+	\[
+		\mathbb{P} (\tau (U , \theta ) \leq x) = 
+		\mathbb{P} \left( U \cdot \theta \leq x \right) =
+		\mathbb{P} \left( U \leq \frac{x}{\theta} \right) = 
+		1 - \exp \left( - \frac{x}{\theta} \right)
+	\]	
+	and this is the CDF of an exponentially distributed random variable with parameter $ \frac{x}{\theta}$. So it holds $T \overset{d}{=} \tau (U, \theta)$. Now we caculate $\bar \theta (u, t)$:
+	\[
+		\bar \theta (u, t) = 
+		\sup \left\{ \theta : \tau (u, \theta) \leq t \right\}
+		=
+		\sup \left\{ \theta : u \cdot \theta \leq t \right\}
+		=
+		\sup \left\{ \theta : \theta \leq \frac{t}{u} \right\}
+		=
+		\frac{t}{u}.
+	\]
+	Let $\alpha \in (0, 1)$ be arbitrary.
+	Now the next objective is to find the function $a$ such that $\mathbb{P} \left( \bar \theta (u, t) \geq a(t) \right) = \alpha$.
+	\begin{align*}
+		&\mathbb{P} \left( \bar \theta (u, t) \geq a(t) \right) = \alpha
+		\\
+		\Leftrightarrow &
+		\mathbb{P} \left( \frac{t}{u} \geq a(t) \right) = \alpha 
+		\\
+		\Leftrightarrow &
+		\mathbb{P} \left( u \leq \frac{t}{a(t)} \right) = \alpha 
+		\\
+		\Leftrightarrow &
+		1 - \exp \left( - \frac{t}{a(t)} \right) = \alpha 
+		\\
+		\Leftrightarrow &
+		a(t) = - \frac{t}{\ln(1- \alpha)}
+	\end{align*}
+	This function is left continuous because \textcolor{red}{($\star$) tbd} so therefore we can use it for Theorem~\ref{theorem:dgf-upper bound}.
+	So after observing $T$, one can say that 
+	\[
+		\left( 0, a(T) \right] = \left( 0,  \frac{-T}{\ln(1- \alpha)} \right]
+	\]
+	is a one-sided confidence interval for $\theta$. For example for $\alpha = 0.1$ and the upper confidence bound is given by $9.49 T$.
+\end{example}
+
+\begin{proof}
+	Let us define 
+	\[
+		a^{-1} (\theta ) = \sup \{ t : a(t) \leq \theta \}.
+	\]
+	First, observe that if $\theta \geq a(T)$, then it also holds $T \leq a^{-1}(T)$ and consequently $\{ \theta \geq a(T) \} \subseteq \{ T \leq a^{-1}(T) \}$. To see this, assume $\theta \geq a(T)$. Then $T \in \{ t: a(t) \leq \theta \}$. Since $T$ is an element of this set, $T$ has to be smaller or equal to the supremum of this set, i.e. 
+	\[
+		T \leq \sup \{ t: a(t) \leq \theta \}
+	\]
+	This is a pure consequence of the definition of the supremum of a set. The supremum is exactly $a^{-1}(\theta)$ and therefore it holds $T \leq a^{-1}(\theta)$. All in all, the inequality $\theta \geq a(T)$, implies $T \leq a^{-1}(T)$. Since the set  $\{ \theta \geq a(T) \}$ is just a subset of $\{ T \leq a^{-1}(T) \}$, it holds
+	\[
+		\mathbb{P} \left( \theta \geq a(T) \right) \leq 
+		\mathbb{P} \left( T \leq a^{-1} (\theta) \right).
+	\]
+	Next, we use the definition of $\tau$
+	\[
+		\mathbb{P} \left( T \leq a^{-1} (\theta) \right)
+		=
+		\mathbb{P} \left( \tau(\mathbf U, \theta) \leq a^{-1} (\theta) \right).
+	\]
+	Next, we show that $\{ \tau ( \mathbf U, \theta ) \leq a^{-1}(\theta) \} \subseteq \{ \bar \theta (\mathbf U, a^{-1}(\theta)) \geq \theta \}$. For this assume $ \tau ( \mathbf U, \theta ) \leq a^{-1}(\theta)$. Define $t' := a^{-1}(\theta)$, then it holds $ \tau ( \mathbf U, \theta ) \leq t'$. So, we can observe that $\theta \in \{\theta' : \tau(\mathbf U, \theta') \leq t'\}$. Again, with the properties of the supremum, we get
+	\[
+		\theta \leq \sup \{\theta' : \tau(\mathbf U, \theta') \leq t'\}
+	\]
+	and the right hand side of this inequality is exactly $\bar \theta (\mathbf U, t')$. All in all, it holds that $\tau (\mathbf U, \theta) \leq t'$ implies that $\theta \leq \bar \theta (\mathbf U, t')$. We can use this and obtain
+	\[
+		\mathbb{P} \left( \tau (\mathbf U, \theta) \leq a^{-1} (\theta) \right)
+		\leq 
+		\mathbb{P} \left( \bar \theta \left( \mathbf U, a^{-1}(\theta) \right)  \geq \theta \right).
+	\]
+	
+	\paragraph{Step (iv): It holds $a\big(a^{-1}(\theta)\big) \le \theta$, hence
+		$\{\theta(U,a^{-1}(\theta)) \ge \theta\} \subseteq \{\theta(U,a^{-1}(\theta)) \ge a(a^{-1}(\theta))\}$.}
+	
+	This is where left-continuity of $a$ is used. Let
+	\[
+	t^\ast := a^{-1}(\theta) = \sup\{t : a(t) \le \theta\}.
+	\]
+	
+	\begin{itemize}
+		\item If the defining set $\{t : a(t) \le \theta\}$ has a maximum, i.e.\ contains $t^\ast$ itself, then trivially $a(t^\ast) \le \theta$ and we are done.
+		\item Otherwise, $t^\ast$ is only a limit point of the set: there is a sequence $t_n \uparrow t^\ast$ with $a(t_n) \le \theta$ for every $n$. Left-continuity of $a$ means
+		\[
+		a(t_n) \longrightarrow a(t^\ast) \quad \text{as } t_n \uparrow t^\ast.
+		\]
+		Since $a(t_n) \le \theta$ for all $n$, and the limit of a sequence bounded above by $\theta$ is itself $\le \theta$, we obtain
+		\[
+		a(t^\ast) \le \theta.
+		\]
+	\end{itemize}
+	
+	So
+	\[
+	a\big(a^{-1}(\theta)\big) \le \theta.
+	\]
+	
+	Now let $X := \bar \theta\big(U, a^{-1}(\theta)\big)$. The threshold on the right-hand side, $a(a^{-1}(\theta))$, is no larger than the threshold $\theta$ on the left-hand side. A weaker (smaller) threshold makes the event ``$X \ge \text{threshold}$'' easier to satisfy, i.e.\ the event is larger:
+	\[
+	\{X \ge \theta\} \subseteq \big\{X \ge a(a^{-1}(\theta))\big\},
+	\]
+	since $a(a^{-1}(\theta)) \le \theta \le X$ whenever $X \ge \theta$. Taking probabilities on both sides gives
+	\[
+	\mathbb{P}_U\Big( \bar\theta\big(U, a^{-1}(\theta)\big) \ge \theta \Big)
+	\;\le\;
+	\mathbb{P}_U\Big( \bar\theta\big(U, a^{-1}(\theta)\big) \ge a\big(a^{-1}(\theta)\big) \Big).
+	\]
+	
+	
+	\paragraph{Step (v): $\mathbb{P}_U\big(\bar\theta(U,a^{-1}(\theta)) \ge a(a^{-1}(\theta))\big) \le \alpha$.}
+	
+	This is now a direct instance of the hypothesis
+	\[
+	\mathbb{P}_U\big( \theta(U,t) \ge a(t) \big) \le \alpha \qquad \text{for all } t,
+	\]
+	applied with the particular choice $t = a^{-1}(\theta)$ --- a legitimate substitution since the hypothesis is assumed to hold \emph{for all} $t \in \mathbb{R}$, and $a^{-1}(\theta)$ is simply one specific real number, deterministic given $\theta$. Hence
+	\[
+	\mathbb{P}_U\Big( \theta\big(U, a^{-1}(\theta)\big) \ge a\big(a^{-1}(\theta)\big) \Big) \le \alpha.
+	\]
+	
+	Combining everything gives \textcolor{red}{($\star$) Alle ungleichungen zusammenpacken, eventuell die steps eindeutig kennzeichnen.}
+\end{proof}
+
+
+
+\section{Clopper Pearson Intervals}
+\textcolor{red}{($\star$) hier example einführen und klar machen wie man die theorems und corollaries benutzt. Vielleicht ein Bild einfügen (von den ordnungsstatistiken U oder den graphen von $\tau$).}
+
+
+

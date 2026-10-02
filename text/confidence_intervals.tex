@@ -1,62 +1,332 @@
 \chapter{Confidence Intervals}
 
-\begin{definition}[Confidence Interval]
-Let $\mathbf X = (X_1, \dots, X_n)$ be a random sample with distribution depending on an unknown parameter $\theta \in \Theta$. A \emph{confidence interval} $CI$ for $\theta$ at confidence level $1 - \alpha$, $\alpha \in (0,1)$, 
-is an interval
-\[
-	CI = [L(\mathbf X), U(\mathbf X)]
-\]
-where $L(\mathbf X)$ and $U(\mathbf X)$ are statistics satisfying $L(\mathbf X) \leq U(\mathbf X)$ and
-\[
-    \mathbb{P}_\theta \big( L(\mathbf X) \leq \theta \leq  U(\mathbf X) \big) \geq 1 - \alpha
-\]
-for all $\theta \in \Theta$.
-\end{definition}
 
-
-
-
-\begin{definition}[Lower Confidence Bound/ One-Sided Lower Confidence Interval]
-	
-The statistic $L(\mathbf X)$ is a lower $1 - \alpha$ confidence bound for $\theta$ if 
-\[
-	\mathbb{P}_\theta \big( L(\mathbf X) \leq \theta \big) \geq 1 - \alpha
-\]
-for all $\theta \in \Theta$.
-The corresponding one-sided lower confidence interval is 
-\[
-	CI = [L(\mathbf X) , \infty )
-\]
-\end{definition}
-
-Analogously, we can define a \emph{one-sided upper confidence interval}.
-
-\begin{definition}[Upper Confidence Bound/ One-Sided Upper Confidence Interval]
-	
-	The statistic $U(\mathbf X)$ is an upper $1 - \alpha$ confidence bound for $\theta$ if 
+\begin{definition}[Upper (lower) confidence bound]
+	Let $\mathbf X = (X_1, \ldots, X_n)$ be a random sample from a distribution that depends on an unknown parameter $\theta \in \Theta$.
+	An upper (lower) $1-\alpha$ confidence bound for $\theta$ is a statistic $U(\mathbf X)$ ($L(\mathbf X)$) such that
 	\[
-	\mathbb{P}_\theta \big( \theta \leq  U(\mathbf X) \big) \geq 1 - \alpha
+	\mathbb{P}_\theta\left(\theta \leq U(\mathbf X)\right) \geq 1-\alpha
+	\qquad
+	\left(
+	\mathbb{P}_\theta\left(L(\mathbf X) \leq \theta\right) \geq 1-\alpha
+	\right),
 	\]
 	for all $\theta \in \Theta$.
-	The corresponding one-sided upper confidence interval is 
+	The corresponding one-sided upper (lower) confidence interval is
 	\[
-	CI = (- \infty, U(\mathbf X) ].
+	CI_{\text{upper}} = (-\infty, U(\mathbf X)]
+	\qquad
+	\left(
+	CI_{\text{lower}} = [L(\mathbf X), \infty)
+	\right).
 	\]
 \end{definition}
 
 
-If the parameter space $\Theta$ is a strict subset of $\mathbb{R}$, a one-sided confidence interval need not extend all the way to $\pm\infty$. Since $\theta \in \Theta$ is already known a priori, it is natural to intersect the interval with $\Theta$:
-\[
-CI_{\text{lower}} = \big[ L(\mathbf X),\, \infty \big) \cap \Theta
-\qquad \text{or} \qquad
-CI_{\text{upper}} = \big( -\infty,\, U(\mathbf X) \big] \cap \Theta,
-\]
-for the one-sided lower and upper confidence interval, respectively. This intersection does not affect the coverage guarantee: $\mathbb{P}_\theta\big(\theta \ge L(\mathbf X)\big) \ge 1-\alpha$ and $\mathbb{P}_\theta\big(\theta \le U(\mathbf X)\big) \ge 1-\alpha$ are only required to hold for $\theta \in \Theta$, so excluding values outside $\Theta$ removes no admissible outcome and hence leaves the respective coverage probability unchanged.
+The quantity $1-\alpha$ is called the confidence level. It describes the probability with which the confidence interval is required to contain the true parameter.
+Thus, a confidence bound gives an upper or lower limit for an unknown parameter $\theta$.
 
-For example, if $\theta$ denotes the mean of an exponential distribution, so that $\Theta = (0, \infty)$, the one-sided upper confidence interval becomes
+
+If the parameter space $\Theta$ is a strict subset of $\mathbb{R}$, a one-sided confidence interval does not need to extend all the way to $\pm\infty$. Since $\theta \in \Theta$ is already known from the beginning, it is natural to intersect the interval with $\Theta$
 \[
-CI = \big( 0,\, U(\mathbf X) \big].
+CI_{\text{upper}} = \big( -\infty,\, U(\mathbf X) \big] \cap \Theta
+\qquad \text{or} \qquad
+CI_{\text{lower}} = \big[ L(\mathbf X),\, \infty \big) \cap \Theta,
 \]
+for the one-sided lower and upper confidence interval, respectively. This intersection does not affect the coverage probability because $\mathbb{P}_\theta\big(\theta \ge L(\mathbf X)\big) \ge 1-\alpha$ and $\mathbb{P}_\theta\big(\theta \le U(\mathbf X)\big) \ge 1-\alpha$ are only required to hold for $\theta \in \Theta$, so excluding values outside $\Theta$ removes no outcome and hence leaves the coverage probability unchanged.
+
+For example, if $\theta$ denotes the rate parameter of an exponential distribution, so that $\Theta = (0, \infty)$, the one-sided upper confidence interval becomes
+\[
+	CI_{\text{upper}} = \big( 0,\, U(\mathbf X) \big].
+\]
+
+\begin{example} \label{example:one sided confidence interval}
+	Let $\mathbf X = (X_1, \ldots, X_n)$ be independent and identically exponentially distributed random variables with rate parameter $\lambda \in (0,\infty)$. Thus, the parameter space is
+	\(
+	\Theta = (0,\infty),
+	\)
+	since the rate parameter of an exponential distribution must be positive.
+	
+	To obtain information about the unknown value of $\lambda$, we can construct an upper confidence bound $U(\mathbf X)$. An upper confidence bound is useful here because we want to determine a value that $\lambda$ does not exceed with high probability.
+	
+	It is a standard result that
+	\begin{align} \label{chi squared distributed}
+	2\lambda\sum_{i=1}^n X_i \sim \chi^2_{2n},
+	\end{align}
+	where $\chi^2_{2n}$ denotes a chi-square distribution with $2n$ degrees of freedom (see for example \cite{bibid} \textcolor{red}{($\star$) }). Therefore,
+	\[
+	\mathbb{P}\left(
+	2\lambda\sum_{i=1}^n X_i
+	\leq
+	\chi^2_{2n,1-\alpha}
+	\right)
+	= 1-\alpha,
+	\]
+	where $\chi^2_{2n,1-\alpha}$ denotes the $(1-\alpha)$-quantile of the chi-square distribution with $2n$ degrees of freedom.
+	
+	Since $\sum_{i=1}^n X_i > 0$, we can divide both sides of the inequality by $2\sum_{i=1}^n X_i$ and obtain
+	\[
+	\mathbb{P}\left(
+	\lambda
+	\leq
+	\frac{\chi^2_{2n,1-\alpha}}
+	{2\sum_{i=1}^n X_i}
+	\right)
+	= 1-\alpha.
+	\]
+	
+	Hence, we can define
+	\[
+	U(\mathbf X)
+	=
+	\frac{\chi^2_{2n,1-\alpha}}
+	{2\sum_{i=1}^n X_i}.
+	\]
+	This statistic satisfies the definition of an upper $1-\alpha$ confidence bound for $\lambda$. Therefore, the corresponding one-sided upper confidence interval is
+	\[
+		CI_{\text{upper}}
+		=
+		(-\infty,U(\mathbf X)]\cap\Theta
+		=
+		\left(
+		-\infty,
+		\frac{\chi^2_{2n,1-\alpha}}
+		{2\sum_{i=1}^n X_i}
+		\right]
+		\cap (0,\infty)
+		=
+		\left(
+		0,
+		\frac{\chi^2_{2n,1-\alpha}}
+		{2\sum_{i=1}^n X_i}
+		\right].
+	\]
+	
+	
+	Now, we set $\alpha = 0.05, n = 100$ and $\lambda = 2$. We can generate a random realisation of the sum
+	\(
+	\sum_{i=1}^{100} X_i
+	\)
+	in R using the code
+	
+	\begin{verbatim}
+		sum(rexp(n = 100, rate = 2))
+		[1] 56.55463
+	\end{verbatim}
+	
+	Thus, for this particular realisation, we have
+	\(
+	\sum_{i=1}^n x_i = 56.55463.
+	\)
+	
+	We can now calculate the upper confidence bound
+	\[
+	U(\mathbf x)
+	=
+	\frac{\chi^2_{2\cdot100,\,0.05}}
+	{2\cdot56.55463}
+	=
+	\frac{233.9943}{113.1093}
+	=
+	2.068745.
+	\]
+	
+	Therefore, the corresponding one-sided $95\%$ confidence interval is
+	\[
+	CI(\lambda) = (0,2.068745].
+	\]
+	
+	In this particular example, the true parameter value $\lambda=2$ is contained in the confidence interval.
+	
+	The confidence level of the procedure is $1-\alpha=0.95$. This means that, if we repeatedly generate new samples and construct a confidence interval in the same way, we expect approximately $95\%$ of the resulting intervals to contain the true parameter value $\lambda=2$.
+	
+	We can illustrate this using a simulation. In Listing~\ref{listing:tbd} \textcolor{red}{($\star$) file: conf\_interval\_exp\_distn.R}, we construct $n_{\text{sim}}=100\,000$ confidence bounds, each based on a different realisation $\mathbf X$ of the sample. For each confidence bound, we check whether the true parameter value $\lambda=2$ is smaller than or equal to the upper confidence bound.
+	
+	The simulation shows that $94\,908$ out of $100\,000$ confidence bounds are larger than or equal to $\lambda=2$. Thus
+	\(
+	94.908\%
+	\)
+	of the resulting one-sided confidence intervals contain the true parameter value. This is close to the confidence level of
+	\(
+	(1-\alpha)100\% = 95\%
+	\).
+	
+\end{example}
+
+
+
+If we want to bound the parameter $\theta$ from both sides, we can combine a lower and an upper confidence bound. While a one-sided confidence interval gives a bound for the parameter in one direction, a general confidence interval gives both a lower and an upper limit. The aim is to construct an interval that contains the unknown parameter $\theta$ with a prescribed confidence level $1-\alpha$.
+
+\begin{definition}[Confidence Interval]
+	Let $\mathbf X = (X_1, \dots, X_n)$ be a random sample with a distribution depending on an unknown parameter $\theta \in \Theta$. A \emph{confidence interval} for $\theta$ at confidence level $1-\alpha$, where $\alpha \in (0,1)$, is an interval
+	\[
+	CI = [L(\mathbf X), U(\mathbf X)],
+	\]
+	where $L(\mathbf X)$ and $U(\mathbf X)$ are statistics satisfying
+	\[
+	L(\mathbf X) \leq U(\mathbf X)
+	\]
+	and
+	\[
+	\mathbb{P}_\theta\big(
+	L(\mathbf X) \leq \theta \leq U(\mathbf X)
+	\big)
+	\geq 1-\alpha
+	\]
+	for all $\theta \in \Theta$.
+\end{definition}
+
+
+\begin{example}
+For the scenario from Example~\ref{example:one sided confidence interval}, we can also construct a two-sided confidence interval
+\[
+	CI(\lambda) = [L(\mathbf X), U(\mathbf X)].
+\]
+Again, we use the fact that $2\lambda\sum_{i=1}^n X_i$ is chi squared distributed as we saw in \eqref{chi squared distributed}
+Therefore,
+\begin{align*}
+	\mathbb{P}\left(
+	\chi^2_{2n,\frac{\alpha}{2}}
+	\leq
+	2\lambda\sum_{i=1}^n X_i
+	\leq
+	\chi^2_{2n,1-\frac{\alpha}{2}}
+	\right)
+	&=
+	\mathbb{P}\left(
+	2\lambda\sum_{i=1}^n X_i
+	\leq
+	\chi^2_{2n,1-\frac{\alpha}{2}}
+	\right)
+	-
+	\mathbb{P}\left(
+	2\lambda\sum_{i=1}^n X_i
+	<
+	\chi^2_{2n,\frac{\alpha}{2}}
+	\right) 
+	\\
+	&=
+	\left(1-\frac{\alpha}{2}\right) - \frac{\alpha}{2}
+	\\
+	&=
+	1-\alpha.
+\end{align*}
+
+Since
+\[
+2\sum_{i=1}^n X_i > 0,
+\]
+we can divide all parts of the inequality by $2\sum_{i=1}^n X_i$. This gives
+\[
+	\mathbb{P}\left(
+	\frac{\chi^2_{2n,\frac{\alpha}{2}}}
+	{2\sum_{i=1}^n X_i}
+	\leq
+	\lambda
+	\leq
+	\frac{\chi^2_{2n,1-\frac{\alpha}{2}}}
+	{2\sum_{i=1}^n X_i}
+	\right)
+	=
+	1-\alpha.
+\]
+
+Thus, the lower and upper confidence bounds can be defined as
+\[
+	L(\mathbf X)
+	=
+	\frac{\chi^2_{2n,\frac{\alpha}{2}}}
+	{2\sum_{i=1}^n X_i}
+	\qquad\text{and}\qquad
+	U(\mathbf X)
+	=
+	\frac{\chi^2_{2n,1-\frac{\alpha}{2}}}
+	{2\sum_{i=1}^n X_i}.
+\]
+
+Consequently, a $(1-\alpha)$ confidence interval for $\lambda$ is given by
+\[
+	CI(\lambda)
+	=
+	\left[
+	\frac{\chi^2_{2n,\frac{\alpha}{2}}}
+	{2\sum_{i=1}^n X_i},
+	\frac{\chi^2_{2n,1-\frac{\alpha}{2}}}
+	{2\sum_{i=1}^n X_i}
+	\right].
+\]
+
+For the data considered in Example~\ref{example:one sided confidence interval}, we have
+\[
+	\alpha=0.05,\qquad
+	n=100,\qquad
+	\lambda=2,
+\]
+and the observed value is
+\[
+	\sum_{i=1}^{100}x_i=56.55463.
+\]
+The resulting $95\%$ confidence interval is
+\[
+	CI(\lambda)
+	=
+	\left[
+	\frac{\chi^2_{2\cdot100,0.025}}
+	{2\cdot56.55463},
+	\frac{\chi^2_{2\cdot100,0.975}}
+	{2\cdot56.55463}
+	\right]
+	=
+	[1.44, 2.13].
+\]
+
+
+In contrast to the one-sided confidence interval, which only provides an upper bound for $\lambda$, the two-sided confidence interval provides both a lower and an upper bound. This is useful when we do not have a specific reason to expect that $\lambda$ is only of concern in one direction. The two-sided confidence interval therefore gives information about whether $\lambda$ could be  smaller or larger than the observed estimate.
+
+Another difference is how the error probability $\alpha$ is distributed.
+For the one-sided confidence interval, the whole error probability $\alpha$
+is placed in one tail of the distribution. In
+Example~\ref{example:one sided confidence interval}, it is placed on the
+right side. The interval fails exactly when the true parameter $\lambda$
+lies to the right of the upper limit. For the two-sided confidence interval,
+the error probability is split between both tails, with $\frac{\alpha}{2}$ in each tail.
+
+We can check this with the simulation of Listing~\ref{todo}
+\textcolor{red}{($\star$) file conf\_interval\_exp\_distn.R}. For each
+simulated sample, we determine whether the true parameter is to the left of the
+interval, inside the interval, or to the right of the interval. The results are
+as follows. In $94.956\%$ of the simulations, the confidence interval contains
+the true parameter $\lambda = 2$. This is close to the confidence level
+$1 - \alpha = 95\%$. The true parameter lies to the left of the interval in
+$2.526\%$ of the simulations and to the right of the interval in $2.518\%$.
+Both values are close to $\frac{\alpha}{2} = 2.5\%$. So the error probability is
+split almost equally between the two sides.
+
+This aligns with our expectation because the probability that the true parameter $\lambda$ is left to the interval is given by
+\[
+\mathbb{P} (\lambda < L \left( \mathbf X \right))
+= \mathbb{P} \left( 2\lambda \sum_{i = 1}^n X_i < \chi^2_{2n;\,\frac{\alpha}{2}} \right)
+= \frac{\alpha}{2},
+\]
+and the probability that $\lambda$ is to the right of the interval is
+\[
+\mathbb{P}(\lambda > U(\mathbf X))
+= \mathbb{P} \left( 2\lambda \sum_{i = 1}^n X_i > \chi^2_{2n;\,1- \frac{\alpha}{2}} \right)
+= 1 - \left( 1 - \frac{\alpha}{2} \right)
+= \frac{\alpha}{2}.
+\]
+
+Instead of the split $\alpha = \frac{\alpha}{2} + \frac{\alpha}{2}$, we can use any
+split $\alpha = \alpha_1 + \alpha_2$ with $\alpha_1, \alpha_2 > 0$. Then
+\[
+	\left[
+		\frac{\chi^2_{2n;\,\alpha_1}}{2 \sum_{i = 1}^n X_i} ,\;
+		\frac{\chi^2_{2n;\,1 - \alpha_2}}{2 \sum_{i = 1}^n X_i}
+	\right]
+\]
+is also a confidence interval for $\lambda$ with confidence level $1 - \alpha$.
+
+\end{example}
 
 
 
@@ -298,14 +568,14 @@ So we can define the asymptotic confidence interval for $\theta$ by
     \left[
         \hat \theta_n \left(1 - \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}}\right) 
         ,
-        \hat \theta_n \left(1 + \frac{z_1 - {\frac{\alpha}{2}}}{\sqrt{n}} \right)
+        \hat \theta_n \left(1 + \frac{z_{1 - \frac{\alpha}{2}}}{\sqrt{n}} \right)
     \right]
 \]
 
 
 \subsection{C2}
 
-\textcolor{red}{($\star$) Problem mit $N \in \{1, 2\}\}$ erklären}
+\textcolor{red}{($\star$) Problem mit $N \in \{1, 2\}$ erklären}
 
 For the CI C2, instead of substituting the variance $\mathcal I (\theta)^{-1}$ by the observed variance like in C1, we use the actual variance
 

@@ -5,7 +5,7 @@ For the following definitions we use Chapter 6.5 in the script~\cite{Cramer2026S
 
 \textcolor{red}{($\star$) Kann ich das unveröffentliche skript einfach so zitieren? Und es funktioniert noch nicht. wie öffne ich die .bib?}
 
-\begin{definition}[Type-I Censored Data]
+\begin{definition}[Type-I Censored Data] \label{def:type_1}
 	Let $X_1, \dots, X_n$ be random variables with CDF $F_X$, and let $C > 0$ be a fixed, deterministic censoring time. Define the observed random variables as
 	\[
 	Y_i = \min(X_i, C), \quad i = 1, \dots, n.
@@ -15,13 +15,14 @@ For the following definitions we use Chapter 6.5 in the script~\cite{Cramer2026S
 	\[
 	F_Y(t) =
 	\begin{cases}
-		F_X(t), & t < C, \\[2pt]
-		1, & t \ge C.
+		F_X(t), & t \leq C, \\[2pt]
+		1, & t > C.
 	\end{cases}
 	\]
 \end{definition}
 
-together with the censoring indicators
+
+The censoring indicators
 \[
 \delta_i = \mathds{1}_{\{X_i \le C\}}, \qquad i = 1, \dots, n.
 \]
@@ -33,7 +34,7 @@ N = \sum_{i=1}^{n} \mathds{1} (X_i \leq C) = \sum_{i=1}^n \mathds{1} _{(- \infty
 is random, since it depends on the realizations of $X_1, \dots, X_n$, whereas the censoring time $C$ is fixed in advance. This is what distinguishes Type-I censoring from Type-II censoring, where instead the number of observed failures is fixed and the censoring time is random.
 
 
-\begin{definition}[Type-II Censored Data]
+\begin{definition}[Type-II Censored Data] \label{def:type_2}
 	Let $X_1, \dots, X_n$ be random variables with CDF $F_X$, and let $m \in \{1, \dots, n\}$ be a fixed number of observed failures. Let
 	\[
 	X_{1:n} \leq X_{2:n} \leq \cdots \leq X_{n:n}
@@ -59,3 +60,77 @@ is random, since it depends on the realizations of $X_1, \dots, X_n$, whereas th
 \end{definition}
 
 Thus, the number of uncensored observations is fixed and equal to $m$, while the censoring time $X_{m:n}$ is random. This distinguishes Type-II censoring from Type-I censoring, where the censoring time is fixed and the number of uncensored observations is random.
+
+
+
+
+\textcolor{red}{($\star$) problem erklären}
+
+There are some limitations of Type-I and Type-II censored data schemes.
+Type-I censored data guarantees a fixed duration of an experiment, but failes to guarantee a minimum number of observations since all observations could be larger than $C$. In this case $N = 0$. Or $N$ could be very small which results in unstable inference. 
+
+On the other side type-II censored data guarantees a fixed number of observations $m$, but does not restrict the duration of the experiment.
+
+The following censoring schemes from Definition~\ref{def:type_1_hybrid} and~\ref{def:type_2_hybrid} combine the classic type-I and type-II censoring schemes from Definitions~\ref{def:type_1} and~\ref{def:type_2}.
+
+\begin{definition}[Type-I-hybrid Censored Data] \label{def:type_1_hybrid}
+	Let $X_1, \ldots , X_n$ be random variables and let $m \in \{1, \dots, n\}$ and $C > 0$ be fixed.
+	The experiment is stopped after \textbf{one} of the conditions is fulfilled:
+	\begin{enumerate}
+		\item $X_{m:n}$ is observed
+		\item $C$ is reached
+	\end{enumerate}
+\end{definition} 
+
+This means that the test duration is given by
+\[
+	\min \left( X_{m:n}, C \right)
+\]
+and the number of observations by
+\[
+	\min \left( m, d_C \right)
+\]
+whereas $d_C = \sum_{i=1}^n (X_i \leq C)$.
+
+\begin{definition}[Type-II-hybrid Censored Data] \label{def:type_2_hybrid}
+	Let $X_1, \ldots , X_n$ be random variables and let $m \in \{1, \dots, n\}$ and $C > 0$ be fixed.
+	The experiment is stopped when \textbf{both} of the following conditions are fulfilled:
+	\begin{enumerate}
+		\item $X_{m:n}$ is observed
+		\item $C$ is reached
+	\end{enumerate}
+\end{definition}
+
+
+This means that the test duration is given by
+\[
+\max \left( X_{m:n}, \min \left( C, X_{n:n} \right) \right)
+\]
+and the number of observations by
+\[
+\max \left( m, d_C \right)
+\]
+whereas $d_C = \sum_{i=1}^n (X_i \leq C)$.
+
+\textcolor{red}{($\star$) problem vorstellen von hybrid, add examples!!!}
+
+Again we have the problem, that for type-I censored data, there is no guaranteed minimum number of observations. In contrast to normal type-I censoring, hybrid-type-I censoring only ensures a maximal duration of the test instead of a fixed one. The experiment ends earlier than $C$, if there are $m$ observations with $X_i < C$.
+
+For hybrid-type-II censoring, there is a guaranteed minimum number of observations but no maximal test duration. In contrast to type-II censoring. hybrid-type-II censoring ensures than minimum $m$ observations occur instead of a fixed number of obervations.
+
+
+\textcolor{red}{($\star$) add examples}
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{l|cccccccc}
+		& \multicolumn{8}{c}{Observations} \\
+		\hline
+		without censoring & 4 & 1 & 8 & 3 & 6 & 2 & 9 & 5 \\
+		Type-I           & 4 & 1 &   & 3 & 6 & 2 &   & 5 \\
+		Type-II          & 4 & 1 &   & 3 &   & 2 &   & 5 \\
+	\end{tabular}
+	\caption{Vergleich von unzensierten und zensierten Daten ($C = 6$, $n = 7$, $m = 5$)}
+	\label{tab:zensierung}
+\end{table}
