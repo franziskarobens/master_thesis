@@ -128,7 +128,7 @@ Theorem 1 in \cite{Lindqvist2025simulated} is given by
 		\mathbb{P} \left( U \leq \frac{x}{\theta} \right) = 
 		1 - \exp \left( - \frac{x}{\theta} \right)
 	\]	
-	and this is the CDF of an exponentially distributed random variable with parameter $ \frac{x}{\theta}$. So it holds $T \overset{d}{=} \tau (U, \theta)$. Now we caculate $\bar \theta (u, t)$:
+	and this is the CDF of an exponentially distributed random variable with parameter $ \frac{1}{\theta}$. So it holds $T \overset{d}{=} \tau (U, \theta)$. Now we calculate $\bar \theta (u, t)$:
 	\[
 		\bar \theta (u, t) = 
 		\sup \left\{ \theta : \tau (u, \theta) \leq t \right\}
@@ -252,4 +252,183 @@ Theorem 1 in \cite{Lindqvist2025simulated} is given by
 \textcolor{red}{($\star$) hier example einführen und klar machen wie man die theorems und corollaries benutzt. Vielleicht ein Bild einfügen (von den ordnungsstatistiken U oder den graphen von $\tau$).}
 
 
+Let \(T \sim \operatorname{Bin}(n,\theta)\), and let \(t \in \{0,\ldots,n\}\) be the observed value of \(T\). The goal is to construct a confidence interval for the success probability \(\theta \in \Theta=[0,1]\).
+
+Let \(\mathbf U=(U_1,\ldots,U_n)\) be a random vector whose components are independent and uniformly distributed on \([0,1]\). For each \(i \in \{1, \ldots , n\}\),  it holds
+$U_i \leq \theta$ if and only if
+$\mathds{1}(U_i\leq\theta)=1$
+and therefore since \(U_i\) is uniformly distributed on \([0,1]\),
+\[
+\mathbb P\left(\mathds{1}(U_i < \theta)=1\right)
+=
+\mathbb P(U_i < \theta)
+=
+\theta.
+\]
+Thus,
+\(
+\mathds{1}(U_i < \theta)\sim\operatorname{Bin}(1,\theta)
+\)
+for all \(i\in\{1,\ldots,n\}\). Since the random variables $U_1, \ldots , U_n$ are independent and therefore also their transformations $\mathds{1}(U_1 < \theta), \ldots ,  \mathds{1}(U_n < \theta)$, their sum is binomially distributed too. Hence,
+\[
+\sum_{i=1}^n \mathds{1}(U_i < \theta)
+\sim \operatorname{Bin}(n,\theta).
+\]
+
+Using this result, we define the DGF by
+\[
+\tau(\mathbf U,\theta)
+=
+\sum_{i=1}^n \mathds{1}(U_i\leq\theta)
+\]
+and by construction it holds
+\[
+T\overset{d}{=}\tau(\mathbf U,\theta).
+\]
+
+To illustrate the DGF, let us fix \(\mathbf U\) and consider \(\tau(\mathbf U,\theta)\) as a function of \(\theta\).
+
+For example, let \(n=2\), and let \(U_{(1:2)}\) and \(U_{(2:2)}\) denote the order statistics of \(\mathbf U\), that is,
+\(
+U_{(1:2)}=\min(U_1,U_2)
+\)
+and
+\(
+U_{(2:2)}=\max(U_1,U_2).
+\)
+Then the DGF is
+\begin{align}
+	\tau (\mathbf U, \theta)
+	&=
+	\sum_{i = 1}^n \mathds{1} (U_i < \theta)
+	=
+	\mathds{1} (U_1 < \theta) +  \mathds{1} (U_2 < \theta)
+	\notag \\ 
+	&= 
+	\mathds{1} (U_{(1:2)} < \theta) +  \mathds{1} (U_{(2:2)} < \theta) 
+	=
+	\begin{cases}
+		0, \text{ if } \theta \in [0, U_{(1:2)}] \\
+		1, \text{ if } \theta \in (U_{(1:2)}, U_{(2:2)}] \\
+		2, \text{ if } \theta \in (U_{(2:2)}, 1]
+	\end{cases}
+	\label{dgf for clopper pearson example}
+\end{align}
+
+Figure~\ref{fig:clopper_pearson_interval_dgf} shows this function schematically.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{figures/lindqvist/clopper_pearson_interval_dgf.pdf}
+	\caption{DGF for the example given in \eqref{dgf for clopper pearson example}.}
+	\label{fig:clopper_pearson_interval_dgf}
+\end{figure}
+
+To use Theorem~\ref{theorem:dgf-upper bound}, we define
+\[
+	\bar \theta (\mathbf u, t) 
+	=
+	\sup \{ \theta : \tau(\mathbf u, \theta) \leq t \}
+	=
+	\sup \{ \theta : \mathds{1} (u_{(1:2)} < \theta) +  \mathds{1} (u_{(2:2)} < \theta) \leq t \}.
+\]
+There are three possible values which $t$ can obtain. If $t = 0$, then 
+\[
+	\bar \theta (\mathbf u, 0)
+	=
+	\sup \{ \theta : \mathds{1} (u_{(1:2)} < \theta) +  \mathds{1} (u_{(2:2)} < \theta) \leq 0 \}
+	=
+	\sup [0, u_{(1:2)}]
+	=
+	u_{(1:2)}.
+\]
+For the case that $t = 1$, 
+\[
+	\bar \theta (\mathbf u, 1)
+	=
+	\sup \{ \theta : \mathds{1} (u_{(1:2)} < \theta) +  \mathds{1} (u_{(2:2)} < \theta) \leq 1 \}
+	=
+	\sup [0, u_{(2:2)}]
+	=
+	u_{(2:2)}
+\]
+and if $t = 2$
+\[
+	\bar \theta (\mathbf u, 2)
+	=
+	\sup \{ \theta : \mathds{1} (u_{(1:2)} < \theta) +  \mathds{1} (u_{(2:2)} < \theta) \leq 2 \}
+	=
+	\sup [0, 1]
+	=
+	1.
+\]
+All in all, it holds 
+\[
+	\bar \theta (\mathbf u, t)
+	=
+	\begin{cases}
+		u_{(1:2)} &, \text{ if } t = 0 \\
+		u_{(2:2)} &, \text{ if } t = 1 \\
+		1 &, \text{ if } t = 2
+	\end{cases}.
+\]
+
+Next, we want to find a left continuous function $a$ such that
+\begin{align} \label{condition for theorem 1}
+ \mathbb{P} \left( \bar \theta (\mathbf U, t) \geq a(t) \right) \leq \alpha
+\end{align}
+ for all $t\in \{0, 1, 2\}$ and $\alpha \in (0, 1)$.
+
+For this we can observe all possible values for $t$ and choose $a(t)$ accordingly. For $t = 2$, we set $a(2) = 1$ because \textcolor{red}{($\star$) das machen wir halt einfach so also $a(n) = 1$, aber wieso?}. 
+
+
+In \textcolor{red}{($\star$) finde Zitieren} it is proven that the order statistics $U_{(1:2)}$ and $U_{(2:2)}$ are Beta distributed namely
+$U_{(1:2)} \sim \text{Beta} (1, 2)$
+and 
+$U_{(2:2)} \sim \text{Beta} (2, 1)$.
+So if we choose 
+\begin{align} \label{a for clopper pearson}
+	a(t) = 
+	\begin{cases}
+		B (1 - \alpha ; 1, 2), & \text{ if } t = 0 \\
+		B (1 - \alpha ; 2, 1), & \text{ if } t = 1 \\
+		1,  & \text{ if } t = 2, 
+	\end{cases}
+\end{align}
+it holds \eqref{condition for theorem 1} for all $t \in \{0, 1, 2\}$, so $a$ fullfils the preconditions for Theorem~\ref{theorem:dgf-upper bound}.
+
+If we observe $T = t$, we can conclude with Theorem~\ref{theorem:dgf-upper bound} that $[0, a(T)]$ whereas $a$ is defined as in \eqref{a for clopper pearson}, is an upper $(1-\alpha)$  confidence interval for $\theta$.
+
+
+
+On the other hand, if we want to construct a lower $(1-\alpha)$ confidence interval based on Corollary~\ref{cor:lindqvist cor 1}.
+First, we observe that 
+
+\begin{align} \label{precondition for corollary 1}
+	\underline{\theta}(\mathbf U, t)
+	=
+	\inf \{ \theta \in \Theta : \tau (\mathbf U , \theta ) \geq t \}
+	=
+	U_{(t:n)}.
+\end{align}
+
+
+So if we want to find a right continuous function $b$, with 
+\begin{align*}
+	\mathbb{P} \left( \underline{\theta} (\mathbf U, t) \leq b(t) \right) \leq \alpha 
+\end{align*}
+for all $t\in \{0, \ldots , n\}$ and $\alpha \in (0, 1)$, we can use that $\underline{\theta}$ is given by \eqref{precondition for corollary 1} and try to find 
+\begin{align*}
+	&\mathbb{P} \left( \underline{\theta} (\mathbf U, t) \leq b(t) \right) 
+	=
+	\mathbb{P} \left( U_{(t:n)} \leq b(t) \right) \overset{!}{=}& \alpha \\
+	\Longleftrightarrow&
+	b(t) =& B(\alpha; t, n+1-t).
+\end{align*}
+
+The function $b$ is right continuous because \textcolor{red}{($\star$)}. 
+With Corollary~\ref{cor:lindqvist cor 1}, we can conclude that for a given observation $T = t$, the interval $[b(T), 1] = \left[ B(\alpha; T, n+1-T), 1 \right]$ is a lower $(1- \alpha)$ confidence interval for $\theta$.
+
+
+
+\textcolor{red}{($\star$) Anderes Beispiel: Section 5 in Lindqvist, benutze Theorem~\ref{theorem:dgf-upper bound} auf Exp verteilte, zensierte (I) RV}
 

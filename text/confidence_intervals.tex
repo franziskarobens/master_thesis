@@ -357,7 +357,7 @@ So the main difference between exact and asymtotic confidence intervals is, that
 	Let $X_1, \ldots , X_n \overset{iid}{\sim} \mathcal N (\mu, \sigma)$. Consider two cases.
 	
 	
-	\textbf{Case 1: standard deviation $\sigma$ is known} \\
+	\textbf{Case 1: Standard deviation $\sigma$ is known} \\
 	In this case we can construct an exact confidence interval the following way.
 	Observe that the arithmetic mean of the observations fulfils $\bar X = \frac{1}{n} \sum_{i=1}^n X_i \sim \mathcal N \left( \mu, \frac{\sigma^2}{n} \right)$ and by scaling this term, we get
 	\[
@@ -397,7 +397,7 @@ So the main difference between exact and asymtotic confidence intervals is, that
 	We have shown that the probability that the real parameter $\mu$ is in $CI_{1 - \alpha}^{\text{exact}} (\mu)$ is $1 - \alpha$ independently of the sample size $n$, so $CI_{1 - \alpha}^{\text{exact}} (\mu)$ is an exact confidence interval. 
 	
 	
-	\textbf{Case 2: standard deviation $\sigma$ is unknown} \\
+	\textbf{Case 2: Standard deviation $\sigma$ is unknown} \\
 	
 	
 	From the Central Limit Theorem, we know that
@@ -434,7 +434,7 @@ So the main difference between exact and asymtotic confidence intervals is, that
 	
 	\begin{figure}[htbp]
 		\centering
-		\includegraphics[width=0.8\textwidth]{figures/exact\_vs\_asymptotic\_CI.png}
+		\includegraphics[width=0.6\textwidth]{figures/exact\_vs\_asymptotic\_CI.png}
 		\caption{Non-coverage probability of \(CI_{1-\alpha}^{\mathrm{exact}}(\mu)\) and \(CI_{1-\alpha}^{\mathrm{asymptotic}}(\mu)\) based on 1000 Monte Carlo simulations for each sample size \(n=2,\ldots,100\). For each simulation, a sample from \(N(\mu,\sigma^2)\) with \(\mu=10\) and \(\sigma=100\) is generated, and it is recorded whether \(\mu\) is contained in the respective confidence interval.}
 		\label{fig:exact_vs_asymptotic}
 	\end{figure}
