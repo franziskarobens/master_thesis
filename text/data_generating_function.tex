@@ -432,3 +432,198 @@ With Corollary~\ref{cor:lindqvist cor 1}, we can conclude that for a given obser
 
 \textcolor{red}{($\star$) Anderes Beispiel: Section 5 in Lindqvist, benutze Theorem~\ref{theorem:dgf-upper bound} auf Exp verteilte, zensierte (I) RV}
 
+
+
+\section{Figure 1 in Lindqvist}
+
+\begin{align}
+	\tau (\mathbf U, \theta)
+	=&
+	\frac
+	{
+		\sum_{i = 1}^n  \mathds{1} \left( \frac{U_i}{\theta} < c \right)
+	}{
+		\sum_{i = 1}^n \min \left(  \frac{U_i}{\theta} , c \right)
+	} \notag
+	\intertext{where $\mathbf U = \left( U_1 , \ldots , U_n \right)$, with $U_1 , \ldots , U_n$ independently exponentially distributed with hazard rate $1$. Since $\frac{U_i}{\theta} < c$ if and only if $\frac{U_i}{c} < \theta$ for all $i \in \{1, \ldots , n\}$, and the ordering of the summands does not matter, we can use the order statistics}
+	&\frac
+	{
+		\mathds{1} \left( \frac{U_{(1:2)}}{c} < \theta \right)
+		+
+		\mathds{1} \left( \frac{U_{(2:2)}}{c} < \theta \right)
+	}{
+		\min \left(  \frac{U_{(1:2)}}{\theta} , c \right)
+		+
+		\min \left(  \frac{U_{(2:2)}}{\theta} , c \right)
+	}. 
+	\label{DGF for MLE of Exp distn}
+\end{align}
+
+For $n = 2$, the DGF in \eqref{DGF for MLE of Exp distn} becomes
+\begin{align*}
+	\tau (\mathbf U, \theta)
+	=
+	\frac
+	{
+		\mathds{1} \left( \frac{U_1}{\theta} < c \right)
+		+
+		\mathds{1} \left( \frac{U_2}{\theta} < c \right)
+	}{
+		\min \left(  \frac{U_1}{\theta} , c \right)
+		+
+		\min \left(  \frac{U_2}{\theta} , c \right)
+	}.
+\end{align*}
+
+
+
+Since the numerator can only take the values $0$, $1$, and $2$, we consider three cases.
+
+\textbf{Case A: $\theta \in \left( 0, \frac{U_{(1:2)}}{c} \right]$}
+
+For $\theta \in \left( 0, \frac{U_{(1:2)}}{c} \right]$, both indicators are zero, i.e.,
+\[
+\mathds{1} \left( \frac{U_{(i:2)}}{c} < \theta \right) = 0,
+\qquad i \in \{1,2\}.
+\]
+Therefore,
+\[
+\tau (\mathbf U, \theta) = 0
+\]
+in this case.
+
+\textbf{Case B: $\theta \in \left( \frac{U_{(1:2)}}{c} , \frac{U_{(2:2)}}{c} \right]$}
+
+Then
+\[
+\mathds{1} \left( \frac{U_{(1:2)}}{c} < \theta \right) = 1
+\]
+and
+\[
+\mathds{1} \left( \frac{U_{(2:2)}}{c} < \theta \right) = 0.
+\]
+Thus, the numerator is equal to $1$.
+
+We can also determine the two minimums in the denominator. Since
+\[
+\frac{U_{(1:2)}}{c} < \theta \leq \frac{U_{(2:2)}}{c},
+\]
+it follows that
+\[
+c > \frac{U_{(1:2)}}{\theta}
+\geq
+c\frac{U_{(1:2)}}{U_{(2:2)}}
+\]
+and
+\[
+c\frac{U_{(2:2)}}{U_{(1:2)}}
+>
+\frac{U_{(2:2)}}{\theta}
+\geq c.
+\]
+These inequalities follow by taking reciprocals and then multiplying by $U_{(1:2)}$ or $U_{(2:2)}$, respectively.
+
+Therefore, the minimums are
+\[
+\min \left( \frac{U_{(1:2)}}{\theta} , c \right)
+=
+\frac{U_{(1:2)}}{\theta}
+\]
+and
+\[
+\min \left( \frac{U_{(2:2)}}{\theta} , c \right)
+=
+c.
+\]
+
+\textbf{Case C: $\theta \in \left( \frac{U_{(2:2)}}{c} , \infty \right)$}
+
+In the last case,
+the numerator is equal to $2$, since $\theta$ is larger than both $\frac{U_{(1:2)}}{c}$ and $\frac{U_{(2:2)}}{c}$.
+
+Since
+\[
+\frac{U_{(2:2)}}{c} < \theta,
+\]
+taking reciprocals and then multiplying by $U_{(1:2)}$ or $U_{(2:2)}$ gives
+\[
+c \frac{U_{(1:2)}}{U_{(2:2)}}
+>
+\frac{U_{(1:2)}}{\theta}
+\]
+and
+\[
+c >
+\frac{U_{(2:2)}}{\theta}.
+\]
+
+Since $U_{(1:2)} \leq U_{(2:2)}$, it holds that
+\[
+\frac{U_{(1:2)}}{U_{(2:2)}} \leq 1.
+\]
+Therefore,
+\[
+c \cdot 1
+\geq
+c \frac{U_{(1:2)}}{U_{(2:2)}}
+>
+\frac{U_{(1:2)}}{\theta}.
+\]
+
+The minimums in the denominator are therefore
+\[
+\min \left( \frac{U_{(1:2)}}{\theta} , c \right)
+=
+\frac{U_{(1:2)}}{\theta}
+\]
+and
+\[
+\min \left( \frac{U_{(2:2)}}{\theta} , c \right)
+=
+\frac{U_{(2:2)}}{\theta}.
+\]
+
+Thus for case C,
+we have
+\[
+\tau (\mathbf U, \theta)
+=
+\frac{2}
+{\frac{U_{(1:2)}}{\theta} + \frac{U_{(2:2)}}{\theta}}
+=
+\frac{2\theta}{U_{(1:2)} + U_{(2:2)}}.
+\]
+
+Combining all three cases gives
+\[
+\tau (\mathbf U, \theta) =
+\left\{
+\begin{array}{lll}
+	0, 
+	& \text{if } \theta \in \left( 0, \frac{U_{(1:2)}}{c} \right],
+	& \qquad (A) \\[6pt]
+	\frac{\theta}{U_{(1:2)} + c \theta}, 
+	& \text{if } \theta \in \left( \frac{U_{(1:2)}}{c} , \frac{U_{(2:2)}}{c} \right],
+	& \qquad (B) \\[6pt]
+	\frac{2 \theta}{U_{(1:2)} + U_{(2:2)}},
+	& \text{if } \theta \in \left( \frac{U_{(2:2)}}{c} , \infty \right).
+	& \qquad (C)
+\end{array}
+\right.
+\]
+
+For a fixed $\mathbf U = (U_1, U_2)$, we can plot $\tau (\mathbf U, \theta)$ as a function of $\theta$. This is illustrated in Figure~\ref{fig:Figure 1 from Lindqvist}. We can see that this is a piecewise monotonically increasing function, with jumps at $\frac{U_{(1:2)}}{c}$ and $\frac{U_{(2:2)}}{c}$.
+
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{figures/lindqvist/figure1auslindqvist.pdf}
+	\caption{\textcolor{red}{($\star$)}}
+	\label{fig:Figure 1 from Lindqvist}
+\end{figure}
+
+
+
+Given a realisation $mathbf u = (u_1, u_2)$ of $\mathbf U$ and a realisation $t$ of $T$. With the help of Figure~\ref{fig:Figure 1 from Lindqvist}, we can get $\hat \theta(\mathbf u, t)$ for which $t = \tau(\mathbf u, \hat \theta)$. 
+ \textcolor{red}{($\star$)  blabla hier weiter machen mit meinen notizen}
