@@ -434,19 +434,80 @@ With Corollary~\ref{cor:lindqvist cor 1}, we can conclude that for a given obser
 
 
 
-\section{Figure 1 in Lindqvist}
+\section{Example from Lindqvist Section 5: DGF of Type I Censored Exponentially Distributed Lifetimes}
 
+Let $X_1 , \ldots , X_n$ be independent exponentially distributed random variables with unknown hazard rate $\theta>0$. Let $Y_1, \ldots , Y_n$ be the zugehörigen type I censored data with fixed censoring time $c>0$, i. e. $Y_i = \min(X_i, c)$ for all $i \in \{1, \ldots , n\}$. Define the number of uncensored obervations as
+\[
+	R = \sum_{i = 1}^n \mathds{1} \left( Y_i = X_i \right) = \sum_{i = 1}^n \mathds{1} _{(0, c]} (X_i).
+\] 
+The MLE of $\theta$ is of interest and we can define $T$ such that $T$ matches the MLE.
+The density of $Y_i$ for $i \in \{1 , \ldots , n\} $ is given by
+\[
+	f_{Y_i}(y) = 
+	\begin{cases}
+		\theta \exp(- \theta y),  & \text{ if } y \leq c \\
+		\exp(- \theta c),  & \text{ if } y > c
+	\end{cases}
+\]
+since if $Y_i$ is uncensored $\mathbb{P} \left( Y_i = y \right) = \mathbb{P} \left( X_i = y \right) = f_{X_i}(y)$ and if $Y_i$ is censored
+$\mathbb{P} \left( Y_i = y \right) = \mathbb{P} \left( X_i > c \right) = 1 - F_{X_i}(c) = \exp(- \theta c)$.
+The likelihood function of the censored sample is given by
 \begin{align}
-	\tau (\mathbf U, \theta)
-	=&
-	\frac
-	{
-		\sum_{i = 1}^n  \mathds{1} \left( \frac{U_i}{\theta} < c \right)
+	L(\theta) = \prod_{i=1}^n f_{Y_i}(y_i)
+	&=
+	\underbrace{\prod_{i=1}^R \theta \exp(- \theta y_{(i:n)}) }_{\text{uncensored}} 
+	\cdot 
+	\underbrace{\prod_{i=R+1}^n \exp(- \theta c) }_{\text{censored}}  \\
+	&=
+	\theta^R \exp \left( - \theta \left[ \underbrace{\sum_{i = 1}^R y_{(i:n)} + (n - R) c}_{= \sum_{i = 1}^n y_i} \right] \right)
+\end{align}
+For simplicity, lets define 
+\[
+	S = \sum_{i = 1}^n y_i
+\]
+Then log likelihood is given by 
+\begin{align*}
+	l(\theta) = \ln L(\theta) = R \log(\theta) - \theta S
+\end{align*}
+and we can determine the MLE if we set the derivate of $l$ equal to zero
+\begin{align}
+	l'(\theta) = 0 \Longleftrightarrow \frac{R}{\theta} - S = 0 \Longleftrightarrow \theta = \frac{R}{S}.
+\end{align}
+We can easily define 
+\begin{align} \label{T for exp distn}
+	T = \frac{R}{S} = \frac{
+	\sum_{i = 1}^n \mathds{1}(X_i \leq c)
 	}{
-		\sum_{i = 1}^n \min \left(  \frac{U_i}{\theta} , c \right)
-	} \notag
-	\intertext{where $\mathbf U = \left( U_1 , \ldots , U_n \right)$, with $U_1 , \ldots , U_n$ independently exponentially distributed with hazard rate $1$. Since $\frac{U_i}{\theta} < c$ if and only if $\frac{U_i}{c} < \theta$ for all $i \in \{1, \ldots , n\}$, and the ordering of the summands does not matter, we can use the order statistics}
-	&\frac
+	\sum_{i = 1}^n \min(X_i, c)}
+\end{align}
+To seperate the randomness and the parameter $\theta$ which is now not seperated since $X_i$ is a random variable dependent on the parameter $\theta$, we can use a trick. Define $U_1, \ldots , U_n $ as independent standard exponentially distributed random variables. It is a standard result that $\frac{U_i}{\theta}$ is exponentially distributed with parameter $\theta$. So $X_i \overset{d}{=} \frac{U_i}{\theta}$ and we can substitute this into \eqref{T for exp distn}. 
+So if we define 
+\begin{align}
+	\tau(\mathbf U, \theta) = 
+	= \frac{
+	\sum_{i = 1}^n \mathds{1}(\frac{U_i}{\theta} \leq c)
+	}{
+	\sum_{i = 1}^n \min(\frac{U_i}{\theta}, c)}
+\end{align}
+it holds $T \overset{d}{=} \tau(\mathbf U, \theta)$, so $\tau$ is a DGF for the MLE $T$. 
+
+
+Since $\frac{U_i}{\theta} < c$ if and only if $\frac{U_i}{c} < \theta$ for all $i \in \{1, \ldots , n\}$, and the ordering of the summands does not matter, we can use the order statistics
+\begin{align} 	\label{DGF for MLE of Exp distn}
+	\tau(\mathbf U, \theta) = \frac
+	{
+		\sum_{i = 1}^n  \mathds{1} \left( \frac{U_{(i:n)}}{c} < \theta \right)
+	}{
+		\sum_{i = 1}^n \min \left(  \frac{U_{(i:n)}}{\theta} , c \right)
+	}
+\end{align}
+
+
+To illustrate the DGF \eqref{DGF for MLE of Exp distn}, we first consider the simple case $n = 2$. In this case, the DGF takes the form
+\begin{align} \label{dgf for n = 2}
+	\tau (\mathbf U, \theta)
+	=
+	\frac
 	{
 		\mathds{1} \left( \frac{U_{(1:2)}}{c} < \theta \right)
 		+
@@ -455,62 +516,84 @@ With Corollary~\ref{cor:lindqvist cor 1}, we can conclude that for a given obser
 		\min \left(  \frac{U_{(1:2)}}{\theta} , c \right)
 		+
 		\min \left(  \frac{U_{(2:2)}}{\theta} , c \right)
-	}. 
-	\label{DGF for MLE of Exp distn}
+	}. 	
 \end{align}
-
-For $n = 2$, the DGF in \eqref{DGF for MLE of Exp distn} becomes
-\begin{align*}
-	\tau (\mathbf U, \theta)
-	=
-	\frac
-	{
-		\mathds{1} \left( \frac{U_1}{\theta} < c \right)
-		+
-		\mathds{1} \left( \frac{U_2}{\theta} < c \right)
-	}{
-		\min \left(  \frac{U_1}{\theta} , c \right)
-		+
-		\min \left(  \frac{U_2}{\theta} , c \right)
-	}.
-\end{align*}
 
 
 
 Since the numerator can only take the values $0$, $1$, and $2$, we consider three cases.
 
-\textbf{Case A: $\theta \in \left( 0, \frac{U_{(1:2)}}{c} \right]$}
 
-For $\theta \in \left( 0, \frac{U_{(1:2)}}{c} \right]$, both indicators are zero, i.e.,
-\[
-\mathds{1} \left( \frac{U_{(i:2)}}{c} < \theta \right) = 0,
-\qquad i \in \{1,2\}.
-\]
-Therefore,
-\[
-\tau (\mathbf U, \theta) = 0
-\]
-in this case.
+\textbf{Case A: $R = 0$}
 
-\textbf{Case B: $\theta \in \left( \frac{U_{(1:2)}}{c} , \frac{U_{(2:2)}}{c} \right]$}
-
-Then
+If $R=0$, the numerator of \eqref{dgf for n = 2} is equal to zero. This means that neither condition $A_1$ nor condition $A_2$ is satisfied, where
 \[
-\mathds{1} \left( \frac{U_{(1:2)}}{c} < \theta \right) = 1
+A_1 := \left\{\frac{U_{(1:2)}}{c}<\theta\right\},
+\qquad
+A_2 := \left\{\frac{U_{(2:2)}}{c}<\theta\right\}.
 \]
+
+Therefore, it holds that 
+$\frac{U_{(1:2)}}{c}\geq\theta$
 and
+$\frac{U_{(2:2)}}{c}\geq\theta$.
+Since
+\(
+\frac{U_{(1:2)}}{c}\leq\frac{U_{(2:2)}}{c}
+\)
+and $\theta>0$, these two conditions can be simplified to
 \[
-\mathds{1} \left( \frac{U_{(2:2)}}{c} < \theta \right) = 0.
+\theta\in\left(0,\frac{U_{(1:2)}}{c}\right].
 \]
-Thus, the numerator is equal to $1$.
+
+Since the numerator of \eqref{dgf for n = 2} is zero, the whole fraction is zero. Hence,
+\[
+\tau(\mathbf U,\theta)=0
+\]
+for all
+$\theta\in\left(0,\frac{U_{(1:2)}}{c}\right]$.
+
+
+\textbf{Case B: $R = 1$}
+
+If $R=1$, the numerator of \eqref{dgf for n = 2} is equal to one. Therefore, exactly one of the conditions $A_1$ and $A_2$ is satisfied.
+
+Since
+\[
+\frac{U_{(2:2)}}{c}<\theta
+\quad\Longrightarrow\quad
+\frac{U_{(1:2)}}{c}<\theta,
+\]
+because $U_{(1:2)}\leq U_{(2:2)}$ by the definition of order statistics, condition $A_2$ implies condition $A_1$. Therefore, if exactly one condition is satisfied, $A_1$ is satisfied but $A_2$ is not. Thus,
+\[
+\frac{U_{(1:2)}}{c}<\theta
+\qquad\text{and}\qquad
+\frac{U_{(2:2)}}{c}\geq\theta,
+\]
+which means that
+\[
+\theta\in
+\left(
+\frac{U_{(1:2)}}{c},
+\frac{U_{(2:2)}}{c}
+\right].
+\]
+
+Hence,
+$\mathds{1}(A_1)=1$
+and
+$\mathds{1}(A_2)=0$.
+Therefore, the numerator is equal to $1$.
 
 We can also determine the two minimums in the denominator. Since
 \[
-\frac{U_{(1:2)}}{c} < \theta \leq \frac{U_{(2:2)}}{c},
+\frac{U_{(1:2)}}{c}<\theta
+\leq
+\frac{U_{(2:2)}}{c},
 \]
-it follows that
+we obtain
 \[
-c > \frac{U_{(1:2)}}{\theta}
+c>\frac{U_{(1:2)}}{\theta}
 \geq
 c\frac{U_{(1:2)}}{U_{(2:2)}}
 \]
@@ -521,96 +604,154 @@ c\frac{U_{(2:2)}}{U_{(1:2)}}
 \frac{U_{(2:2)}}{\theta}
 \geq c.
 \]
-These inequalities follow by taking reciprocals and then multiplying by $U_{(1:2)}$ or $U_{(2:2)}$, respectively.
 
-Therefore, the minimums are
+Therefore,
 \[
-\min \left( \frac{U_{(1:2)}}{\theta} , c \right)
+\min\left(\frac{U_{(1:2)}}{\theta},c\right)
 =
 \frac{U_{(1:2)}}{\theta}
 \]
 and
 \[
-\min \left( \frac{U_{(2:2)}}{\theta} , c \right)
+\min\left(\frac{U_{(2:2)}}{\theta},c\right)
 =
 c.
 \]
 
-\textbf{Case C: $\theta \in \left( \frac{U_{(2:2)}}{c} , \infty \right)$}
+Thus, for
+$\theta\in
+\left(
+\frac{U_{(1:2)}}{c},
+\frac{U_{(2:2)}}{c}
+\right]$,
+the DGF is given by 
+\begin{align}
+	\tau(\mathbf U,\theta)
+	=
+	\frac{1}{
+		\frac{U_{(1:2)}}{\theta}+c
+	}
+	=
+	\frac{\theta}{U_{(1:2)}+c\theta}.
+\end{align}
 
-In the last case,
-the numerator is equal to $2$, since $\theta$ is larger than both $\frac{U_{(1:2)}}{c}$ and $\frac{U_{(2:2)}}{c}$.
+
+\textbf{Case C: $R = 2$}
+
+If $R=2$, both indicators are equal to one. Therefore, both conditions $A_1$ and $A_2$ are satisfied. In particular,
+\[
+\frac{U_{(2:2)}}{c}<\theta,
+\]
+which implies
+\[
+\theta\in
+\left(
+\frac{U_{(2:2)}}{c},
+\infty
+\right).
+\]
 
 Since
 \[
-\frac{U_{(2:2)}}{c} < \theta,
+\frac{U_{(2:2)}}{c}<\theta,
 \]
-taking reciprocals and then multiplying by $U_{(1:2)}$ or $U_{(2:2)}$ gives
+taking reciprocals and multiplying by $U_{(1:2)}$ and $U_{(2:2)}$, respectively, gives
 \[
-c \frac{U_{(1:2)}}{U_{(2:2)}}
+c\frac{U_{(1:2)}}{U_{(2:2)}}
 >
 \frac{U_{(1:2)}}{\theta}
 \]
 and
 \[
-c >
+c>
 \frac{U_{(2:2)}}{\theta}.
 \]
 
-Since $U_{(1:2)} \leq U_{(2:2)}$, it holds that
+Since
+$U_{(1:2)}\leq U_{(2:2)}$,
+we have
 \[
-\frac{U_{(1:2)}}{U_{(2:2)}} \leq 1.
+\frac{U_{(1:2)}}{U_{(2:2)}}\leq 1.
 \]
 Therefore,
 \[
-c \cdot 1
+c
 \geq
-c \frac{U_{(1:2)}}{U_{(2:2)}}
+c\frac{U_{(1:2)}}{U_{(2:2)}}
 >
 \frac{U_{(1:2)}}{\theta}.
 \]
 
-The minimums in the denominator are therefore
+It follows that the minimums in the denominator are
 \[
-\min \left( \frac{U_{(1:2)}}{\theta} , c \right)
+\min\left(\frac{U_{(1:2)}}{\theta},c\right)
 =
 \frac{U_{(1:2)}}{\theta}
 \]
 and
 \[
-\min \left( \frac{U_{(2:2)}}{\theta} , c \right)
+\min\left(\frac{U_{(2:2)}}{\theta},c\right)
 =
 \frac{U_{(2:2)}}{\theta}.
 \]
 
-Thus for case C,
-we have
+Thus, for Case C,
 \[
-\tau (\mathbf U, \theta)
+\tau(\mathbf U,\theta)
 =
-\frac{2}
-{\frac{U_{(1:2)}}{\theta} + \frac{U_{(2:2)}}{\theta}}
+\frac{2}{
+	\frac{U_{(1:2)}}{\theta}
+	+
+	\frac{U_{(2:2)}}{\theta}
+}
 =
-\frac{2\theta}{U_{(1:2)} + U_{(2:2)}}.
+\frac{2\theta}{U_{(1:2)}+U_{(2:2)}}.
 \]
 
+
 Combining all three cases gives
-\[
-\tau (\mathbf U, \theta) =
+\begin{align} \label{dgf for exp with cases}
+\tau(\mathbf U,\theta)
+=
 \left\{
 \begin{array}{lll}
-	0, 
-	& \text{if } \theta \in \left( 0, \frac{U_{(1:2)}}{c} \right],
-	& \qquad (A) \\[6pt]
-	\frac{\theta}{U_{(1:2)} + c \theta}, 
-	& \text{if } \theta \in \left( \frac{U_{(1:2)}}{c} , \frac{U_{(2:2)}}{c} \right],
-	& \qquad (B) \\[6pt]
-	\frac{2 \theta}{U_{(1:2)} + U_{(2:2)}},
-	& \text{if } \theta \in \left( \frac{U_{(2:2)}}{c} , \infty \right).
-	& \qquad (C)
+	0,
+	&
+	\text{if }
+	\theta\in
+	\left(
+	0,\frac{U_{(1:2)}}{c}
+	\right],
+	&
+	\qquad (A),
+	\\[8pt]
+	\displaystyle
+	\frac{\theta}{U_{(1:2)}+c\theta},
+	&
+	\text{if }
+	\theta\in
+	\left(
+	\frac{U_{(1:2)}}{c},
+	\frac{U_{(2:2)}}{c}
+	\right],
+	&
+	\qquad (B),
+	\\[10pt]
+	\displaystyle
+	\frac{2\theta}{U_{(1:2)}+U_{(2:2)}},
+	&
+	\text{if }
+	\theta\in
+	\left(
+	\frac{U_{(2:2)}}{c},
+	\infty
+	\right),
+	&
+	\qquad (C).
 \end{array}
 \right.
-\]
+\end{align}
+
 
 For a fixed $\mathbf U = (U_1, U_2)$, we can plot $\tau (\mathbf U, \theta)$ as a function of $\theta$. This is illustrated in Figure~\ref{fig:Figure 1 from Lindqvist}. We can see that this is a piecewise monotonically increasing function, with jumps at $\frac{U_{(1:2)}}{c}$ and $\frac{U_{(2:2)}}{c}$.
 
@@ -625,5 +766,66 @@ For a fixed $\mathbf U = (U_1, U_2)$, we can plot $\tau (\mathbf U, \theta)$ as 
 
 
 
-Given a realisation $mathbf u = (u_1, u_2)$ of $\mathbf U$ and a realisation $t$ of $T$. With the help of Figure~\ref{fig:Figure 1 from Lindqvist}, we can get $\hat \theta(\mathbf u, t)$ for which $t = \tau(\mathbf u, \hat \theta)$. 
- \textcolor{red}{($\star$)  blabla hier weiter machen mit meinen notizen}
+Given a realisation $\mathbf u = (u_1, u_2)$ of $\mathbf U$ and a realisation $t$ of $T$. With the help of Figure~\ref{fig:Figure 1 from Lindqvist}, we can get $\hat \theta(\mathbf u, t)$ for which $t = \tau(\mathbf u, \hat \theta)$.
+For this we observe the three different sections of $\tau(\mathbf u, \theta)$ where $\tau$ has no jump.
+
+
+\textbf{Case A: $t = 0$}
+
+The equation 
+\[
+	\tau (\mathbf u, \theta) = 0
+\]
+can be solved with $\theta \in \left( 0, \frac{u_{(1:2)}}{c} \right]$. So there is no unique solution. 
+
+
+\textbf{Case B: $t \in \left( \frac{1}{2c} , \frac{1}{c} \cdot \frac{u_{(2:2)}}{u_{(1:2)} + u_{(2:2)}}\right]$}
+
+This corresponds to case B of \eqref{dgf for exp with cases}, and therefore
+\begin{align}
+	\tau(\mathbf u, \theta) = t 
+	\Longleftrightarrow 
+	\frac{\theta}{u_{(1:2)} + c\theta} = t
+	\Longleftrightarrow 
+	\hat \theta = \frac{t u_{(1:2)}}{1 - ct}.
+\end{align}
+
+\textbf{Case C: $t \in \left( \frac{2}{c} \cdot \frac{u_{(2:2)}}{u_{(1:2)} + u_{(2:2)}}, \infty \right)$}
+
+This corresponds to case C of \eqref{dgf for exp with cases}, and therefore
+\begin{align}
+	\tau(\mathbf u, \theta) = t 
+	\Longleftrightarrow 
+	\frac{2\theta}{u_{(1:2)} + u_{(2:2)}} = t
+	\Longleftrightarrow 
+	\hat \theta = \frac{t (u_{(1:2)} + u_{(2:2)})}{2}.
+\end{align}
+
+For all other cases. i. e. where $\tau$ has jumps $t \in \left( 0, \frac{1}{2c} \right] \cup \left( \frac{1}{c} \cdot \frac{u_{(2:2)}}{u_{(1:2)} + u_{(2:2)}}, \frac{2}{c} \cdot \frac{u_{(2:2)}}{u_{(1:2)} + u_{(2:2)}} \right]$, the equation $\tau(\mathbf u, \theta) = t$ has no solution. \textcolor{red}{($\star$) fiducial distn!}
+
+
+So the fiducial distribution is \textcolor{red}{($\star$) hier wie lasse ich $t = 0$ behandeln? soll das uniform verteilt sein? Und das ist keine fid. distribution!}
+\begin{align}
+	\hat{\theta}(\mathbf{u},t)
+	=
+	\begin{cases}
+		\theta \in \left(0,\dfrac{u_{(1:2)}}{c}\right],
+		& \text{for } t=0, \\[8pt]
+		\dfrac{t u_{(1:2)}}{1 - ct},
+		& \text{for } t \in
+		\left(
+		\dfrac{1}{2c},
+		\dfrac{1}{c}\dfrac{u_{(2:2)}}{u_{(1:2)}+u_{(2:2)}}
+		\right], \\[10pt]
+		\dfrac{t\left(u_{(1:2)}+u_{(2:2)}\right)}{2},
+		& \text{for } t \in
+		\left(
+		\dfrac{2}{c}
+		\dfrac{u_{(2:2)}}{u_{(1:2)}+u_{(2:2)}},
+		\infty
+		\right).
+	\end{cases}
+\end{align}
+
+
+

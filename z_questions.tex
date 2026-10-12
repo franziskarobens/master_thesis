@@ -48,4 +48,79 @@
 	
 	\item 
 	Für Sundberg C2 gilt $c_l > c_u$ für $N \in \{1, 2\}, \alpha = 0.1$ und damit ist das Konfidenzintervall nicht valid
+	
+	\item
+	In Lindqvist:
+	Wenn ich die Plots für $\underline \theta$ und $\bar \theta$ (Nach Theorem 1 und Corollary 1) erstelle, sehen die so aus:
+	\begin{figure}[H] 
+		\centering
+		\begin{subfigure}[b]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{figures/lindqvist/corollary\_1\_theta.pdf}
+			\caption{Corollary 1.}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.48\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{figures/lindqvist/theorem\_1\_theta.pdf}
+			\caption{Theorem 1.}
+			\label{fig:theorem_1_theta}
+		\end{subfigure}
+		\caption{Comparison of the results of Corollary 1 and Theorem 1 for $\theta$.}
+	\end{figure}
+	d. h. sie sind fast über all gleich, nur nicht in $t = 0$, weil
+	\[
+		 \underline \theta (\mathbf u, t = 0) = 0
+		 \quad \text{und} \quad
+		 \bar \theta (\mathbf u, t = 0) = \frac{u_{(1:2)}}{c}
+	\]
+	Nun sagt aber Corollary 2, dass wenn $\tau$ strictly increasing ist, dann $\underline \theta = \bar \theta$ gilt. Das gilt ja laut Figure 1 überall außer für den ersten Bereich wo $\tau = 0$. Kann man die Aussage von Corollary 2 auch verallgemeinern, sodass man alle Werte für $\theta$ aus der Definition nimmt, wo dann $\tau(\mathbf u, \theta)$ nicht strictly increasing ist? Und dann gilt für diese eingeschränkte DGF, dass $\tau$ strictly increasing ist und dann mit Corollary 2, dass $\underline \theta = \bar \theta$?
 \end{enumerate}
+
+
+\chapter*{Plan für die MA: Inhaltsverzeichnis}
+
+\begin{enumerate}
+	\item 
+	Confidence intervals einführen
+	\begin{enumerate}
+		\item Definitionen
+		\item asymptotic vs exact
+		\item Bootstrapping
+		\item insgesamt nur kurzes kapitel, da später die meisten methoden eingeführt werden wo direkt zensierte Daten mit ins Spiel kommen
+	\end{enumerate}
+	\item 
+	Censoring einführen
+	\begin{enumerate}
+		\item Type I, Type II, hybrides Type I, hybrides Type II
+		\item Probleme mit zensierten Daten erklären
+	\end{enumerate}
+	\item 
+	\begin{enumerate}
+		\item Pivoting the cdf
+		\item fiducial distribution
+		\item Data Generating function
+	\end{enumerate}
+\end{enumerate}
+
+Wie kann ich DGF auf Hybrid zensierte Daten anwenden? Mehrere $c_i$ speichern? Das implementieren
+
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{lll}
+		\toprule
+		Author & Censoring & Method/Model \\
+		\midrule
+		Jeng          & I               &                                  \\
+		Sundberg      & I               & Exponential                      \\
+		Wright        & I               & Two Parameter Exponential        \\
+		Cramer2014a   & alle            & Pivoting CDF for Exponential     \\
+		Lindqvist     & I, hybrid type II & Simulation Exponential        \\
+		Cramer2024    & alle            &                                  \\
+		\bottomrule
+	\end{tabular}
+	\caption{Paper im Überblick}
+\end{table}
+
+
