@@ -24,42 +24,51 @@ For the following definitions we use Chapter 6.5 in the script~\cite{Cramer2026S
 
 The censoring indicators
 \[
-\delta_i = \mathds{1}_{\{X_i \le C\}}, \qquad i = 1, \dots, n.
+\delta_i = \mathds{1}(X_i \le C)
 \]
+for $i \in \{1, \ldots, n\}$ determine if an observation $X_i$ is censored ($\delta_i = 0$) or uncensored ($\delta_i = 1$).
 
 The number of uncensored observations
 \[
-N = \sum_{i=1}^{n} \mathds{1} (X_i \leq C) = \sum_{i=1}^n \mathds{1} _{(- \infty, C])} (X_i)
+N 
+= \sum_{i=1}^{n} \delta_i
 \]
 is random, since it depends on the realizations of $X_1, \dots, X_n$, whereas the censoring time $C$ is fixed in advance. This is what distinguishes Type-I censoring from Type-II censoring, where instead the number of observed failures is fixed and the censoring time is random.
 
+	\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/cdf\_of\_type\_I\_censoring.pdf}
+	\caption{\textcolor{red}{($\star$) }}
+	\label{fig:cdf of type I censoring}
+\end{figure}
+
 
 \begin{definition}[Type-II Censored Data] \label{def:type_2}
-	Let $X_1, \dots, X_n$ be random variables with CDF $F_X$, and let $m \in \{1, \dots, n\}$ be a fixed number of observed failures. Let
+	Let $X_1, \dots, X_n$ be random variables with CDF $F_X$, and let $r \in \{1, \dots, n\}$ be a fixed number of observed failures. Let
 	\[
-	X_{1:n} \leq X_{2:n} \leq \cdots \leq X_{n:n}
+	X_{(1:n)} \leq X_{(2:n)} \leq \cdots \leq X_{(n:n)}
 	\]
-	denote the ordered observations. The data are called \textbf{Type-II censored data} if observation stops when the $m$-th failure occurs, that is, at the random censoring time
+	denote the ordered observations. The data are called \textbf{Type-II censored data} if observation stops when the $r$-th failure occurs, that is, at the random censoring time
 	\[
-	C = X_{m:n}.
+	C = X_{(r:n)}.
 	\]
 	
-	The first $m$ observations
+	The first $r$ observations
 	\[
-	X_{1:n}, \dots, X_{m:n}
+	X_{(1:n)}, \dots, X_{(r:n)}
 	\]
 	are observed exactly and are therefore uncensored. The remaining observations
 	\[
-	X_{(m+1):n}, \dots, X_{n:n}
+	X_{((r+1):n)}, \dots, X_{(n:n)}
 	\]
 	are censored, since their exact values are unknown and only the information
 	\[
-	X_i \geq X_{m:n}
+	X_i \geq X_{(r:n)}
 	\]
-	is available.
+	is available if $i > r$.
 \end{definition}
 
-Thus, the number of uncensored observations is fixed and equal to $m$, while the censoring time $X_{m:n}$ is random. This distinguishes Type-II censoring from Type-I censoring, where the censoring time is fixed and the number of uncensored observations is random.
+Thus, the number of uncensored observations is fixed and equal to $r$, while the censoring time $X_{r:n}$ is random. This distinguishes Type-II censoring from Type-I censoring, where the censoring time is fixed and the number of uncensored observations is random.
 
 
 
@@ -131,7 +140,7 @@ For hybrid-type-II censoring, there is a guaranteed minimum number of observatio
 		Type-I           & 4 & 1 &   & 3 & 6 & 2 &   & 5 \\
 		Type-II          & 4 & 1 &   & 3 &   & 2 &   & 5 \\
 	\end{tabular}
-	\caption{Vergleich von unzensierten und zensierten Daten ($C = 6$, $n = 7$, $m = 5$)}
+	\caption{Vergleich von unzensierten und zensierten Daten ($C = 6$, $n = 8$, $m = 5$)}
 	\label{tab:zensierung}
 \end{table}
 

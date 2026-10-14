@@ -4,26 +4,27 @@
 	\textcolor{red}{($\star$) TBD}
 \end{definition}
 
-If we have a random variable $T$ with parameter $\theta$, a data generating function (DGF) with respect to $T$ is a function $\tau$, 
-\(
-    \tau(\mathbf{U}, \theta) 
-\)
-such that $T \overset{d}{=} \tau(\mathbf{U}, \theta) $. $\mathbf{U}$ is a random vector independent of the parameter $\theta$. Intuitively, one can say that
+
+
+If we have a random variable $T$ with parameter $\theta$, a data-generating function (DGF) with respect to $T$ is a function $\tau$,
+$\tau(\mathbf{U}, \theta)$,
+such that $T \overset{d}{=} \tau(\mathbf{U}, \theta)$, where $\mathbf{U}$ is a random vector independent of the parameter $\theta$. Intuitively, one can express this as
 \[
-\text{data} = \text{randomness} + \text{parameter}
+\text{data} = \text{randomness} + \text{parameter},
 \]
-and the parameter gets abgetrennt from the randomness. The random vector $\mathbf{U}$ can not depend on $\theta$. So randomness and the parameter $\theta$ are independent. 
+where the parameter is separated from the randomness. The random vector $\mathbf{U}$ must not depend on $\theta$. Thus, the randomness and the parameter $\theta$ are separated.
 
 \[
-    \mathbf{U} \overset{\tau(., \theta)}{ \longrightarrow} T
+\mathbf{U} \overset{\tau(\cdot, \theta)}{\longrightarrow} T.
 \]
 
-Example:
-\begin{enumerate}
-    \item Normal distribution
-    \item wo es keine DGF gibt
-\end{enumerate}
-
+\textcolor{red}{($\star$) 
+	Example:
+	\begin{enumerate}
+		\item Normal distribution
+		\item wo es keine DGF gibt
+	\end{enumerate}
+}
 
 \begin{example}[Example: DGF, Normal distribution] \label{example: DGF normal} 
 	Let $T \sim \mathcal{N}(\theta, 1)$. Then we can say that 
@@ -46,70 +47,119 @@ Example:
 	
 \end{example}
 
-\begin{example}[Example: DGF with $n > 1$]
-	We can generalize Example \ref{example: DGF normal} by defining
-	$T = \sum_{i=1}^n X_i$ where $X_1, \ldots , X_n \overset{iid}{\sim} \mathcal{N}(\theta, 1)$.  Again use the interpretation as in Example \ref{example: DGF normal}: $X_i = \theta + U_i$ for $i \in \{1, \ldots, n\}$ with $U_1, \ldots , U_n \overset{iid}{\sim} \mathcal{N}(0, 1)$. Then it holds $T = \sum_{i=1} ^n \theta + U_i = n \theta + \sum_{i=1} ^n U_i$, so the DGF is defined as 
-	\[
+\begin{example}[Example: DGF with $n > 1$] \label{example:dgf with n large}
+ 	We can generalize Example \ref{example: DGF normal} by defining
+	$T = \sum_{i=1}^n X_i$ where $X_1, \ldots , X_n \overset{\text{iid}}{\sim} \mathcal{N}(\theta, 1)$.  Again use the interpretation as in Example \ref{example: DGF normal}: $X_i = \theta + U_i$ for $i \in \{1, \ldots, n\}$ with $U_1, \ldots , U_n \overset{\text{iid}}{\sim} \mathcal{N}(0, 1)$. Then it holds $T = \sum_{i=1} ^n \theta + U_i = n \theta + \sum_{i=1} ^n U_i$, so the DGF is defined as 
+	\begin{align} \label{dgf of multi normal}
 	    \tau (\mathbf{U}, \theta )  = n \theta + \sum_{i=1} ^n U_i.
-	\]
+	\end{align}
 	This again is invertible with
-	\[
+	\begin{align} \label{dgf of multi normal fiducial distn}
 	    \hat \theta(\mathbf{u}, t ) = \frac{t - \sum_{i=1} ^n u_i}{n}.
-	\]
+	\end{align}
 	
-	Figure \textcolor{red}{($\star$) insert Figure} shows the DGF $\tau(\mathbf{U}, .)$.
+	Figure~\ref{fig:dgf example} shows the DGF $\tau(\mathbf{U}, \cdot)$ for a fixed value of $\mathbf{U}$ and with $\theta$ as the argument. The DGF is a straight line with slope $\frac{1}{n}$ and intercept $\sum_{i=1}^n U_i$. Since $\tau$ is strictly monotonically increasing in $\theta$, we can easily solve the equation $\tau(\mathbf{U}, \theta) = t$ for $\theta$, obtaining $\hat{\theta}(\mathbf{U}, t)$, as illustrated in Figure~\ref{fig:dgf example inverse}.
 	
-	It is a strictly monotone function \textcolor{red}{($\star$) Is this function really strictly monotone or something else?) and therefore bijective, so we can always find a $\theta$ given $T$ and $U$.}
+	\begin{figure}[H] 
+		\centering
+		\begin{subfigure}[b]{0.48\textwidth}
+			\centering
+			\includegraphics[page=1, width=\textwidth]{figures/lindqvist/dgf_example.pdf}
+			\caption{DGF described in Example~\ref{example:dgf with n large} $\tau(\mathbf U, \theta)$ with fixed $\mathbf U$ as a function of $\theta$ (see \eqref{dgf of multi normal})}
+			\label{fig:dgf example}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.48\textwidth}
+			\centering
+			\includegraphics[page=2, width=\textwidth]{figures/lindqvist/dgf_example.pdf}
+			\caption{Inverse of the DGF (see \eqref{dgf of multi normal fiducial distn})}
+			\label{fig:dgf example inverse}
+		\end{subfigure}
+		\caption{}
+	\end{figure}
 \end{example}
 
 \begin{example}[Non invertible DGF] \label{example: non invertible DGF}
 	
-	Let $\theta \in [0, 1]$, $T \sim Bin(n , \theta)$ and $U_1, \ldots, U_n \overset{iid}{\sim} U[0, 1]$. It holds 
+	Let \(T \sim text{Bin}(n,\theta)\) with success probability $\theta \in \Theta = [0, 1]$.
+	
+	Let \(\mathbf U=(U_1,\ldots,U_n)\) be a random vector whose components are independent and uniformly distributed on \([0,1]\). For each \(i \in \{1, \ldots , n\}\),  it holds
+	$U_i \leq \theta$ if and only if
+	$\mathds{1}(U_i\leq\theta)=1$
+	and therefore since \(U_i\) is uniformly distributed on \([0,1]\),
 	\[
-	    T \sim \sum_{i=1}^n   \mathds{1} ( U_i < \theta )
+	\mathbb P\left(\mathds{1}(U_i < \theta)=1\right)
+	=
+	\mathbb P(U_i < \theta)
+	=
+	\theta.
+	\]
+	Thus,
+	\(
+	\mathds{1}(U_i < \theta)\sim\operatorname{Bin}(1,\theta)
+	\)
+	for all \(i\in\{1,\ldots,n\}\). Since the random variables $U_1, \ldots , U_n$ are independent and therefore also their transformations $\mathds{1}(U_1 < \theta), \ldots ,  \mathds{1}(U_n < \theta)$, their sum is binomially distributed too. Hence,
+	\[
+	\sum_{i=1}^n \underbrace{\mathds{1}(U_i < \theta)}_{\sim \text{Bin}(1, \theta)}
+	\sim \operatorname{Bin}(n,\theta).
 	\]
 	
-	We can see this by finding the CDF of $X_i := \mathds{1} ( U_i < \theta )$. 
-	$X_i$ can take values of 0 and 1. $X_i$ takes the value 1 if and only if $U_i < \theta$, so
-	
-	\begin{align*}
-	    \mathbb P (X_i = 1) 
-	    = 
-	    \mathbb P (U_i < \theta)  = \theta
-	\end{align*}
-	where the last equality comes from the fact that $U_i$ is standard uniformly distributed. 
-	So it holds $X_i \sim Bin(1, \theta)$ and since the sum is again binomial, it holds
+	Using this result, we define the DGF by
+	\begin{align} \label{dgf in clopper pearson case}
+		\tau(\mathbf U,\theta)
+		=
+		\sum_{i=1}^n \mathds{1}(U_i\leq\theta)
+	\end{align}
+	and by construction it holds
 	\[
-	    \sum_{i = 1}^n \underbrace{\mathds{1} ( U_i < \theta )}_{\sim Bin(1, \theta)} \sim Bin(n, \theta)
-	\]
-	and therefore
-	\[
-	    T \sim \sum_{i = 1}^n \mathds{1} ( U_i < \theta ).
+	T\overset{d}{=}\tau(\mathbf U,\theta).
 	\]
 	
-	So we can define the DGF
-	\[
-	    \tau (\mathbf{U}, \theta) = \sum_{i=1}^n \mathds{1} ( U_i < \theta ).
-	\]
+	To illustrate the DGF, let us fix \(\mathbf U\) and consider \(\tau(\mathbf U,\theta)\) as a function of \(\theta\).
 	
-	Fix $n = 2, \mathbf{U} = (0.2, 0.8), T = 1$. 
-	Plotting $\tau(\mathbf{U}, .)$ gives Figure \textcolor{red}{($\star$) Figure einfügen}
+	For example, let \(n=2\), and let \(U_{(1:2)}\) and \(U_{(2:2)}\) denote the order statistics of \(\mathbf U\), that is,
+	\(
+	U_{(1:2)}=\min(U_1,U_2)
+	\)
+	and
+	\(
+	U_{(2:2)}=\max(U_1,U_2).
+	\)
+	Then the DGF is
+	\begin{align}
+		\tau (\mathbf U, \theta)
+		&=
+		\sum_{i = 1}^2 \mathds{1} (U_i < \theta)
+		=
+		\mathds{1} (U_1 < \theta) +  \mathds{1} (U_2 < \theta)
+		\notag \\ 
+		&= 
+		\mathds{1} (U_{(1:2)} < \theta) +  \mathds{1} (U_{(2:2)} < \theta) 
+		=
+		\begin{cases}
+			0, \text{ if } \theta \in [0, U_{(1:2)}] \\
+			1, \text{ if } \theta \in (U_{(1:2)}, U_{(2:2)}] \\
+			2, \text{ if } \theta \in (U_{(2:2)}, 1]
+		\end{cases}
+		\label{dgf for clopper pearson example}
+	\end{align}
 	
-	The equation
-	\begin{align*}
-	      t &= \mathds{1} (U_1 < \theta) + \mathds{1} (U_2 < \theta)& \\
-	    \implies
-	    1 &= \mathds{1} (0.2 < \theta) + \mathds{1} (0.8 < \theta)&
-	\end{align*}
-	  
+	Figure~\ref{fig:clopper_pearson_interval_dgf} shows this function schematically.
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=\textwidth]{figures/lindqvist/clopper_pearson_interval_dgf.pdf}
+		\caption{DGF for the example given in \eqref{dgf for clopper pearson example}.}
+		\label{fig:clopper_pearson_interval_dgf}
+	\end{figure}
 	
-	delivers solutions for $\theta$: $\theta \in (0.2, 0.8]$. So there are infinite many solutions. In particular the solution is not unique. So the DGF $\tau$ in not invertible.
 
+	For example if we observe $t = 1$, then $\hat \theta (\mathbf U, 1) \in (U_{(1:2)}, U_{(2:2)}]$. For any observation $t \in \{0, 1,2\}$, we have infinitely many solutions for the parameter $\hat \theta (\mathbf U, t)$. In particular, the DGF $\tau$ is not invertible.
 \end{example}
 
 
-Theorem 1 in \cite{Lindqvist2025simulated} is given by 
+Lindqvist~\cite{Lindqvist2025simulated} presents Theorem~1 in his paper, which provides a method for constructing an upper confidence bound for the parameter $\theta$ based on a DGF.
 \begin{theorem}\label{theorem:dgf-upper bound}
+	Let $T$ be a random variable with parameter $\theta \in \Theta$ and let $\tau$ be the corresponding DGF.
 	Define \[\bar \theta ( \mathbf u, t) = \sup \{ \theta: \tau (\mathbf u, \theta) \leq t \}\}\] and let $a(t)$ be a left continuous function such that
 	\[
 		\mathbb{P} \left( \bar \theta (\mathbf U, t)  \geq a(t)\right) \leq \alpha
@@ -118,9 +168,11 @@ Theorem 1 in \cite{Lindqvist2025simulated} is given by
 	Then $a(T)$ is an upper confidence bound for $\theta$ that is $\mathbb{P} \left( \theta \geq a(T) \right) \leq \alpha $ for all $\alpha \in (0, 1)$.
 \end{theorem}
 
+To better understand the construction of such a confidence bound, let us consider the following example.
+
 \begin{example}
 	Suppose $U \sim \text{Exp}(1)$ and $T \sim \text{Exp} \left( \frac{1}{\theta} \right)$. Then we can express $T$ in terms of the function $\tau$ if we define it as 
-	\[ \tau (u , \theta ) = u \cdot \theta\].
+	\[ \tau (u , \theta ) = u \cdot \theta\]
 	because then 
 	\[
 		\mathbb{P} (\tau (U , \theta ) \leq x) = 
@@ -128,7 +180,7 @@ Theorem 1 in \cite{Lindqvist2025simulated} is given by
 		\mathbb{P} \left( U \leq \frac{x}{\theta} \right) = 
 		1 - \exp \left( - \frac{x}{\theta} \right)
 	\]	
-	and this is the CDF of an exponentially distributed random variable with parameter $ \frac{1}{\theta}$. So it holds $T \overset{d}{=} \tau (U, \theta)$. Now we calculate $\bar \theta (u, t)$:
+	which is the CDF of an exponentially distributed random variable with parameter $ \frac{1}{\theta}$. So it holds $T \overset{d}{=} \tau (U, \theta)$. Now we calculate $\bar \theta (u, t)$ as
 	\[
 		\bar \theta (u, t) = 
 		\sup \left\{ \theta : \tau (u, \theta) \leq t \right\}
@@ -144,19 +196,19 @@ Theorem 1 in \cite{Lindqvist2025simulated} is given by
 	\begin{align*}
 		&\mathbb{P} \left( \bar \theta (u, t) \geq a(t) \right) = \alpha
 		\\
-		\Leftrightarrow &
+		\Leftrightarrow \quad &
 		\mathbb{P} \left( \frac{t}{u} \geq a(t) \right) = \alpha 
 		\\
-		\Leftrightarrow &
+		\Leftrightarrow \quad &
 		\mathbb{P} \left( u \leq \frac{t}{a(t)} \right) = \alpha 
 		\\
-		\Leftrightarrow &
+		\Leftrightarrow \quad &
 		1 - \exp \left( - \frac{t}{a(t)} \right) = \alpha 
 		\\
-		\Leftrightarrow &
+		\Leftrightarrow \quad &
 		a(t) = - \frac{t}{\ln(1- \alpha)}
 	\end{align*}
-	This function is left continuous because \textcolor{red}{($\star$) tbd} so therefore we can use it for Theorem~\ref{theorem:dgf-upper bound}.
+	This function is left continuous because it is a linear function of \(t\), so therefore we can use Theorem~\ref{theorem:dgf-upper bound} on the function $a$.
 	So after observing $T$, one can say that 
 	\[
 		\left( 0, a(T) \right] = \left( 0,  \frac{-T}{\ln(1- \alpha)} \right]
@@ -249,79 +301,10 @@ Theorem 1 in \cite{Lindqvist2025simulated} is given by
 
 
 \section{Clopper Pearson Intervals}
-\textcolor{red}{($\star$) hier example einführen und klar machen wie man die theorems und corollaries benutzt. Vielleicht ein Bild einfügen (von den ordnungsstatistiken U oder den graphen von $\tau$).}
-
 
 Let \(T \sim \operatorname{Bin}(n,\theta)\), and let \(t \in \{0,\ldots,n\}\) be the observed value of \(T\). The goal is to construct a confidence interval for the success probability \(\theta \in \Theta=[0,1]\).
 
-Let \(\mathbf U=(U_1,\ldots,U_n)\) be a random vector whose components are independent and uniformly distributed on \([0,1]\). For each \(i \in \{1, \ldots , n\}\),  it holds
-$U_i \leq \theta$ if and only if
-$\mathds{1}(U_i\leq\theta)=1$
-and therefore since \(U_i\) is uniformly distributed on \([0,1]\),
-\[
-\mathbb P\left(\mathds{1}(U_i < \theta)=1\right)
-=
-\mathbb P(U_i < \theta)
-=
-\theta.
-\]
-Thus,
-\(
-\mathds{1}(U_i < \theta)\sim\operatorname{Bin}(1,\theta)
-\)
-for all \(i\in\{1,\ldots,n\}\). Since the random variables $U_1, \ldots , U_n$ are independent and therefore also their transformations $\mathds{1}(U_1 < \theta), \ldots ,  \mathds{1}(U_n < \theta)$, their sum is binomially distributed too. Hence,
-\[
-\sum_{i=1}^n \mathds{1}(U_i < \theta)
-\sim \operatorname{Bin}(n,\theta).
-\]
-
-Using this result, we define the DGF by
-\[
-\tau(\mathbf U,\theta)
-=
-\sum_{i=1}^n \mathds{1}(U_i\leq\theta)
-\]
-and by construction it holds
-\[
-T\overset{d}{=}\tau(\mathbf U,\theta).
-\]
-
-To illustrate the DGF, let us fix \(\mathbf U\) and consider \(\tau(\mathbf U,\theta)\) as a function of \(\theta\).
-
-For example, let \(n=2\), and let \(U_{(1:2)}\) and \(U_{(2:2)}\) denote the order statistics of \(\mathbf U\), that is,
-\(
-U_{(1:2)}=\min(U_1,U_2)
-\)
-and
-\(
-U_{(2:2)}=\max(U_1,U_2).
-\)
-Then the DGF is
-\begin{align}
-	\tau (\mathbf U, \theta)
-	&=
-	\sum_{i = 1}^n \mathds{1} (U_i < \theta)
-	=
-	\mathds{1} (U_1 < \theta) +  \mathds{1} (U_2 < \theta)
-	\notag \\ 
-	&= 
-	\mathds{1} (U_{(1:2)} < \theta) +  \mathds{1} (U_{(2:2)} < \theta) 
-	=
-	\begin{cases}
-		0, \text{ if } \theta \in [0, U_{(1:2)}] \\
-		1, \text{ if } \theta \in (U_{(1:2)}, U_{(2:2)}] \\
-		2, \text{ if } \theta \in (U_{(2:2)}, 1]
-	\end{cases}
-	\label{dgf for clopper pearson example}
-\end{align}
-
-Figure~\ref{fig:clopper_pearson_interval_dgf} shows this function schematically.
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{figures/lindqvist/clopper_pearson_interval_dgf.pdf}
-	\caption{DGF for the example given in \eqref{dgf for clopper pearson example}.}
-	\label{fig:clopper_pearson_interval_dgf}
-\end{figure}
+We already analysed this situation in Example~\ref{example: non invertible DGF}, so we know that the function given in \eqref{dgf in clopper pearson case} is a valid DGF of $T$. 
 
 To use Theorem~\ref{theorem:dgf-upper bound}, we define
 \[

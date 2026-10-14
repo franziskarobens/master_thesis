@@ -39,7 +39,7 @@
 		\right]
 	\]
 	doch in unserem Fall, hängt $t$ auch von $N$ ab.
-	\textcolor{red}{($\star$) Idee: einfach beim Erwartungswert die Summe nehmen und dann auch $t$ in Abhängigkeit von $N$ darstellen.}
+	%\textcolor{red}{($\star$) Idee: einfach beim Erwartungswert die Summe nehmen und dann auch $t$ in Abhängigkeit von $N$ darstellen.}
 	
 	\item Wie kann ich die Idee von Section 3 in Sundberg auf C5 anwenden? C5 hat keine Form wie $CI = [c_l \hat \theta, c_u \hat \theta]$. Wie kann ich dann trotzdem die non coverage W'keit ohne Simulation bestimmen?
 	
@@ -51,7 +51,7 @@
 	
 	\item
 	In Lindqvist:
-	Wenn ich die Plots für $\underline \theta$ und $\bar \theta$ (Nach Theorem 1 und Corollary 1) erstelle, sehen die so aus:
+	Wenn ich die Plots für $\underline \theta$ und $\bar \theta$ (Nach Theorem 1 und Corollary 1) erstelle (für $n = 2$), sehen die so aus:
 	\begin{figure}[H] 
 		\centering
 		\begin{subfigure}[b]{0.48\textwidth}
@@ -75,10 +75,14 @@
 		 \bar \theta (\mathbf u, t = 0) = \frac{u_{(1:2)}}{c}
 	\]
 	Nun sagt aber Corollary 2, dass wenn $\tau$ strictly increasing ist, dann $\underline \theta = \bar \theta$ gilt. Das gilt ja laut Figure 1 überall außer für den ersten Bereich wo $\tau = 0$. Kann man die Aussage von Corollary 2 auch verallgemeinern, sodass man alle Werte für $\theta$ aus der Definition nimmt, wo dann $\tau(\mathbf u, \theta)$ nicht strictly increasing ist? Und dann gilt für diese eingeschränkte DGF, dass $\tau$ strictly increasing ist und dann mit Corollary 2, dass $\underline \theta = \bar \theta$?
+	
+	\item 
+	Ich fokussiere mich in meiner MA vor allem auf die Methodik von Lindqvist (data generating functions), um CI aufzustellen. Dabei habe ich Beispiele für DGF gesammelt, die Theoreme in Paper aufgearbeitet und das auf verschiedene Zensierungs-Schemata angewendet. 
+	Außerdem stelle ich andere Methoden vor, wo CI für zensierte Daten aufgestellt werden (die aus dem Paper von Sundberg und Jeng z. B.). Ich würde gerne mit Ihnen abklären, ob ich in die richtige Richtung gehe bzw. wo ich noch stärker nachforschen soll. 
 \end{enumerate}
 
 
-\chapter*{Plan für die MA: Inhaltsverzeichnis}
+\chapter{Plan für die MA: Inhaltsverzeichnis}
 
 \begin{enumerate}
 	\item 
