@@ -81,26 +81,26 @@ where the parameter is separated from the randomness. The random vector $\mathbf
 
 \begin{example}[Non invertible DGF] \label{example: non invertible DGF}
 	
-	Let \(T \sim text{Bin}(n,\theta)\) with success probability $\theta \in \Theta = [0, 1]$.
+	Let \(T \sim \text{Bin}(n,\theta)\) with success probability $\theta \in \Theta = [0, 1]$.
 	
 	Let \(\mathbf U=(U_1,\ldots,U_n)\) be a random vector whose components are independent and uniformly distributed on \([0,1]\). For each \(i \in \{1, \ldots , n\}\),  it holds
 	$U_i \leq \theta$ if and only if
 	$\mathds{1}(U_i\leq\theta)=1$
 	and therefore since \(U_i\) is uniformly distributed on \([0,1]\),
 	\[
-	\mathbb P\left(\mathds{1}(U_i < \theta)=1\right)
+	\mathbb P\left(\mathds{1}(U_i \leq \theta)=1\right)
 	=
-	\mathbb P(U_i < \theta)
+	\mathbb P(U_i \leq \theta)
 	=
 	\theta.
 	\]
 	Thus,
 	\(
-	\mathds{1}(U_i < \theta)\sim\operatorname{Bin}(1,\theta)
+	\mathds{1}(U_i \leq \theta)\sim\operatorname{Bin}(1,\theta)
 	\)
-	for all \(i\in\{1,\ldots,n\}\). Since the random variables $U_1, \ldots , U_n$ are independent and therefore also their transformations $\mathds{1}(U_1 < \theta), \ldots ,  \mathds{1}(U_n < \theta)$, their sum is binomially distributed too. Hence,
+	for all \(i\in\{1,\ldots,n\}\). Since the random variables $U_1, \ldots , U_n$ are independent and therefore also their transformations $\mathds{1}(U_1 \leq \theta), \ldots ,  \mathds{1}(U_n \leq \theta)$, their sum is binomially distributed too. Hence,
 	\[
-	\sum_{i=1}^n \underbrace{\mathds{1}(U_i < \theta)}_{\sim \text{Bin}(1, \theta)}
+	\sum_{i=1}^n \underbrace{\mathds{1}(U_i \leq \theta)}_{\sim \text{Bin}(1, \theta)}
 	\sim \operatorname{Bin}(n,\theta).
 	\]
 	
@@ -117,29 +117,29 @@ where the parameter is separated from the randomness. The random vector $\mathbf
 	
 	To illustrate the DGF, let us fix \(\mathbf U\) and consider \(\tau(\mathbf U,\theta)\) as a function of \(\theta\).
 	
-	For example, let \(n=2\), and let \(U_{(1:2)}\) and \(U_{(2:2)}\) denote the order statistics of \(\mathbf U\), that is,
+	For example, let \(n=2\), and let \(U_{1:2}\) and \(U_{2:2}\) denote the order statistics of \(\mathbf U\), that is,
 	\(
-	U_{(1:2)}=\min(U_1,U_2)
+	U_{1:2}=\min(U_1,U_2)
 	\)
 	and
 	\(
-	U_{(2:2)}=\max(U_1,U_2).
+	U_{2:2}=\max(U_1,U_2).
 	\)
 	Then the DGF is
 	\begin{align}
 		\tau (\mathbf U, \theta)
 		&=
-		\sum_{i = 1}^2 \mathds{1} (U_i < \theta)
+		\sum_{i = 1}^2 \mathds{1} (U_i \leq \theta)
 		=
-		\mathds{1} (U_1 < \theta) +  \mathds{1} (U_2 < \theta)
+		\mathds{1} (U_1 \leq \theta) +  \mathds{1} (U_2 \leq \theta)
 		\notag \\ 
 		&= 
-		\mathds{1} (U_{(1:2)} < \theta) +  \mathds{1} (U_{(2:2)} < \theta) 
+		\mathds{1} (U_{1:2} \leq \theta) +  \mathds{1} (U_{2:2} \leq \theta) 
 		=
 		\begin{cases}
-			0, \text{ if } \theta \in [0, U_{(1:2)}] \\
-			1, \text{ if } \theta \in (U_{(1:2)}, U_{(2:2)}] \\
-			2, \text{ if } \theta \in (U_{(2:2)}, 1]
+			0, \text{ if } \theta \in [0, U_{1:2}] \\
+			1, \text{ if } \theta \in (U_{1:2}, U_{2:2}] \\
+			2, \text{ if } \theta \in (U_{2:2}, 1]
 		\end{cases}
 		\label{dgf for clopper pearson example}
 	\end{align}
@@ -153,30 +153,32 @@ where the parameter is separated from the randomness. The random vector $\mathbf
 	\end{figure}
 	
 
-	For example if we observe $t = 1$, then $\hat \theta (\mathbf U, 1) \in (U_{(1:2)}, U_{(2:2)}]$. For any observation $t \in \{0, 1,2\}$, we have infinitely many solutions for the parameter $\hat \theta (\mathbf U, t)$. In particular, the DGF $\tau$ is not invertible.
+	For example if we observe $t = 1$, then $\hat \theta (\mathbf U, 1) \in (U_{1:2}, U_{2:2}]$. For any observation $t \in \{0, 1, 2\}$, we have infinitely many solutions for the parameter $\hat \theta (\mathbf U, t)$. In particular, the DGF $\tau$ is not invertible.
+	
 \end{example}
 
 
 Lindqvist~\cite{Lindqvist2025simulated} presents Theorem~1 in his paper, which provides a method for constructing an upper confidence bound for the parameter $\theta$ based on a DGF.
 \begin{theorem}\label{theorem:dgf-upper bound}
 	Let $T$ be a random variable with parameter $\theta \in \Theta$ and let $\tau$ be the corresponding DGF.
-	Define \[\bar \theta ( \mathbf u, t) = \sup \{ \theta: \tau (\mathbf u, \theta) \leq t \}\}\] and let $a(t)$ be a left continuous function such that
-	\[
+	Define \[\bar \theta ( \mathbf u, t) = \sup \{ \theta: \tau (\mathbf u, \theta) \leq t \}\] and let $a(t)$ be a left continuous function such that
+	\begin{align} \label{precondition theorem 1}
 		\mathbb{P} \left( \bar \theta (\mathbf U, t)  \geq a(t)\right) \leq \alpha
-	\]
+	\end{align}
 	for all $t$ and $\alpha \in (0, 1)$. 
 	Then $a(T)$ is an upper confidence bound for $\theta$ that is $\mathbb{P} \left( \theta \geq a(T) \right) \leq \alpha $ for all $\alpha \in (0, 1)$.
 \end{theorem}
 
-To better understand the construction of such a confidence bound, let us consider the following example.
+
+For fixed observations \(T=t\) and \(\mathbf U=\mathbf u\), \(\bar{\theta}(\mathbf u,t)\) represents the supremum of all parameter values \(\theta\) for which \(\tau(\mathbf u,\theta)\leq t\). This construction does not require the DGF \(\tau\) to be monotone or continuous, allowing the method to accommodate functions with jumps. To illustrate the construction of $a$, we consider the following example.
 
 \begin{example}
-	Suppose $U \sim \text{Exp}(1)$ and $T \sim \text{Exp} \left( \frac{1}{\theta} \right)$. Then we can express $T$ in terms of the function $\tau$ if we define it as 
-	\[ \tau (u , \theta ) = u \cdot \theta\]
+	Suppose $T \sim \text{Exp} \left( \frac{1}{\theta} \right)$ and $U \sim \text{Exp}(1)$. Then we can express $T$ in terms of the function $\tau$ if we define it as 
+	\[ \tau (U , \theta ) = \theta \cdot U\]
 	because then 
 	\[
 		\mathbb{P} (\tau (U , \theta ) \leq x) = 
-		\mathbb{P} \left( U \cdot \theta \leq x \right) =
+		\mathbb{P} \left( \theta \cdot U \leq x \right) =
 		\mathbb{P} \left( U \leq \frac{x}{\theta} \right) = 
 		1 - \exp \left( - \frac{x}{\theta} \right)
 	\]	
@@ -185,122 +187,198 @@ To better understand the construction of such a confidence bound, let us conside
 		\bar \theta (u, t) = 
 		\sup \left\{ \theta : \tau (u, \theta) \leq t \right\}
 		=
-		\sup \left\{ \theta : u \cdot \theta \leq t \right\}
+		\sup \left\{ \theta : \theta \cdot u \leq t \right\}
 		=
 		\sup \left\{ \theta : \theta \leq \frac{t}{u} \right\}
 		=
 		\frac{t}{u}.
 	\]
 	Let $\alpha \in (0, 1)$ be arbitrary.
-	Now the next objective is to find the function $a$ such that $\mathbb{P} \left( \bar \theta (u, t) \geq a(t) \right) = \alpha$.
+	Now the next objective is to find the function $a$ such that $\mathbb{P} \left( \bar \theta (U, t) \geq a(t) \right) = \alpha$.
 	\begin{align*}
-		&\mathbb{P} \left( \bar \theta (u, t) \geq a(t) \right) = \alpha
+		&\mathbb{P} \left( \bar \theta (U, t) \geq a(t) \right) = \alpha
 		\\
 		\Leftrightarrow \quad &
-		\mathbb{P} \left( \frac{t}{u} \geq a(t) \right) = \alpha 
+		\mathbb{P} \left( \frac{t}{U} \geq a(t) \right) = \alpha 
 		\\
 		\Leftrightarrow \quad &
-		\mathbb{P} \left( u \leq \frac{t}{a(t)} \right) = \alpha 
+		\mathbb{P} \left( U \leq \frac{t}{a(t)} \right) = \alpha 
 		\\
 		\Leftrightarrow \quad &
 		1 - \exp \left( - \frac{t}{a(t)} \right) = \alpha 
 		\\
 		\Leftrightarrow \quad &
-		a(t) = - \frac{t}{\ln(1- \alpha)}
+		a(t) = \frac{- t}{\ln(1- \alpha)}
 	\end{align*}
-	This function is left continuous because it is a linear function of \(t\), so therefore we can use Theorem~\ref{theorem:dgf-upper bound} on the function $a$.
+	The function $a$ is left continuous because it is a linear function of \(t\), so therefore we can use Theorem~\ref{theorem:dgf-upper bound} on the function $a$.
 	So after observing $T$, one can say that 
 	\[
 		\left( 0, a(T) \right] = \left( 0,  \frac{-T}{\ln(1- \alpha)} \right]
 	\]
-	is a one-sided confidence interval for $\theta$. For example for $\alpha = 0.1$ and the upper confidence bound is given by $9.49 T$.
+	is a one-sided confidence interval for $\theta$. For example for $\alpha = 0.1$ and the upper confidence bound is given by $\frac{-T}{\ln(1 - 0.1)} \approx 9.49 T$.
 \end{example}
 
 \begin{proof}
-	Let us define 
+	Let $\alpha \in (0, 1)$ be arbitrary but fixed. Let $\bar \theta$ be defined as in Theorem~\ref{theorem:dgf-upper bound}, and let $a$ be a left-continuous function such that
+	\begin{align*}
+		\mathbb{P} \left( \bar \theta (\mathbf U, t) \geq a(t) \right) \leq \alpha
+	\end{align*}
+	for all $t$.
+	We need to show that $a(T)$ is an upper confidence bound, i.\,e.\
+	\begin{align} \label{to show theorem 1}
+		\mathbb{P} \left( \theta \geq a(T) \right) \leq \alpha
+	\end{align}
+	for all $\theta \in \Theta$.
+	
+	Let us define
 	\[
-		a^{-1} (\theta ) = \sup \{ t : a(t) \leq \theta \}.
+	a^{-1} (\theta ) = \sup \{ t : a(t) \leq \theta \}.
 	\]
-	First, observe that if $\theta \geq a(T)$, then it also holds $T \leq a^{-1}(T)$ and consequently $\{ \theta \geq a(T) \} \subseteq \{ T \leq a^{-1}(T) \}$. To see this, assume $\theta \geq a(T)$. Then $T \in \{ t: a(t) \leq \theta \}$. Since $T$ is an element of this set, $T$ has to be smaller or equal to the supremum of this set, i.e. 
+	
+	First, we show five statements in step i) to step v). Then, we use these statements to prove the inequality \eqref{to show theorem 1}.
+	
+	\textbf{Step (i):} \\	
+	Assume $\theta \geq a(T)$. Then $T \in \{ t: a(t) \leq \theta \}$. Since $T$ is an element of this set, $T$ has to be smaller or equal to the supremum of this set, i.e. 
 	\[
-		T \leq \sup \{ t: a(t) \leq \theta \}
+		T \leq \sup \{ t: a(t) \leq \theta \} = a^{-1}(\theta).
 	\]
-	This is a pure consequence of the definition of the supremum of a set. The supremum is exactly $a^{-1}(\theta)$ and therefore it holds $T \leq a^{-1}(\theta)$. All in all, the inequality $\theta \geq a(T)$, implies $T \leq a^{-1}(T)$. Since the set  $\{ \theta \geq a(T) \}$ is just a subset of $\{ T \leq a^{-1}(T) \}$, it holds
+	This is a pure consequence of the definition of the supremum of a set. All in all, the inequality $\theta \geq a(T)$, implies $T \leq a^{-1}(T)$. 
+	So we can conclude that
 	\[
+		\{ \theta \geq a(T) \} \subseteq \{ T \leq a^{-1}(\theta) \}.
+	\]
+	and therefore 
+	\begin{align} \label{theorem 1: step i}
 		\mathbb{P} \left( \theta \geq a(T) \right) \leq 
 		\mathbb{P} \left( T \leq a^{-1} (\theta) \right).
-	\]
-	Next, we use the definition of $\tau$
-	\[
-		\mathbb{P} \left( T \leq a^{-1} (\theta) \right)
+	\end{align}	
+	
+	
+	\textbf{Step (ii):} \\
+	
+	Since $T \overset{d}{=} \tau (\mathbf U, \theta)$ because $\tau$ is a DGF of $T$, we can say that the equality 
+	\begin{align} \label{theorem 1: step ii}
+		\mathbb{P} \left( (T \leq a^{-1}(\theta)) \right)
 		=
-		\mathbb{P} \left( \tau(\mathbf U, \theta) \leq a^{-1} (\theta) \right).
-	\]
-	Next, we show that $\{ \tau ( \mathbf U, \theta ) \leq a^{-1}(\theta) \} \subseteq \{ \bar \theta (\mathbf U, a^{-1}(\theta)) \geq \theta \}$. For this assume $ \tau ( \mathbf U, \theta ) \leq a^{-1}(\theta)$. Define $t' := a^{-1}(\theta)$, then it holds $ \tau ( \mathbf U, \theta ) \leq t'$. So, we can observe that $\theta \in \{\theta' : \tau(\mathbf U, \theta') \leq t'\}$. Again, with the properties of the supremum, we get
+		\mathbb{P} \left( (\tau (\mathbf U, \theta) \leq a^{-1}(\theta)) \right)
+	\end{align}
+	holds.
+	
+	\textbf{Step (iii):} \\
+	Assume $ \tau ( \mathbf U, \theta ) \leq a^{-1}(\theta)$. Define $t' := a^{-1}(\theta)$, then it holds $ \tau ( \mathbf U, \theta ) \leq t'$. So, we can observe that $\theta \in \{\theta' : \tau(\mathbf U, \theta') \leq t'\}$. Again, with the properties of the supremum, we get
 	\[
 		\theta \leq \sup \{\theta' : \tau(\mathbf U, \theta') \leq t'\}
+		= \bar \theta (\mathbf U, t').
 	\]
-	and the right hand side of this inequality is exactly $\bar \theta (\mathbf U, t')$. All in all, it holds that $\tau (\mathbf U, \theta) \leq t'$ implies that $\theta \leq \bar \theta (\mathbf U, t')$. We can use this and obtain
+	All in all, it holds that $\tau (\mathbf U, \theta) \leq t'$ implies that $\theta \leq \bar \theta (\mathbf U, t')$. We can use this to know that 
 	\[
+			\left\{ 
+				\tau (\mathbf U, \theta) \leq a^{-1} (\theta) 
+			\right\}
+		\subseteq
+			\left\{ 
+				\bar \theta \left( \mathbf U, a^{-1}(\theta) \right)  \geq \theta
+			\right\}.
+	\]
+	and obtain the inequality
+	\begin{align} \label{theorem 1: step iii}
 		\mathbb{P} \left( \tau (\mathbf U, \theta) \leq a^{-1} (\theta) \right)
 		\leq 
 		\mathbb{P} \left( \bar \theta \left( \mathbf U, a^{-1}(\theta) \right)  \geq \theta \right).
-	\]
+	\end{align}
 	
-	\paragraph{Step (iv): It holds $a\big(a^{-1}(\theta)\big) \le \theta$, hence
-		$\{\theta(U,a^{-1}(\theta)) \ge \theta\} \subseteq \{\theta(U,a^{-1}(\theta)) \ge a(a^{-1}(\theta))\}$.}
+
 	
+	
+	\textbf{Step (iv):} \\
+	We want to show that $a\big(a^{-1}(\theta)\big) \le \theta$.
 	This is where left-continuity of $a$ is used. Let
 	\[
 	t^\ast := a^{-1}(\theta) = \sup\{t : a(t) \le \theta\}.
 	\]
+	If the defining set $\{t : a(t) \le \theta\}$ has a maximum, i.e. contains $t^\ast$ itself, then trivially $a(t^\ast) \le \theta$ and we are done.
 	
-	\begin{itemize}
-		\item If the defining set $\{t : a(t) \le \theta\}$ has a maximum, i.e.\ contains $t^\ast$ itself, then trivially $a(t^\ast) \le \theta$ and we are done.
-		\item Otherwise, $t^\ast$ is only a limit point of the set: there is a sequence $t_n \uparrow t^\ast$ with $a(t_n) \le \theta$ for every $n$. Left-continuity of $a$ means
-		\[
-		a(t_n) \longrightarrow a(t^\ast) \quad \text{as } t_n \uparrow t^\ast.
-		\]
-		Since $a(t_n) \le \theta$ for all $n$, and the limit of a sequence bounded above by $\theta$ is itself $\le \theta$, we obtain
-		\[
-		a(t^\ast) \le \theta.
-		\]
-	\end{itemize}
-	
-	So
+	Otherwise, $t^\ast$ is only a limit point of the set. There is a sequence $t_n \nearrow t^\ast$ with $a(t_n) \le \theta$ for every $n$. Left-continuity of $a$ means
 	\[
+	a(t_n) \longrightarrow a(t^\ast) \quad
+	\]
+	as $t_n \nearrow t^\ast$.
+	Since $a(t_n) \le \theta$ for all $n$, and the limit of a sequence bounded above by $\theta$ is itself smaller or equal to$\theta$ and we obtain
+	\(
+	a(t^\ast) \le \theta,
+	\)
+	so
+	\(
 	a\big(a^{-1}(\theta)\big) \le \theta.
-	\]
+	\)
+	So we can conclude that 
+	\begin{align} \label{theorem 1: step iv}
+		\mathbb{P} \left( \bar \theta (\mathbf U, a^{-1}(\theta)) \geq \theta \right)
+		\geq 
+		\mathbb{P} \left( \bar \theta (\mathbf U, a^{-1}(\theta)) \geq a \left( a^{-1} (\theta) \right) \right).
+	\end{align}
 	
-	Now let $X := \bar \theta\big(U, a^{-1}(\theta)\big)$. The threshold on the right-hand side, $a(a^{-1}(\theta))$, is no larger than the threshold $\theta$ on the left-hand side. A weaker (smaller) threshold makes the event ``$X \ge \text{threshold}$'' easier to satisfy, i.e.\ the event is larger:
+	
+	\textbf{Step (v):} \\
+	As a last step, we show a direct instance of the hypothesis~\eqref{precondition theorem 1}
+	applied with the particular choice $t = a^{-1}(\theta)$.
+	We get 
+	\begin{align} \label{theorem 1: step v}
+		\mathbb{P}_U\Big( \theta\big(U, a^{-1}(\theta)\big) \ge a\big(a^{-1}(\theta)\big) \Big) \le \alpha.
+	\end{align}
+	
+	\textbf{Conclusion:} \\
+	In the end, we can combine the knowledge derived in step (i) to step (v). It holds
+	\begin{align*}
+		\mathbb{P} \left( \theta \geq a(T) \right)
+		&\overset{\eqref{theorem 1: step i}}{\leq}
+		\mathbb{P} \left( T \leq a^{-1}(\theta) \right) \\
+		&\overset{\eqref{theorem 1: step ii}}{=}
+		\mathbb{P} \left( \tau(\mathbf U, \theta) \leq a^{-1}(\theta) \right) \\
+		&\overset{\eqref{theorem 1: step iii}}{\leq}
+		\mathbb{P} \left[
+		\bar \theta (\mathbf U, a^{-1}(\theta)) \geq \theta
+		\right] \\
+		&\overset{\eqref{theorem 1: step iv}}{\leq}
+		\mathbb{P} \left[ 
+		\bar \theta (\mathbf U, a^{-1}(\theta)) \geq a^{-1}(a(\theta))
+		\right] \\
+		&\overset{\eqref{theorem 1: step v}}{\leq}
+		\alpha
+	\end{align*}
+	and this shows that $a(T)$ is a upper confidence bound with confidence level $1 - \alpha$.
+	
+\end{proof}
+
+
+The following corollary presents a corresponding result to Theorem~\ref{theorem:dgf-upper bound}, but in this case, we aim to construct a lower confidence bound.
+The proof works in the same way as the proof of Theorem~\ref{theorem:dgf-upper bound}.
+
+
+\begin{corollary} \label{corollary:dgf-lower bound}
+	Let $T$ be a random variable with parameter $\theta \in \Theta$ and let $\tau$ be the corresponding DGF. Define
 	\[
-	\{X \ge \theta\} \subseteq \big\{X \ge a(a^{-1}(\theta))\big\},
+		\underline \theta (\mathbf u, t) = \inf \{\theta: \tau(\mathbf u, \theta) \geq t\}
 	\]
-	since $a(a^{-1}(\theta)) \le \theta \le X$ whenever $X \ge \theta$. Taking probabilities on both sides gives
+	and let $b(t)$ be a right continuous function such that
 	\[
-	\mathbb{P}_U\Big( \bar\theta\big(U, a^{-1}(\theta)\big) \ge \theta \Big)
-	\;\le\;
-	\mathbb{P}_U\Big( \bar\theta\big(U, a^{-1}(\theta)\big) \ge a\big(a^{-1}(\theta)\big) \Big).
+	\mathbb{P} \left( \underline \theta (\mathbf U, t)  \leq b(t)\right) \leq \alpha
 	\]
-	
-	
-	\paragraph{Step (v): $\mathbb{P}_U\big(\bar\theta(U,a^{-1}(\theta)) \ge a(a^{-1}(\theta))\big) \le \alpha$.}
-	
-	This is now a direct instance of the hypothesis
-	\[
-	\mathbb{P}_U\big( \theta(U,t) \ge a(t) \big) \le \alpha \qquad \text{for all } t,
-	\]
-	applied with the particular choice $t = a^{-1}(\theta)$ --- a legitimate substitution since the hypothesis is assumed to hold \emph{for all} $t \in \mathbb{R}$, and $a^{-1}(\theta)$ is simply one specific real number, deterministic given $\theta$. Hence
-	\[
-	\mathbb{P}_U\Big( \theta\big(U, a^{-1}(\theta)\big) \ge a\big(a^{-1}(\theta)\big) \Big) \le \alpha.
-	\]
-	
-	Combining everything gives \textcolor{red}{($\star$) Alle ungleichungen zusammenpacken, eventuell die steps eindeutig kennzeichnen.}
+	for all $t$ and $\alpha \in (0, 1)$. 
+	Then $b(T)$ is a lower confidence bound for $\theta$ that is $\mathbb{P} \left( \theta \leq b(T) \right) \leq \alpha $ for all $\alpha \in (0, 1)$.
+\end{corollary}
+
+\begin{proof}
+	\textcolor{red}{($\star$) Sollte ich sehr ausführlich, kürzer, oder garnicht beweisen?}
 \end{proof}
 
 
 
 \section{Clopper Pearson Intervals}
+
+
+\textcolor{red}{($\star$) start, ab hier generall über n nicht direkt in $n = 2$ starten}
+
 
 Let \(T \sim \operatorname{Bin}(n,\theta)\), and let \(t \in \{0,\ldots,n\}\) be the observed value of \(T\). The goal is to construct a confidence interval for the success probability \(\theta \in \Theta=[0,1]\).
 
@@ -308,82 +386,88 @@ We already analysed this situation in Example~\ref{example: non invertible DGF},
 
 To use Theorem~\ref{theorem:dgf-upper bound}, we define
 \[
-	\bar \theta (\mathbf u, t) 
-	=
-	\sup \{ \theta : \tau(\mathbf u, \theta) \leq t \}
-	=
-	\sup \{ \theta : \mathds{1} (u_{(1:2)} < \theta) +  \mathds{1} (u_{(2:2)} < \theta) \leq t \}.
+\bar \theta (\mathbf u, t) 
+=
+\sup \{ \theta : \tau(\mathbf u, \theta) \leq t \}
+=
+\sup \left\{ \theta : \sum_{i = 1}^n \mathds{1}(u_{i:n} < \theta) \leq t \right\}
+=
+\begin{cases}
+	u_{1:n} &\text{ for } t = 0, \\
+	u_{2:n} &\text{ for } t = 1, \\
+	\vdots & \\
+	u_{(n-1):n} &\text{ for } t = n-2, \\
+	u_{n:n} &\text{ for } t = n-1, \\
+	1 &\text{ for } t = n, \\
+\end{cases}
 \]
-There are three possible values which $t$ can obtain. If $t = 0$, then 
-\[
-	\bar \theta (\mathbf u, 0)
-	=
-	\sup \{ \theta : \mathds{1} (u_{(1:2)} < \theta) +  \mathds{1} (u_{(2:2)} < \theta) \leq 0 \}
-	=
-	\sup [0, u_{(1:2)}]
-	=
-	u_{(1:2)}.
-\]
-For the case that $t = 1$, 
-\[
-	\bar \theta (\mathbf u, 1)
-	=
-	\sup \{ \theta : \mathds{1} (u_{(1:2)} < \theta) +  \mathds{1} (u_{(2:2)} < \theta) \leq 1 \}
-	=
-	\sup [0, u_{(2:2)}]
-	=
-	u_{(2:2)}
-\]
-and if $t = 2$
-\[
-	\bar \theta (\mathbf u, 2)
-	=
-	\sup \{ \theta : \mathds{1} (u_{(1:2)} < \theta) +  \mathds{1} (u_{(2:2)} < \theta) \leq 2 \}
-	=
-	\sup [0, 1]
-	=
-	1.
-\]
-All in all, it holds 
-\[
-	\bar \theta (\mathbf u, t)
-	=
-	\begin{cases}
-		u_{(1:2)} &, \text{ if } t = 0 \\
-		u_{(2:2)} &, \text{ if } t = 1 \\
-		1 &, \text{ if } t = 2
-	\end{cases}.
-\]
+All in all, $\bar \theta (\mathbf u, t) = u_{(t+1):n}$ for all $t \in \{1, \ldots , n\}$ whereas we define $u_{(n+1):n} := 1$.
+
+
 
 Next, we want to find a left continuous function $a$ such that
 \begin{align} \label{condition for theorem 1}
- \mathbb{P} \left( \bar \theta (\mathbf U, t) \geq a(t) \right) \leq \alpha
+	\mathbb{P} \left( \bar \theta (\mathbf U, t) \geq a(t) \right) \leq \alpha
 \end{align}
- for all $t\in \{0, 1, 2\}$ and $\alpha \in (0, 1)$.
+for all $t\in \{0, \ldots , n\}$ and $\alpha \in (0, 1)$.
 
-For this we can observe all possible values for $t$ and choose $a(t)$ accordingly. For $t = 2$, we set $a(2) = 1$ because \textcolor{red}{($\star$) das machen wir halt einfach so also $a(n) = 1$, aber wieso?}. 
-
-
-In \textcolor{red}{($\star$) finde Zitieren} it is proven that the order statistics $U_{(1:2)}$ and $U_{(2:2)}$ are Beta distributed namely
-$U_{(1:2)} \sim \text{Beta} (1, 2)$
-and 
-$U_{(2:2)} \sim \text{Beta} (2, 1)$.
-So if we choose 
-\begin{align} \label{a for clopper pearson}
-	a(t) = 
-	\begin{cases}
-		B (1 - \alpha ; 1, 2), & \text{ if } t = 0 \\
-		B (1 - \alpha ; 2, 1), & \text{ if } t = 1 \\
-		1,  & \text{ if } t = 2, 
-	\end{cases}
+To construct $a(t)$, we consider all possible values of $t$ and choose $a(t)$ accordingly. Assume that $t\in\{0,\ldots,n-1\}$. We require that
+\begin{align}
+	\alpha
+	\overset{!}{=}&
+	\mathbb{P}\left(
+	\bar{\theta}(\mathbf{U},t) \leq a(t)
+	\right) \\
+	=&
+	\mathbb{P}\left(
+	U_{(t+1):n} \leq a(t)
+	\right).
+	\label{criteria clopper pearson}
 \end{align}
-it holds \eqref{condition for theorem 1} for all $t \in \{0, 1, 2\}$, so $a$ fullfils the preconditions for Theorem~\ref{theorem:dgf-upper bound}.
+Since the order statistics of independent standard uniformly distributed random variables follow Beta distributions, i.e.,
+\[
+U_{k:n}\sim\operatorname{Beta}(k,n-k+1),
+\]
+for all $k \in \{1, \ldots, n\}$,
+we can use the quantiles of the Beta distribution to determine $a(t)$.
+Let $\text{Beta}_\beta (p, q)$ denote the $\beta$ quantile of the $\text{Beta}(p, q)$ distribution. 
+If we define
+\[
+a(t)=\text{Beta}_{1-\alpha}(t+1,n-t),
+\]
+this choice of $a(t)$ satisfies the criterion in~\eqref{criteria clopper pearson}.
+
+We set $a(n) = 1$ because \textcolor{red}{($\star$) das machen wir halt einfach so also $a(n) = 1$, aber wieso?}. 
+
 
 If we observe $T = t$, we can conclude with Theorem~\ref{theorem:dgf-upper bound} that $[0, a(T)]$ whereas $a$ is defined as in \eqref{a for clopper pearson}, is an upper $(1-\alpha)$  confidence interval for $\theta$.
 
 
+In the case of $n = 2$, $\bar \theta$ is given as 
+\[
+	\bar \theta (\mathbf u, t)
+	=
+	\begin{cases}
+		u_{1:2} &, \text{ if } t = 0 \\
+		u_{2:2} &, \text{ if } t = 1 \\
+		1 &, \text{ if } t = 2
+	\end{cases}
+\]
+and the function $a$ as
+\[
+	a(t) =
+	\begin{cases}
+		\text{Beta}_{1-\alpha}(1,2) &, \text{ if } t = 0 \\
+		\text{Beta}_{1-\alpha}(2,1) &, \text{ if } t = 1 \\
+		1 &, \text{ if } t = 2.
+	\end{cases}
+\]
+The function $\bar \theta$ in the case of $n = 2$ is illustrated in Figure~\ref{fig:theorem_1_example}.
 
-On the other hand, if we want to construct a lower $(1-\alpha)$ confidence interval based on Corollary~\ref{cor:lindqvist cor 1}.
+\textcolor{red}{($\star$)  erstelle eine für dieses Beispiel, aber gleiches Layout, irgendwie schwer das zu plotten weil es diskrete functionen sind}
+
+
+On the other hand, if we want to construct a lower $(1-\alpha)$ confidence interval based on Corollary~\ref{corollary:dgf-lower bound}.
 First, we observe that 
 
 \begin{align} \label{precondition for corollary 1}
@@ -409,15 +493,14 @@ for all $t\in \{0, \ldots , n\}$ and $\alpha \in (0, 1)$, we can use that $\unde
 \end{align*}
 
 The function $b$ is right continuous because \textcolor{red}{($\star$)}. 
-With Corollary~\ref{cor:lindqvist cor 1}, we can conclude that for a given observation $T = t$, the interval $[b(T), 1] = \left[ B(\alpha; T, n+1-T), 1 \right]$ is a lower $(1- \alpha)$ confidence interval for $\theta$.
+With Corollary~\ref{corollary:dgf-lower bound}, we can conclude that for a given observation $T = t$, the interval $[b(T), 1] = \left[ B(\alpha; T, n+1-T), 1 \right]$ is a lower $(1- \alpha)$ confidence interval for $\theta$.
 
-
-
-\textcolor{red}{($\star$) Anderes Beispiel: Section 5 in Lindqvist, benutze Theorem~\ref{theorem:dgf-upper bound} auf Exp verteilte, zensierte (I) RV}
 
 
 
 \section{Example from Lindqvist Section 5: DGF of Type I Censored Exponentially Distributed Lifetimes}
+
+\textcolor{red}{($\star$) das sollte kein ganzer abschnitt sein, oder? Sondern nur example, oder andere examples auch zu einer section machen}
 
 Let $X_1 , \ldots , X_n$ be independent exponentially distributed random variables with unknown hazard rate $\theta>0$. Let $Y_1, \ldots , Y_n$ be the zugehörigen type I censored data with fixed censoring time $c>0$, i. e. $Y_i = \min(X_i, c)$ for all $i \in \{1, \ldots , n\}$. Define the number of uncensored obervations as
 \[
@@ -438,11 +521,11 @@ The likelihood function of the censored sample is given by
 \begin{align}
 	L(\theta) = \prod_{i=1}^n f_{Y_i}(y_i)
 	&=
-	\underbrace{\prod_{i=1}^R \theta \exp(- \theta y_{(i:n)}) }_{\text{uncensored}} 
+	\underbrace{\prod_{i=1}^R \theta \exp(- \theta y_{i:n}) }_{\text{uncensored}} 
 	\cdot 
 	\underbrace{\prod_{i=R+1}^n \exp(- \theta c) }_{\text{censored}}  \\
 	&=
-	\theta^R \exp \left( - \theta \left[ \underbrace{\sum_{i = 1}^R y_{(i:n)} + (n - R) c}_{= \sum_{i = 1}^n y_i} \right] \right)
+	\theta^R \exp \left( - \theta \left[ \underbrace{\sum_{i = 1}^R y_{i:n} + (n - R) c}_{= \sum_{i = 1}^n y_i} \right] \right)
 \end{align}
 For simplicity, lets define 
 \[
@@ -466,8 +549,9 @@ We can easily define
 To seperate the randomness and the parameter $\theta$ which is now not seperated since $X_i$ is a random variable dependent on the parameter $\theta$, we can use a trick. Define $U_1, \ldots , U_n $ as independent standard exponentially distributed random variables. It is a standard result that $\frac{U_i}{\theta}$ is exponentially distributed with parameter $\theta$. So $X_i \overset{d}{=} \frac{U_i}{\theta}$ and we can substitute this into \eqref{T for exp distn}. 
 So if we define 
 \begin{align}
-	\tau(\mathbf U, \theta) = 
-	= \frac{
+	\tau(\mathbf U, \theta)
+	= 
+	\frac{
 	\sum_{i = 1}^n \mathds{1}(\frac{U_i}{\theta} \leq c)
 	}{
 	\sum_{i = 1}^n \min(\frac{U_i}{\theta}, c)}
@@ -479,9 +563,9 @@ Since $\frac{U_i}{\theta} < c$ if and only if $\frac{U_i}{c} < \theta$ for all $
 \begin{align} 	\label{DGF for MLE of Exp distn}
 	\tau(\mathbf U, \theta) = \frac
 	{
-		\sum_{i = 1}^n  \mathds{1} \left( \frac{U_{(i:n)}}{c} < \theta \right)
+		\sum_{i = 1}^n  \mathds{1} \left( \frac{U_{i:n}}{c} < \theta \right)
 	}{
-		\sum_{i = 1}^n \min \left(  \frac{U_{(i:n)}}{\theta} , c \right)
+		\sum_{i = 1}^n \min \left(  \frac{U_{i:n}}{\theta} , c \right)
 	}
 \end{align}
 
@@ -492,13 +576,13 @@ To illustrate the DGF \eqref{DGF for MLE of Exp distn}, we first consider the si
 	=
 	\frac
 	{
-		\mathds{1} \left( \frac{U_{(1:2)}}{c} < \theta \right)
+		\mathds{1} \left( \frac{U_{1:2}}{c} < \theta \right)
 		+
-		\mathds{1} \left( \frac{U_{(2:2)}}{c} < \theta \right)
+		\mathds{1} \left( \frac{U_{2:2}}{c} < \theta \right)
 	}{
-		\min \left(  \frac{U_{(1:2)}}{\theta} , c \right)
+		\min \left(  \frac{U_{1:2}}{\theta} , c \right)
 		+
-		\min \left(  \frac{U_{(2:2)}}{\theta} , c \right)
+		\min \left(  \frac{U_{2:2}}{\theta} , c \right)
 	}. 	
 \end{align}
 
@@ -511,22 +595,22 @@ Since the numerator can only take the values $0$, $1$, and $2$, we consider thre
 
 If $R=0$, the numerator of \eqref{dgf for n = 2} is equal to zero. This means that neither condition $A_1$ nor condition $A_2$ is satisfied, where
 \[
-A_1 := \left\{\frac{U_{(1:2)}}{c}<\theta\right\},
+A_1 := \left\{\frac{U_{1:2}}{c}<\theta\right\},
 \qquad
-A_2 := \left\{\frac{U_{(2:2)}}{c}<\theta\right\}.
+A_2 := \left\{\frac{U_{2:2}}{c}<\theta\right\}.
 \]
 
 Therefore, it holds that 
-$\frac{U_{(1:2)}}{c}\geq\theta$
+$\frac{U_{1:2}}{c}\geq\theta$
 and
-$\frac{U_{(2:2)}}{c}\geq\theta$.
+$\frac{U_{2:2}}{c}\geq\theta$.
 Since
 \(
-\frac{U_{(1:2)}}{c}\leq\frac{U_{(2:2)}}{c}
+\frac{U_{1:2}}{c}\leq\frac{U_{2:2}}{c}
 \)
 and $\theta>0$, these two conditions can be simplified to
 \[
-\theta\in\left(0,\frac{U_{(1:2)}}{c}\right].
+\theta\in\left(0,\frac{U_{1:2}}{c}\right].
 \]
 
 Since the numerator of \eqref{dgf for n = 2} is zero, the whole fraction is zero. Hence,
@@ -534,7 +618,7 @@ Since the numerator of \eqref{dgf for n = 2} is zero, the whole fraction is zero
 \tau(\mathbf U,\theta)=0
 \]
 for all
-$\theta\in\left(0,\frac{U_{(1:2)}}{c}\right]$.
+$\theta\in\left(0,\frac{U_{1:2}}{c}\right]$.
 
 
 \textbf{Case B: $R = 1$}
@@ -543,22 +627,22 @@ If $R=1$, the numerator of \eqref{dgf for n = 2} is equal to one. Therefore, exa
 
 Since
 \[
-\frac{U_{(2:2)}}{c}<\theta
+\frac{U_{2:2}}{c}<\theta
 \quad\Longrightarrow\quad
-\frac{U_{(1:2)}}{c}<\theta,
+\frac{U_{1:2}}{c}<\theta,
 \]
-because $U_{(1:2)}\leq U_{(2:2)}$ by the definition of order statistics, condition $A_2$ implies condition $A_1$. Therefore, if exactly one condition is satisfied, $A_1$ is satisfied but $A_2$ is not. Thus,
+because $U_{1:2}\leq U_{2:2}$ by the definition of order statistics, condition $A_2$ implies condition $A_1$. Therefore, if exactly one condition is satisfied, $A_1$ is satisfied but $A_2$ is not. Thus,
 \[
-\frac{U_{(1:2)}}{c}<\theta
+\frac{U_{1:2}}{c}<\theta
 \qquad\text{and}\qquad
-\frac{U_{(2:2)}}{c}\geq\theta,
+\frac{U_{2:2}}{c}\geq\theta,
 \]
 which means that
 \[
 \theta\in
 \left(
-\frac{U_{(1:2)}}{c},
-\frac{U_{(2:2)}}{c}
+\frac{U_{1:2}}{c},
+\frac{U_{2:2}}{c}
 \right].
 \]
 
@@ -570,33 +654,33 @@ Therefore, the numerator is equal to $1$.
 
 We can also determine the two minimums in the denominator. Since
 \[
-\frac{U_{(1:2)}}{c}<\theta
+\frac{U_{1:2}}{c}<\theta
 \leq
-\frac{U_{(2:2)}}{c},
+\frac{U_{2:2}}{c},
 \]
 we obtain
 \[
-c>\frac{U_{(1:2)}}{\theta}
+c>\frac{U_{1:2}}{\theta}
 \geq
-c\frac{U_{(1:2)}}{U_{(2:2)}}
+c\frac{U_{1:2}}{U_{2:2}}
 \]
 and
 \[
-c\frac{U_{(2:2)}}{U_{(1:2)}}
+c\frac{U_{2:2}}{U_{1:2}}
 >
-\frac{U_{(2:2)}}{\theta}
+\frac{U_{2:2}}{\theta}
 \geq c.
 \]
 
 Therefore,
 \[
-\min\left(\frac{U_{(1:2)}}{\theta},c\right)
+\min\left(\frac{U_{1:2}}{\theta},c\right)
 =
-\frac{U_{(1:2)}}{\theta}
+\frac{U_{1:2}}{\theta}
 \]
 and
 \[
-\min\left(\frac{U_{(2:2)}}{\theta},c\right)
+\min\left(\frac{U_{2:2}}{\theta},c\right)
 =
 c.
 \]
@@ -604,18 +688,18 @@ c.
 Thus, for
 $\theta\in
 \left(
-\frac{U_{(1:2)}}{c},
-\frac{U_{(2:2)}}{c}
+\frac{U_{1:2}}{c},
+\frac{U_{2:2}}{c}
 \right]$,
 the DGF is given by 
 \begin{align}
 	\tau(\mathbf U,\theta)
 	=
 	\frac{1}{
-		\frac{U_{(1:2)}}{\theta}+c
+		\frac{U_{1:2}}{\theta}+c
 	}
 	=
-	\frac{\theta}{U_{(1:2)}+c\theta}.
+	\frac{\theta}{U_{1:2}+c\theta}.
 \end{align}
 
 
@@ -623,59 +707,59 @@ the DGF is given by
 
 If $R=2$, both indicators are equal to one. Therefore, both conditions $A_1$ and $A_2$ are satisfied. In particular,
 \[
-\frac{U_{(2:2)}}{c}<\theta,
+\frac{U_{2:2}}{c}<\theta,
 \]
 which implies
 \[
 \theta\in
 \left(
-\frac{U_{(2:2)}}{c},
+\frac{U_{2:2}}{c},
 \infty
 \right).
 \]
 
 Since
 \[
-\frac{U_{(2:2)}}{c}<\theta,
+\frac{U_{2:2}}{c}<\theta,
 \]
-taking reciprocals and multiplying by $U_{(1:2)}$ and $U_{(2:2)}$, respectively, gives
+taking reciprocals and multiplying by $U_{1:2}$ and $U_{2:2}$, respectively, gives
 \[
-c\frac{U_{(1:2)}}{U_{(2:2)}}
+c\frac{U_{1:2}}{U_{2:2}}
 >
-\frac{U_{(1:2)}}{\theta}
+\frac{U_{1:2}}{\theta}
 \]
 and
 \[
 c>
-\frac{U_{(2:2)}}{\theta}.
+\frac{U_{2:2}}{\theta}.
 \]
 
 Since
-$U_{(1:2)}\leq U_{(2:2)}$,
+$U_{1:2}\leq U_{2:2}$,
 we have
 \[
-\frac{U_{(1:2)}}{U_{(2:2)}}\leq 1.
+\frac{U_{1:2}}{U_{2:2}}\leq 1.
 \]
 Therefore,
 \[
 c
 \geq
-c\frac{U_{(1:2)}}{U_{(2:2)}}
+c\frac{U_{1:2}}{U_{2:2}}
 >
-\frac{U_{(1:2)}}{\theta}.
+\frac{U_{1:2}}{\theta}.
 \]
 
 It follows that the minimums in the denominator are
 \[
-\min\left(\frac{U_{(1:2)}}{\theta},c\right)
+\min\left(\frac{U_{1:2}}{\theta},c\right)
 =
-\frac{U_{(1:2)}}{\theta}
+\frac{U_{1:2}}{\theta}
 \]
 and
 \[
-\min\left(\frac{U_{(2:2)}}{\theta},c\right)
+\min\left(\frac{U_{2:2}}{\theta},c\right)
 =
-\frac{U_{(2:2)}}{\theta}.
+\frac{U_{2:2}}{\theta}.
 \]
 
 Thus, for Case C,
@@ -683,12 +767,12 @@ Thus, for Case C,
 \tau(\mathbf U,\theta)
 =
 \frac{2}{
-	\frac{U_{(1:2)}}{\theta}
+	\frac{U_{1:2}}{\theta}
 	+
-	\frac{U_{(2:2)}}{\theta}
+	\frac{U_{2:2}}{\theta}
 }
 =
-\frac{2\theta}{U_{(1:2)}+U_{(2:2)}}.
+\frac{2\theta}{U_{1:2}+U_{2:2}}.
 \]
 
 
@@ -703,30 +787,30 @@ Combining all three cases gives
 	\text{if }
 	\theta\in
 	\left(
-	0,\frac{U_{(1:2)}}{c}
+	0,\frac{U_{1:2}}{c}
 	\right],
 	&
 	\qquad (A),
 	\\[8pt]
 	\displaystyle
-	\frac{\theta}{U_{(1:2)}+c\theta},
+	\frac{\theta}{U_{1:2}+c\theta},
 	&
 	\text{if }
 	\theta\in
 	\left(
-	\frac{U_{(1:2)}}{c},
-	\frac{U_{(2:2)}}{c}
+	\frac{U_{1:2}}{c},
+	\frac{U_{2:2}}{c}
 	\right],
 	&
 	\qquad (B),
 	\\[10pt]
 	\displaystyle
-	\frac{2\theta}{U_{(1:2)}+U_{(2:2)}},
+	\frac{2\theta}{U_{1:2}+U_{2:2}},
 	&
 	\text{if }
 	\theta\in
 	\left(
-	\frac{U_{(2:2)}}{c},
+	\frac{U_{2:2}}{c},
 	\infty
 	\right),
 	&
@@ -736,7 +820,7 @@ Combining all three cases gives
 \end{align}
 
 
-For a fixed $\mathbf U = (U_1, U_2)$, we can plot $\tau (\mathbf U, \theta)$ as a function of $\theta$. This is illustrated in Figure~\ref{fig:Figure 1 from Lindqvist}. We can see that this is a piecewise monotonically increasing function, with jumps at $\frac{U_{(1:2)}}{c}$ and $\frac{U_{(2:2)}}{c}$.
+For a fixed $\mathbf U = (U_1, U_2)$, we can plot $\tau (\mathbf U, \theta)$ as a function of $\theta$. This is illustrated in Figure~\ref{fig:Figure 1 from Lindqvist}. We can see that this is a piecewise monotonically increasing function, with jumps at $\frac{U_{1:2}}{c}$ and $\frac{U_{2:2}}{c}$.
 
 
 
@@ -759,56 +843,134 @@ The equation
 \[
 	\tau (\mathbf u, \theta) = 0
 \]
-can be solved with $\theta \in \left( 0, \frac{u_{(1:2)}}{c} \right]$. So there is no unique solution. 
+can be solved with $\theta \in \left( 0, \frac{u_{1:2}}{c} \right]$. So there is no unique solution. 
 
 
-\textbf{Case B: $t \in \left( \frac{1}{2c} , \frac{1}{c} \cdot \frac{u_{(2:2)}}{u_{(1:2)} + u_{(2:2)}}\right]$}
+\textbf{Case B: $t \in \left( \frac{1}{2c} , \frac{1}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}}\right]$}
 
 This corresponds to case B of \eqref{dgf for exp with cases}, and therefore
 \begin{align}
 	\tau(\mathbf u, \theta) = t 
 	\Longleftrightarrow 
-	\frac{\theta}{u_{(1:2)} + c\theta} = t
+	\frac{\theta}{u_{1:2} + c\theta} = t
 	\Longleftrightarrow 
-	\hat \theta = \frac{t u_{(1:2)}}{1 - ct}.
+	\hat \theta = \frac{t u_{1:2}}{1 - ct}.
 \end{align}
 
-\textbf{Case C: $t \in \left( \frac{2}{c} \cdot \frac{u_{(2:2)}}{u_{(1:2)} + u_{(2:2)}}, \infty \right)$}
+\textbf{Case C: $t \in \left( \frac{2}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}}, \infty \right)$}
 
 This corresponds to case C of \eqref{dgf for exp with cases}, and therefore
 \begin{align}
 	\tau(\mathbf u, \theta) = t 
 	\Longleftrightarrow 
-	\frac{2\theta}{u_{(1:2)} + u_{(2:2)}} = t
+	\frac{2\theta}{u_{1:2} + u_{2:2}} = t
 	\Longleftrightarrow 
-	\hat \theta = \frac{t (u_{(1:2)} + u_{(2:2)})}{2}.
+	\hat \theta = \frac{t (u_{1:2} + u_{2:2})}{2}.
 \end{align}
 
-For all other cases. i. e. where $\tau$ has jumps $t \in \left( 0, \frac{1}{2c} \right] \cup \left( \frac{1}{c} \cdot \frac{u_{(2:2)}}{u_{(1:2)} + u_{(2:2)}}, \frac{2}{c} \cdot \frac{u_{(2:2)}}{u_{(1:2)} + u_{(2:2)}} \right]$, the equation $\tau(\mathbf u, \theta) = t$ has no solution. \textcolor{red}{($\star$) fiducial distn!}
+For all other cases. i. e. where $\tau$ has jumps $t \in \left( 0, \frac{1}{2c} \right] \cup \left( \frac{1}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}}, \frac{2}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}} \right]$, the equation $\tau(\mathbf u, \theta) = t$ has no solution. \textcolor{red}{($\star$) fiducial distn!}
 
 
 So the fiducial distribution is \textcolor{red}{($\star$) hier wie lasse ich $t = 0$ behandeln? soll das uniform verteilt sein? Und das ist keine fid. distribution!}
-\begin{align}
+\begin{align} \label{solution for all cases}
 	\hat{\theta}(\mathbf{u},t)
 	=
 	\begin{cases}
-		\theta \in \left(0,\dfrac{u_{(1:2)}}{c}\right],
+		\theta \in \left(0,\dfrac{u_{1:2}}{c}\right],
 		& \text{for } t=0, \\[8pt]
-		\dfrac{t u_{(1:2)}}{1 - ct},
+		\dfrac{t u_{1:2}}{1 - ct},
 		& \text{for } t \in
 		\left(
 		\dfrac{1}{2c},
-		\dfrac{1}{c}\dfrac{u_{(2:2)}}{u_{(1:2)}+u_{(2:2)}}
+		\dfrac{1}{c}\dfrac{u_{2:2}}{u_{1:2}+u_{2:2}}
 		\right], \\[10pt]
-		\dfrac{t\left(u_{(1:2)}+u_{(2:2)}\right)}{2},
+		\dfrac{t\left(u_{1:2}+u_{2:2}\right)}{2},
 		& \text{for } t \in
 		\left(
 		\dfrac{2}{c}
-		\dfrac{u_{(2:2)}}{u_{(1:2)}+u_{(2:2)}},
+		\dfrac{u_{2:2}}{u_{1:2}+u_{2:2}},
 		\infty
 		\right).
 	\end{cases}
 \end{align}
 
 
+\begin{figure}[H] 
+	\centering
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/lindqvist/theorem\_1\_theta.pdf}
+		\caption{Theorem 1.}
+		\label{fig:theorem_1_example}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/lindqvist/corollary\_1\_theta.pdf}
+		\caption{Corollary 1.}
+		\label{fig:corollary_1_example}
+	\end{subfigure}
+	\caption{Comparison of the results of Theorem 1 and Corollary 1 for $\theta$ when $n=2$.}
+	\label{fig:comparison_theorem_corollary}
+\end{figure}
 
+\textcolor{red}{($\star$) Beginn von Beispiel $t = 2/3$}
+
+
+
+Assume $c = 1, Y_1 = 0.5, Y_2 = 1$. BLABLA
+
+Then it must holds $\frac{2}{3} = \tau (\mathbf u, \theta)$. Since $t = \frac{2}{3} \neq 0$, case A can be excluded from our analysis. In the following we will observe the other cases B and C. 
+
+\textbf{Case B:} \\
+In case B, it holds $t = \frac{2}{3} \in \left( \frac{1}{2} , \frac{u_{2:2}}{u_{1:2} + u_{2:2}} \right]$ and the solution for the equation $t = \tau (\mathbf u, \theta)$ is regarding to \eqref{solution for all cases} given by $\hat \theta = 2 u_{1:2}$ but under the condition that $\frac{2}{3} \leq \frac{u_{2:2}}{u_{1:2} + u_{2:2}}$ what is equivalent to $2 u_{1:2} \leq u_{2:2}$. 
+
+
+Assume the other case holds, i. e. $2 u_{1:2} > u_{2:2}$. \textcolor{red}{($\star$) mache widerspruch :)} 
+
+So the equation $t = \frac{2}{3} = \tau(\mathbf u, \theta)$ only has the solution
+\begin{align}
+	\hat \theta \left(\mathbf u, \frac{2}{3} \right) = 2 u_{1:2} 
+\end{align}
+conditional on $2 u_{1:2} \leq u_{2:2}$.
+
+Assuming that $2 u_{1:2} > u_{2:2}$, it holds that the region for $R = 1$ ends below $\frac{2}{3}$ because 
+\begin{align}
+	2 u_{1:2} > u_{2:2} 
+	\overset{+ 2 u_{1:2}}{\implies}
+	2 \left( u_{1:2} + u_{2:2} \right) > 3 u_{2:2}
+	\overset{\cdot \frac{1}{3 \left( u_{1:2} + u_{2:2} \right)}}{\implies}
+	\frac{2}{3} > \frac{u_{2:2}}{u_{1:2} + u_{2:2}}
+\end{align}
+but on the other hand the region for $R = 2$ starts above $\frac{2}{3}$ because 
+\begin{align}
+	2 u_{1:2} > u_{2:2}
+	&\overset{+ u_{1:2}}{\implies}
+	3 u_{1:2} > u_{1:2} + u_{2:2} \\
+	&\overset{(\ldots)^{-1}}{\implies}
+	\frac{1}{3 u_{1:2}} < \frac{1}{u_{1:2} + u_{2:2}} \\
+	&\overset{\cdot 2 u_{2:2}}{\implies}
+	\frac{2}{3} \frac{u_{2:2}}{u_{1:2}} < \frac{2 u_{2:2}}{u_{1:2} + u_{2:2}} \\
+	&\overset{\frac{u_{2:2}}{u_{1:2}} \geq 1}{\implies}
+	\frac{2}{3} < \frac{2 u_{2:2}}{u_{1:2} + u_{2:2}}.
+\end{align}
+
+So in the case $2 u_{1:2} > u_{2:2}$, it holds $t = \frac{2}{3} \in \left( \frac{u_{2:2}}{u_{1:2} + u_{2:2}}, \frac{2 u_{2:2}}{u_{1:2} + u_{2:2}}  \right)$. This is illustrated in Figure~\ref{fig:fiducial dist 1}. 
+
+	\begin{figure}[H] 
+	\centering
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[page=1,width=\textwidth]{figures/lindqvist/dgf_in_case_of_2_3.pdf}
+		\caption{$2 u_{1:2} > u_{2:2}$}
+		\label{fig:fiducial dist 1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[page=2,width=\textwidth]{figures/lindqvist/dgf_in_case_of_2_3.pdf}
+		\caption{$2 u_{1:2} \leq u_{2:2}$}
+		\label{fig:fiducial dist 2}
+	\end{subfigure}
+	\caption{Comparison of \textcolor{red}{($\star$)}}
+\end{figure}
