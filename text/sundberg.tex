@@ -254,7 +254,7 @@ We can also directly use the resulting distribution from the asymptotic normalit
 So an approximate $(1-\alpha)$-CI  is given by
 \begin{equation*}
 	C2_{1 - \alpha} = \left[
-	\frac{\hat \theta}{1 - \frac{z_{1 + \alpha / 2}}{\sqrt{m}}}, 
+	\frac{\hat \theta}{1 + \frac{z_{1 - \alpha / 2}}{\sqrt{m}}}, 
 	\frac{\hat \theta}{1 - \frac{z_{1 - \alpha / 2}}{\sqrt{m}}}
 	\right].
 \end{equation*}
@@ -362,7 +362,7 @@ So another $(1 - \alpha)$-CI is given by
 \section{C4}
 
 
-Again, we will use the delta method but this time with~\eqref{distn for C1}. We will similiarily to the method of C3 first observe that
+Again, we will use the delta method but this time with~\eqref{distn for C1} and the mapping $g(x) = x^{-1/3}$. We will similiarily to the method of C3 first observe that
 \begin{align}
 	\sqrt{\mathcal I (\hat \theta)} \left( \hat \theta - \theta \right) = 
 	\sqrt{m} \Bigg( 1 - g\bigg( \underbrace{\frac{\theta}{\hat \theta}}_{=: Z_m} \bigg) \Bigg)
@@ -460,7 +460,7 @@ where we denote the $p$ quantile fo the $\chi^2_1$ distribution as $\chi^2_{1, p
 \[
 	2 m \left( \frac{\theta}{\hat \theta}  - 1 - \log \left( \frac{\theta}{\hat \theta} \right)\right) 
 	\leq 
-	z_{1, 1 - \alpha / 2}^2
+	z_{1 - \alpha / 2}^2
 \]
 as bounds of the CI.
 
@@ -523,6 +523,15 @@ so an exact $(1- \alpha)$ CI for $\theta$ is given by
 \textcolor{red}{($\star$) what about type I?}
 
 \section{C7}
+
+\[
+C7_{1 - \alpha} = \left[ 
+\frac{\chi^2_{2r+1, \alpha / 2}}{2r} \hat \theta 
+,
+\frac{\chi^2_{2r+1, 1 - \alpha / 2}}{2r} \hat \theta
+\right]
+\]
+
 
 \textcolor{red}{($\star$) Wieso kann ich diese heuristik anwenden?}
 

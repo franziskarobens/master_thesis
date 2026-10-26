@@ -80,7 +80,7 @@
 	Ich fokussiere mich in meiner MA vor allem auf die Methodik von Lindqvist (data generating functions), um CI aufzustellen. Dabei habe ich Beispiele für DGF gesammelt, die Theoreme in Paper aufgearbeitet und das auf verschiedene Zensierungs-Schemata angewendet. 
 	Außerdem stelle ich andere Methoden vor, wo CI für zensierte Daten aufgestellt werden (die aus dem Paper von Sundberg und Jeng z. B.). Ich würde gerne mit Ihnen abklären, ob ich in die richtige Richtung gehe bzw. wo ich noch stärker nachforschen soll. 
 	\item 
-	Sundberg: Kapitel 2.3. heißt "Confidence Procedures Under Type I Censoring", aber ich kriege z. B. bei C2 nur das Ergebnis von SUndberg, wenn ich kein Censoring oder Type II censoring anwende. Bei Type I censoring erhalte ich für die Fisher Info
+	Sundberg: Kapitel 2.3. heißt "Confidence Procedures Under Type I Censoring", aber ich kriege z. B. bei C2 nur das Ergebnis von Sundberg, wenn ich kein Censoring oder Type II censoring anwende. Bei Type I censoring erhalte ich für die Fisher Info
 	\[
 		I(\theta) = \frac{n (1 - \exp(- \theta c))}{\theta ^2}
 	\]
@@ -111,14 +111,14 @@
 	\[
 		l''(\theta) = \begin{cases}
 			- \frac{R}{\theta^2} &\text{ for } R \in \{ 0, \ldots , r-1 \} \\
-			- \frac{r}{\theta^2} &\text{ for } R \in \{ r, \ldots , R \}
+			- \frac{r}{\theta^2} &\text{ for } R \in \{ r, \ldots , n \}
 		\end{cases}
 	\]
 	und damit gilt für die Fisher Info
 	\[
 	I(\theta) = \begin{cases}
 		\frac{n(1- \exp(- \theta c))}{\theta^2} &\text{ for } R \in \{ 0, \ldots , r-1 \} \\
-		\frac{r}{\theta^2} &\text{ for } R \in \{ r, \ldots , R \}
+		\frac{r}{\theta^2} &\text{ for } R \in \{ r, \ldots , n \}
 	\end{cases}
 	\]
 	Damit ist es nicht möglich ein generelles CI aufzustellen, oder?
@@ -132,6 +132,95 @@
 		\right)
 	\]
 	(siehe C2 von Sundberg aber diesmal für Type I censoring).
+	\item 
+	In Sundberg werden C1, ..., C7 vorgestellt, welche für uncensored oder type-II censoring sind. In Section 3 heißt es dann, dass die Figures 2-5 für type-I censored data ist. 
+	\item 
+	In Sundberg wird die Parametrisierung $rate = 1 / \theta$ getroffen. Ich habe alles nochmal für $rate = \theta$ durchgerechnet und kam auf folgende Konfidenzintervalle:
+	\begin{equation*}
+		C1_{1 - \alpha} = \left[\, \hat\theta \left( 1 - \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right),\; \hat\theta \left( 1 + \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right) \right]
+	\end{equation*}
+	\begin{equation*}
+		C2_{1 - \alpha} = \left[
+		\frac{\hat \theta}{1 + \frac{z_{1 - \alpha / 2}}{\sqrt{m}}}, 
+		\frac{\hat \theta}{1 - \frac{z_{1 - \alpha / 2}}{\sqrt{m}}}
+		\right]
+	\end{equation*}
+	\begin{equation*}
+		C3_{1 - \alpha} = 
+		\left[
+		\hat \theta  \cdot \exp \left( - \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right)
+		,
+		\hat \theta \cdot \exp \left( \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right)
+		\right]
+	\end{equation*}
+	\[
+		C4_{1-\alpha}
+		=
+		\left[
+		\frac{\hat \theta}{\left( 1 + \frac{z_{1 - \alpha / 2}}{3 \sqrt{m}} \right)^3} 
+		,
+		\frac{\hat \theta}{\left( 1 - \frac{z_{1 - \alpha / 2}}{3 \sqrt{m}} \right)^3}
+		\right]
+	\]
+	Lösungen der Ungleichung
+	\[
+	2 m \left( \frac{\theta}{\hat \theta}  - 1 - \log \left( \frac{\theta}{\hat \theta} \right)\right) 
+	\leq 
+	z_{1 - \alpha / 2}^2
+	\]
+	\[
+	C6_{1 - \alpha} = \left[ 
+	\frac{\chi^2_{2r, \alpha / 2}}{2r} \hat \theta 
+	,
+	\frac{\chi^2_{2r, 1 - \alpha / 2}}{2r} \hat \theta
+	\right]
+	\]
+	\[
+	C7_{1 - \alpha} = \left[ 
+	\frac{\chi^2_{2r+1, \alpha / 2}}{2r} \hat \theta 
+	,
+	\frac{\chi^2_{2r+1, 1 - \alpha / 2}}{2r} \hat \theta
+	\right]
+	\]
+	Wenn $[L, U]$ das Konfidenzinterval von Sundberg ist, dann sind meine Resultate genau die CI $[1 / U, 1 / L]$. Jedoch passt die Implementation nicht ganz. Warum ist das Ergebnis von C4 zum Beispiel off obwohl das Ergebnis von C3 eins zu eins mit dem von Sundberg übereinstimmt? (siehe \texttt{table\_1.R}).
+	Hier ist Figure 1 repliziert:
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{figures/Sundberg\_figure\_1/other\_parametrization.png}
+	\end{figure}
+	Unterschiede bei Figure 1 im Paper:
+	\begin{enumerate}
+		\item 
+		Für $c_l$: C3 ist die zweitbeste im Paper, bei mir für die fünftbeste
+		\item 
+		Für $c_u$: C2 ist schlechter in meinem Plot. Für $N = 5$ ist $c_u = 8$ im Paper und bei mir deutlich größer.
+	\end{enumerate}
+	Ich habe auch versucht Table 1 (für $C = 50$) zu replizieren mit meinen CI und bekomme~\ref{tab:ci_comparison}. Hier sieht man dass 
+	\begin{enumerate}
+		\item Ergebnisse von C1 und C2 vertauscht
+		\item C3, C5 richtig
+		\item C4 falsch
+		\item C6 und C7 fast richtig (könnte Rundungsfehler sein)
+	\end{enumerate}
+	Bei C4 habe ich für meine Parametrisierung $rate = \theta$ dasselbe CI wie in Sundberg erhalten, also $c_l$ und $c_u$ sind gleich. Das heißt
+	\begin{table}[ht]
+		\centering
+		\caption{Confidence intervals for the mean $1/\theta$}
+		\label{tab:ci_comparison}
+		\begin{tabular}{lcc}
+			\toprule
+			Method & $c_l$ & $c_u$ \\
+			\midrule
+			C1 & 18.61 & 102.59 \\
+			C2 &  9.67 &  53.33 \\
+			C3 & 15.75 &  62.99 \\
+			C4 & 14.33 &  58.76 \\
+			C5 & 16.92 &  68.93 \\
+			C6 & 17.47 &  72.96 \\
+			C7 & 16.69 &  66.63 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
 \end{enumerate}
 
 
@@ -188,7 +277,8 @@ Wie kann ich DGF auf Hybrid zensierte Daten anwenden? Mehrere $c_i$ speichern? D
 \chapter{TODO}
 
 \begin{enumerate}
-	\item Binomial Inversion (Sundberg p. 396), erklären warum Binomial inversion nur gut bei Heavy censoring und Beispiel gebenS
+	\item Binomial Inversion (Sundberg p. 396), erklären warum Binomial inversion nur gut bei Heavy censoring und Beispiel gebens
 	\item Mehr Bootstrapping
-	\item CI miteinander vergleichen (coverage prob, Laufzeit
+	\item CI miteinander vergleichen (coverage prob, Laufzeit)
+	\item C7 von Sundberg machen und verstehen
 \end{enumerate}
