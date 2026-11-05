@@ -417,52 +417,121 @@ C4_{1-\alpha}
 
 \section{C5}
 
-
-
-
-Likelihood-based CI
-
-Wilks Theorem:
-\[
-2 \left\{ l(\hat \theta) - l(\theta) \right\}
-\overset{d}{\longrightarrow} 
-\chi_1^2
-\]
-
-
-
-For uncensored and type-II censored data, the log likelihood function is given by~\eqref{log likelihood function uncensored} and~\eqref{log likelihood function type II censored}. We can again generalize this with $m \in \{n , r\}$ is the log likelihood given by 
+\cite{Sundberg2001} presents with C5 a likelihood based CI.
+For both uncensored and Type-II censored data, the log-likelihood functions are given by~\eqref{log likelihood function uncensored} and~\eqref{log likelihood function type II censored}. These two cases can be described by a common expression. Let \(m \in \{n,r\}\), where \(m=n\) corresponds to uncensored data and \(m=r\) to Type-II censored data. The log-likelihood function can then be written as
 \begin{equation*}
-	\ell (\theta) = m \log (\theta) - \theta S
+	\ell(\theta) = m \log(\theta) - \theta S,
 \end{equation*}
-with 
+where
 \[
-	S = \sum_{i = 1}^n y_i = \sum_{i = 1}^r x_{i:n} + (n-r) x_{r:n}.
+S = \sum_{i=1}^n y_i
+= \sum_{i=1}^r x_{i:n} + (n-r)x_{r:n}.
 \]
-With basic calculus and substituting the MLE $\hat \theta = m / S$ from~\eqref{MLE for uncensored} and \eqref{MLE for type II censored} follows
+According to Wilks' theorem, the likelihood ratio statistic $2\left(\ell(\hat{\theta})-\ell(\theta)\right)$ converges in distribution to a $\chi^2_1$ distribution as the sample size increases.
+Using basic calculus and substituting the corresponding MLE, \(\hat{\theta}=m/S\), as derived in~\eqref{MLE for uncensored} and~\eqref{MLE for type II censored}, we obtain
 \begin{align} \label{log likelihood wilk}
-	2 \left( \ell(\hat \theta) - \ell (\theta) \right) 
+	2\left(\ell(\hat{\theta})-\ell(\theta)\right)
 	=
-	2 m \left( \frac{\theta}{\hat \theta}  - 1 - \log \left( \frac{\theta}{\hat \theta} \right)\right).
+	2m\left(
+	\frac{\theta}{\hat{\theta}}-1
+	-\log\left(\frac{\theta}{\hat{\theta}}\right)
+	\right) 
+	\overset{d}{\longrightarrow}
+	\chi^2_1
+	.
 \end{align}
 
-Wilks Theorem delivers, that~\eqref{log likelihood wilk} is $\chi_1^2$ in distribution, so for large $m$ holds
-\begin{align*}
-	1 - \alpha \approx
-	\mathbb{P} 
-	\left( 
-		2 m \left( \frac{\theta}{\hat \theta}  - 1 - \log \left( \frac{\theta}{\hat \theta} \right)\right) 
-		\leq 
-		\chi^2_{1, 1 - \alpha}
+Therefore, for sufficiently large \(m\), we have
+\begin{align} \label{C5 prob}
+	1-\alpha \approx
+	\mathbb{P}\left(
+	2m\left(
+	\frac{\theta}{\hat{\theta}}-1
+	-\log\left(\frac{\theta}{\hat{\theta}}\right)
 	\right)
-\end{align*}
-where we denote the $p$ quantile fo the $\chi^2_1$ distribution as $\chi^2_{1, p}$. Also we can use the key identity $\chi^2_{1, 1 - \alpha} = z_{1 - \alpha / 2}^2$ \textcolor{red}{($\star$) find source} and obtain the $C5_{1- \alpha}$ by using the solutions of the inequality
+	\leq \chi^2_{1,1-\alpha}
+	\right),
+\end{align}
+where \(\chi^2_{1,1-\alpha}\) denotes the \((1-\alpha)\)-quantile of the $\chi^2_1$ distribution.
+
+We can use the well-known identity
 \[
-	2 m \left( \frac{\theta}{\hat \theta}  - 1 - \log \left( \frac{\theta}{\hat \theta} \right)\right) 
-	\leq 
-	z_{1 - \alpha / 2}^2
+\chi^2_{1,1-\alpha}=z_{1-\alpha/2}^2
 \]
-as bounds of the CI.
+instead. This identity allows us to rewrite the inequality observed in~\eqref{C5 prob} as
+\begin{equation} \label{inequality C5}
+	2m\left(
+	\frac{\theta}{\hat{\theta}}-1
+	-\log\left(\frac{\theta}{\hat{\theta}}\right)
+	\right)
+	\leq z_{1-\alpha/2}^2.
+\end{equation}
+The confidence interval \(CI_{1-\alpha}\) can be obtained by solving this inequality for \(\theta\).
+To solve the inequality, we define the function
+\[
+h(x)=x-1-\log(x).
+\]
+for $x \in (0, \infty)$.
+Furthermore, for simplicity, we set \(t^*=\theta/\hat{\theta}\). With this notation,~\eqref{inequality C5} becomes
+\begin{equation} \label{inequality C5 h}
+	h(t^*) \leq \frac{z_{1-\alpha/2}^2}{2m}.
+\end{equation}
+
+As we can see in Figure~\ref{fig:h function C5}, the function \(h\) is strictly convex and has a unique global minimum at \(1\), where \(h(1)=0\). Moreover, \(h(x)\) tends to infinity as \(x\) approaches zero or infinity. Consequently, for every constant \(K>0\), the equation \(h(x)=K\) has exactly two solutions, one in the interval \((0,1)\) and the other in \((1,\infty)\).
+These two solutions can be expressed using the Lambert \(W\) function. More precisely, the inverse functions on the two intervals are given by
+\begin{equation} \label{inverse of h}
+	h^{-1}_{|(0,1)}(y)
+	=
+	-W_0\left(-\exp(-y-1)\right)
+	\quad \text{and} \quad
+	h^{-1}_{|(1,\infty)}(y)
+	=
+	-W_{-1}\left(-\exp(-y-1)\right),
+\end{equation}
+where \(W_0\) and \(W_{-1}\) denote the principal and the lower real branch of the Lambert \(W\) function.
+The values of the Lambert \(W\) function can be calculated numerically in Python using \texttt{scipy.special.lambertw} and in R using the package \texttt{lamW}.
+For more details see Appendix \textcolor{red}{($\star$)} or \cite{veberic2010having}.
+Applying these inverse functions to~\eqref{inequality C5 h}, we obtain
+\[
+t^* \in
+\left[
+h^{-1}_{|(0,1)}
+\left(\frac{z_{1-\alpha/2}^2}{2m}\right),
+\;
+h^{-1}_{|(1,\infty)}
+\left(\frac{z_{1-\alpha/2}^2}{2m}\right)
+\right].
+\]
+
+Finally, we define the lower and upper constants as
+\begin{align} \label{C5 constants}
+	c_l =
+	h^{-1}_{|(0,1)}
+	\left(\frac{z_{1-\alpha/2}^2}{2m}\right)
+	\quad \text{and} \quad
+	c_u =
+	h^{-1}_{|(1,\infty)}
+	\left(\frac{z_{1-\alpha/2}^2}{2m}\right).
+\end{align}
+Thus, we have
+\[
+c_l \leq \frac{\theta}{\hat{\theta}} \leq c_u.
+\]
+Since the MLE \(\hat{\theta}\) is positive, we can multiply all parts of the inequality by \(\hat{\theta}\) without changing the direction of the inequalities. Therefore, the resulting confidence interval for \(\theta\) is
+\begin{equation*}
+	C5_{1-\alpha}
+	=
+	[c_l\hat{\theta},\,c_u\hat{\theta}]
+\end{equation*}
+with $c_l$ and $c_u$ defined as in \eqref{C5 constants}.
+It holds $c_l < 1$ because the left bound of $C5_{1 - \alpha}$ is supposed to be smaller than the MLE $\hat \theta$ and the other constant $c_u > 1$ is greater than 1, such that the right bound is greater than $\hat \theta$. One can visualize that $c_l \in (0, 1)$ and $c_u \in (1, \infty)$ in Figure~\ref{fig:h function C5}.
+
+\begin{figure}[htbp]
+	\centering	
+	\includegraphics[width=0.5\textwidth]{figures/sundberg_C5/plot_h_for_C5}
+	\caption{Function $h: (0, \infty)  \to [0, \infty), h(x)= x - 1- \log(x)$ used to solve inequality~\eqref{inequality C5}. If we fix a constant $K > 0$, then the interval $[c_l, c_u]$ has all solution to the inequality $h(x)\leq K$.}
+	\label{fig:h function C5}
+\end{figure}
 
 \section{C6}
 
@@ -545,8 +614,206 @@ C7_{1 - \alpha} = \left[
 
 \textcolor{red}{($\star$) am ende oder anfang tabelle mit allen CI und deren zugrundeliegenden Annahmen erstellen (das auch für die CI von Jeng zB)}
 
+
+\textbf{Wie kann ich diese two sided CI auf one sided reduzieren}
+
+One-sided confidence intervals can also be constructed instead of the two-sided intervals C1--C7.
+
+The intervals $[c_l \hat{\theta}, c_u \hat{\theta}]$ are constructed such that both tail probabilities are equal to $\alpha/2$, i.e.
+\begin{align*}
+	\mathbb{P} \left( \theta < c_l \hat{\theta} \right)
+	=
+	\mathbb{P} \left( \theta > c_u \hat{\theta} \right)
+	=
+	\frac{\alpha}{2}.
+\end{align*}
+
+Therefore, the intervals $[c_l \hat{\theta}, \infty)$ and $(0, c_u \hat{\theta}]$ are $(1-\alpha/2)$-confidence intervals.
+
+For example, to construct a one-sided $95\%$ CI, the corresponding bound from a two-sided $90\%$ confidence interval $[c_l \hat{\theta}, c_u \hat{\theta}]$ can be used. Thus, $[c_l \hat{\theta}, \infty)$ and $(0, c_u \hat{\theta}]$ are one-sided $95\%$ CIs.
+
+In the file \texttt{Sundberg \slash CP\_with\_CensoPy.py}, one get set the global parameter \texttt{ci\_type = 1}, to get the non coverage probabilities from the upper and lower $(1- \alpha)$-CIs. \textcolor{red}{($\star$) See listing...}
+
+
 \section{Figures aus Sundberg replizieren}
-Non-Coverage probabilities simulieren
+
+
+In this section, we establish a method to calculate the theoretical non-coverage probability of a CI of the form
+\[
+CI = [c_l \hat{\theta}, c_u \hat{\theta}]
+\]
+which we have in all methods from~\cite{Sundberg2001}.
+
+The non-coverage probability of a two sided intercal can be expressed in terms of the CDF of the MLE as
+\begin{align} \label{non cover prob for uncensored}
+	\mathbb{P} \left( \text{non-coverage} \right)
+	&=
+	\mathbb{P} \left( \theta < c_l \hat{\theta} \right)
+	+
+	\mathbb{P} \left( \theta > c_u \hat{\theta} \right) \notag \\
+	&=
+	1 - F^{\hat{\theta}} \left( \frac{\theta}{c_l} \right)
+	+ F^{\hat{\theta}} \left( \frac{\theta}{c_u} \right).
+\end{align}
+
+The CDF of the MLE $\hat{\theta}$ depends on the specific censoring scheme. We first consider the case without censoring and derive the corresponding CDF. For the other censoring schemes, we use the Python package \texttt{CensoPy}, developed by~\cite{Cramer2026a}. This package allows us to numerically approximate the CDF of the MLE for a wide range of censoring schemes.
+
+We then plot the non-coverage probabilities against the sample size $n$ for different degrees of censoring and different confidence levels $\alpha$.
+
+Figures \textcolor{red}{($\star$)} in this work correspond to Figures~2--5 in~\cite{Sundberg2001}. However, we use a different method to obtain the CDF of the MLE $\hat{\theta}$. In particular, \cite{Sundberg2001} uses a Fourier inversion of the characteristic function of the truncated exponential distribution. This method has some limitations because \textcolor{red}{($\star$)}.
+
+In this section we will use the parametrisation $1 / \theta$ for the rate to be consistent with the parametrisation in~\cite{Sundberg2001} and \cite{Cramer2026a}. Also the package \texttt{CensoPy} uses the rate parametrisation of $1 / \theta$. Since we constructed the CIs C1 - C7 with the rate parametrisation of $\theta$, we need to adjust the CIs. 
+Let $\theta' = 1 / \theta$. Then $[c_l' \hat \theta', c_u' \hat \theta']$ is a $(1 - \alpha)$ CI for $\theta'$. If we want to construct an $(1- \alpha)$ CI for $\theta$, we need to take reciprocals because 
+
+\begin{align}
+	1 - \alpha 
+	&\approx
+	\mathbb{P} \left(c_l' \hat \theta' \leq \theta\leq c_u' \hat \theta' \right) \\
+	&=
+	\mathbb{P} \left(\frac{1}{c_l' \hat \theta'} \geq \theta' \geq \frac{1}{c_u' \hat \theta'} \right) \\
+\intertext{but $\hat \theta' = 1 / \hat \theta$, so}
+	&=
+	\mathbb{P} \left(\frac{\hat \theta}{c_l'} \geq \theta' \geq \frac{\hat \theta}{c_u'} \right)
+\end{align}
+So if we set $c_l = 1 / c_u'$ and $c_u = 1 / c_l'$, then $[c_l \hat \theta, c_u \hat \theta]$ is a CI for $\theta$. 
+
+In the code, one can choose whether to use the rate parametrisation $\theta$ or the parametrisation $1/\theta$.
+The function 
+
+\texttt{CI(method\_nr, r, alpha, theta\_is\_rate)} 
+
+in \texttt{Sundberg\slash sundberg.py} combines all seven CI methods proposed by \cite{Sundberg2001} into a single function. The argument \texttt{method\_nr} determines which method is used.
+Also, one can set \texttt{theta\_is\_rate = True} to use the rate parametrisation $\theta$, or \texttt{theta\_is\_rate = False} to use the parametrisation $1/\theta$. To stay consistent with the parametrisation used in \cite{Cramer2026a}, we set \texttt{theta\_is\_rate = False} in this section.
+
+
+\textcolor{red}{($\star$) Want to do für dieses Kapitel:
+\begin{itemize}
+	\item Untersuchen, und erklären was bei verschiedenen $\theta$ passiert \checkmark
+	\item 
+	CensoPy einführen
+	\item Auffälligkeiten (Oszillation) erklären dass es bei Sundberg auch so was und andere Methode überprüfen
+	\item $\nu$ korrespondiert zu verschiedenen Levels von Zensierung, bei $\nu = 0.5$ viel Oszillierung, bei anderen eher weniger
+	\item andere Methode die non coverage prob auszuzrechnen für nicht zensierte Daten \checkmark
+	\item 
+	Führe auch besonderheiten für one sided CI ein (wähle \texttt{alpha = }$2 \alpha$ damit das hinhaut) \checkmark
+\end{itemize}}
+
+\subsection{Find theoretical non coverage probability for non censored data}
+
+According to Model D 4.2 in \cite{cramer2008grundlagen}, the scaled MLE follows a $\chi^2$ distribution
+\[
+\frac{2n \hat{\theta}}{\theta} \sim \chi^2_{2n}.
+\]
+
+We can use this result to derive an expression for the CDF of the MLE
+\begin{align*}
+	F^{\hat{\theta}} (t)
+	=
+	\mathbb{P} \left( \hat{\theta} \leq t \right)
+	=
+	\mathbb{P} \left( \frac{2n }{\theta} \hat{\theta} \leq \frac{2n}{\theta} t \right)
+	=
+	F^{\chi^2_{2n}} \left( \frac{2nt}{\theta} \right).
+\end{align*}
+
+Therefore, the non-coverage probability in~\eqref{non cover prob for uncensored} can be calculated using the $\chi^2_{2n}$ distribution
+\begin{equation} \label{non coverage with chi sq}
+\mathbb{P} \left( \text{non-coverage} \right)
+=
+1
+- F^{\chi^2_{2n}} \left( \frac{2n}{c_l} \right)
++ F^{\chi^2_{2n}} \left( \frac{2n}{c_u} \right).
+\end{equation}
+
+The parameter $\theta$ cancels out. Therefore, the non-coverage probability is independent of the rate parameter $1/ \theta$.
+This can be easily implemented using the \texttt{chi2} distribution from \texttt{scipy.stats}, as shown in Listing~\textcolor{red}{($\star$)}.
+\textcolor{red}{($\star$) referenzen zu den Figures}.
+
+
+\subsection{Non coverage probability for type I censored data}
+
+\textcolor{red}{($\star$) Erklären, dass r mit mean approximiert werden musste.}
+
+
+Figures 2-5 in~\cite{Sundberg2001} are independent of the parametrisation of the exponential distribution. Indeed the censoring time $c$ is chosen dependent on $\theta$, i. e.
+\begin{align}
+	c = \nu \theta, \quad \nu \in \{0.5, 1, 2, \infty\}.
+\end{align}
+
+Four different values of $\nu$ are considered. These values determine the 
+probability of censoring
+\begin{align*}
+	\mathbb{P} \left( X \text{ censored} \right)
+	=
+	\mathbb{P} \left( X > c \right)
+	=
+	\exp \left( - \frac{c}{\theta} \right)
+	&=
+	\exp \left( - \nu \right) \\
+	&=
+	\begin{cases}
+		0.6065307 &\text{ for } \nu = 0.5 \\
+		0.3678794 &\text{ for } \nu = 1 \\
+		0.1353353 &\text{ for } \nu = 2 \\
+		0 &\text{ for } \nu = \infty.
+	\end{cases}
+\end{align*}
+
+Thus, as $\nu$ increases, the probability of censoring decreases. 
+The case $\nu = 0.5$ represents the heaviest censoring considered in 
+this work. For $\nu = \infty$, the censoring threshold is $c = \infty$, 
+which means that no censoring is applied.
+
+For the non censoring case, we saw in~\eqref{non coverage with chi sq} that $\theta$ has no role in the non-coverage probability. In the case of type-I censoring, we can check if $\theta$ influences the non-coverage probability using \texttt{CensoPy}.
+Figure~\ref{fig:theta_comparison} shows that, for the same setting but 
+different values of $\theta$, the non-coverage probabilities are identical. 
+Therefore, the following analysis focuses on the case $\theta = 1$. 
+However, the results are also valid for all $\theta \in (0, \infty)$, 
+and the corresponding plots will look the same.
+\textcolor{red}{($\star$) besser erklären warum theta keinen Einfluss hat}
+
+\begin{figure}[H]
+	\centering
+	
+	% First row
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/Sundberg_figures/theta_comparison/non_coverage_two_sided_nu1_alpha0.1_theta0.5_Digits100}
+		\caption{$\theta = 0.5$}
+		\label{fig:theta_comparison0.5}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/Sundberg_figures/theta_comparison/non_coverage_two_sided_nu1_alpha0.1_theta1_Digits100}
+		\caption{$\theta = 1$}
+		\label{fig:theta_comparison1}
+	\end{subfigure}
+	
+	\vspace{0.3cm}
+	
+	% Second row
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/Sundberg_figures/theta_comparison/non_coverage_two_sided_nu1_alpha0.1_theta2_Digits100}
+		\caption{$\theta = 2$}
+		\label{fig:theta_comparison2}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/Sundberg_figures/theta_comparison/non_coverage_two_sided_nu1_alpha0.1_theta10_Digits100}
+		\caption{$\theta = 10$}
+		\label{fig:theta_comparison10}
+	\end{subfigure}
+	
+	\caption{
+		Comparison of the non-coverage probability dependent on sample size $n$. Values generated by \texttt{compute\_non\_coverage()} in the file \texttt{Sundberg\slash CP\_with\_CensoPy.py} using fix parameters $\nu = 1, \alpha = 0.1$, \texttt{Digits = 100}.
+	}
+	\label{fig:theta_comparison}
+\end{figure}
+
+
 
 
 

@@ -136,52 +136,42 @@
 	In Sundberg werden C1, ..., C7 vorgestellt, welche für uncensored oder type-II censoring sind. In Section 3 heißt es dann, dass die Figures 2-5 für type-I censored data ist. 
 	\item 
 	In Sundberg wird die Parametrisierung $rate = 1 / \theta$ getroffen. Ich habe alles nochmal für $rate = \theta$ durchgerechnet und kam auf folgende Konfidenzintervalle:
-	\begin{equation*}
-		C1_{1 - \alpha} = \left[\, \hat\theta \left( 1 - \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right),\; \hat\theta \left( 1 + \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right) \right]
-	\end{equation*}
-	\begin{equation*}
-		C2_{1 - \alpha} = \left[
+	\begin{align*}
+		&C1_{1 - \alpha} = \left[\, \hat\theta \left( 1 - \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right),\; \hat\theta \left( 1 + \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right) \right] \\
+		&C2_{1 - \alpha} = \left[
 		\frac{\hat \theta}{1 + \frac{z_{1 - \alpha / 2}}{\sqrt{m}}}, 
 		\frac{\hat \theta}{1 - \frac{z_{1 - \alpha / 2}}{\sqrt{m}}}
-		\right]
-	\end{equation*}
-	\begin{equation*}
-		C3_{1 - \alpha} = 
+		\right] \\
+		&C3_{1 - \alpha} = 
 		\left[
 		\hat \theta  \cdot \exp \left( - \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right)
 		,
 		\hat \theta \cdot \exp \left( \frac{z_{1 - \alpha / 2}}{\sqrt{m}} \right)
 		\right]
-	\end{equation*}
-	\[
-		C4_{1-\alpha}
+		\\
+		&C4_{1-\alpha}
 		=
 		\left[
 		\frac{\hat \theta}{\left( 1 + \frac{z_{1 - \alpha / 2}}{3 \sqrt{m}} \right)^3} 
 		,
 		\frac{\hat \theta}{\left( 1 - \frac{z_{1 - \alpha / 2}}{3 \sqrt{m}} \right)^3}
-		\right]
-	\]
-	Lösungen der Ungleichung
-	\[
-	2 m \left( \frac{\theta}{\hat \theta}  - 1 - \log \left( \frac{\theta}{\hat \theta} \right)\right) 
+		\right] \\
+	\intertext{Lösungen der folgenden Ungleichung definieren die Bounds von C5}
+	&2 m \left( \frac{\theta}{\hat \theta}  - 1 - \log \left( \frac{\theta}{\hat \theta} \right)\right) 
 	\leq 
 	z_{1 - \alpha / 2}^2
-	\]
-	\[
-	C6_{1 - \alpha} = \left[ 
+	\\
+	&C6_{1 - \alpha} = \left[ 
 	\frac{\chi^2_{2r, \alpha / 2}}{2r} \hat \theta 
 	,
 	\frac{\chi^2_{2r, 1 - \alpha / 2}}{2r} \hat \theta
-	\right]
-	\]
-	\[
-	C7_{1 - \alpha} = \left[ 
+	\right] \\
+	& C7_{1 - \alpha} = \left[ 
 	\frac{\chi^2_{2r+1, \alpha / 2}}{2r} \hat \theta 
 	,
 	\frac{\chi^2_{2r+1, 1 - \alpha / 2}}{2r} \hat \theta
 	\right]
-	\]
+\end{align*}
 	Wenn $[L, U]$ das Konfidenzinterval von Sundberg ist, dann sind meine Resultate genau die CI $[1 / U, 1 / L]$. Jedoch passt die Implementation nicht ganz. Warum ist das Ergebnis von C4 zum Beispiel off obwohl das Ergebnis von C3 eins zu eins mit dem von Sundberg übereinstimmt? (siehe \texttt{table\_1.R}).
 	Hier ist Figure 1 repliziert:
 	\begin{figure}
@@ -221,6 +211,98 @@
 			\bottomrule
 		\end{tabular}
 	\end{table}
+	\item 
+	Jeng: Ich habe NORM und TNORM implementiert \texttt{ci\_norm.R} und \texttt{ci\_tnorm.R} und meine Ergebnisse sind viel besser als die von Jeng. z. B. für $t_c = 40$ und Ball Bearing Data, $\alpha = 0.1$
+	\begin{itemize}
+		\item NORM $\sigma$: meins$=[0.0296, 0.8148]$ und Paper$=[0.00, 0.89]$
+		\item NORM $t_{0.1}$: meins$= [34.9361, 35.7615]$ und Paper=$[17.97, 52.73]$
+		\item NORM $t_{0.5}$: meins$= [77.5491 79.0627]$ und Paper=$[7.69, 148.92]$
+	\end{itemize}
+	Sind die Methoden von Jeng nur auf $SEV$ Verteilung basierend? Die SEV wird eingeführt aber all die CI Methoden, legen diese garnicht zu Grunde. Wieso wird die SEV Verteilung thematisiert?
+	\item 
+	Ich habe Jeng PBT implementiert. Das Problem ist, dass man die Fisher info an der Stelle $\hat \theta$ auswerten muss. Die Fisher Info unterscheidet sich aber, je nachdem welcher Verteilung die ursprünglichen ZV zugrundeliegen. Ich habe es für $X_1, \ldots , X_n$ implementiert. Ich könnte noch für die SEV Verteilung den Algo implementieren. Dafür ist die Fisher Info:
+	\[
+		\mathcal I_{SEV}(\theta) = \frac{1}{\sigma} \begin{pmatrix}
+			1 - \exp(- \exp(\log(t_c) - \mu / \sigma)) & f_{12}\\
+			f_{21} & f_{22}
+		\end{pmatrix}
+	\]
+	Was macht Jeng im Paper? Nimmt er an, dass $X_1, \ldots , X_n \sim SEV(\mu, \sigma)$? 
+	\item 
+	Jeng Table 1:
+	Wie kann ich die Table verstehen. Es gilt $n = E(r) / p_f$, also zum Beispiel für den ersten Eintrag gilt $n = 3 / 0.01 = 300$. Doch der Eintrag ist $379(395)$, was größer als $300$ ist. Doch die Zahl der Trials mit $r \in \{0, 1\}$ muss ja auf jeden Fall kleiner als $n$ sein. Wie kann das sein?
+	Die Werte in den Klammern sind 
+	\[
+		2000 \cdot \mathbb{P} \left( r \leq 1 \right)
+		=
+		2000 \cdot \left[ (1 - p_f)^{n} + n p_f (1- p_f)^{n-1} \right]
+	\]
+	weil $r \sim \text{Bin}(n, p_f)$ mit $n = E(r) / p_f$. Wie kann ich die Simulationswerte erzeugen? Z. B. :
+	\begin{verbatim}
+		M <- 2000
+		
+		tab_sim <- sapply(p_f_vals, function(p) {
+			sapply(E_r_vals, function(E) {
+				n <- round(E / p)
+				r <- rbinom(M, size = n, prob = p)     # Anzahl Ausfälle pro Simulation
+				sum(r <= 1)
+			})
+		})
+	\end{verbatim}
+	\item 
+	Wieso oszillieren die Plots von Sundberg so und generell alles komisch. Beobachtungen
+	\begin{itemize}
+		\item
+		Oszillieren obwohl größere Sample Size eigentlich näher an confidence niveau bedeuten müsste. 
+		\item
+		Wieso kommt Sundberg da von unten dran? Bei mir konvigierts nur von oben
+		\item 
+		für $\theta \neq 1$ konvergiert es gegen den falschen Wert
+		\item 
+		Was passiert, wenn $\nu$ anders ist? Müsste gestaucht/ gestreckt sein.
+		\item 
+		Für verschiedene Digits $\in \{50, 100, 200\}$ gibt es gar keine Unterschiede (siehe Beispiel $\nu = 0.5, \alpha = 0.1, \theta = 1$)
+		\item 
+		Für höhere $\theta$ zum Beispiel $\theta \geq 2$ ist die Wkeit dass Zensiert wird sehr hoch
+		\[
+			\mathbb{P}(X \text{ zensiert}) 
+			=
+			\mathbb{P} \left( X > c \right)
+			=
+			1 - \left( 1 - \exp(-\theta c) \right)
+			=
+			\exp(- \theta c) 
+			=
+			\exp(- \mu \theta^2)
+		\]
+		und für $\mu = 0.5$
+		\[
+			\mathbb{P}(X \text{ zensiert}) = 
+			\begin{cases}
+				0.6065307 &\text{ für } \theta = 1 \\
+				0.1353353 &\text{ für } \theta = 2 \\
+				0.01110900 &\text{ für } \theta = 3 \\
+				0 &\text{ für } \theta \geq 6
+			\end{cases}
+		\]
+		Ich dachte $c$ wird extra in Abhängigkeit von $\theta$ gewählt, damit für höhere Werte von $\theta$, die Stop-Zeit $c$ damit wächst. 
+		D. h. es kann garnicht die non coverage prob von $\alpha$ erreicht werden, weil die effektive Stichprobengröße schon viel zu klein ist. 
+		Wie passt es damit zusammen, dass die Figures 2 - 5 von SUndberg nur von $\mu$ und und nicht von $\theta$ direkt abhängig sind? \\
+		$\implies$ Lösung: Setze $c = \nu / \theta$ sodass
+		\[
+			\mathbb{P}(X \text{ zensiert}) 
+			=
+			- \exp(-\theta c) 
+			=
+			\exp(- \nu) 
+			=
+			\begin{cases}
+				0.6065307 & \text{ für } \nu = 0.5 \\
+				0.3678794 & \text{ für } \nu = 1 \\ 
+				0.1353353 & \text{ für } \nu = 2 \\
+			\end{cases}
+		\]
+	\end{itemize}
 \end{enumerate}
 
 
@@ -276,9 +358,37 @@ Wie kann ich DGF auf Hybrid zensierte Daten anwenden? Mehrere $c_i$ speichern? D
 
 \chapter{TODO}
 
-\begin{enumerate}
+\begin{itemize}
 	\item Binomial Inversion (Sundberg p. 396), erklären warum Binomial inversion nur gut bei Heavy censoring und Beispiel gebens
 	\item Mehr Bootstrapping
 	\item CI miteinander vergleichen (coverage prob, Laufzeit)
 	\item C7 von Sundberg machen und verstehen
-\end{enumerate}
+	\item 
+	Code: alle CI methoden einheitlich machen. dann nur eine einzige funktion, die Coverage probability bestimmt. Bennenung der Methoden:
+	\text{NORM\_Jeng(), C1\_Sundberg(), ...}.
+	\item 
+	die Notation aus Cramer $\Upsilon$ benutzen, wo $\Upsilon(\mathbf D) = \max(D)$ z. b. 
+	\item 
+	Pivoting gut erklären. Lösung der Gleichungen 
+	\[
+		F^{\hat \vartheta}_{\vartheta}(\hat \vartheta_{\text{obs}}) = \alpha / 2
+		\quad
+		\text{ und }
+		\quad
+		F^{\hat \vartheta}_{\vartheta}(\hat \vartheta_{\text{obs}}) = 1 - \alpha / 2
+	\]
+	bzw. für one sided CI
+	\[
+		F^{\hat \vartheta}_{\vartheta}(\hat 	\vartheta_{\text{obs}}) = \alpha
+		\quad
+		\text{ oder }
+		\quad
+		F^{\hat \vartheta}_{\vartheta}(\hat \vartheta_{\text{obs}}) = 1 - \alpha
+	\]
+	\item 
+	renv in R benutzen (Library Manager)
+	\item 
+	in \texttt{figure\_2\_5\_with\_censopy.py} nähert sich wenn $\theta \neq 1$ ist die Coverage probability nicht $\alpha$ an. wieso?
+	\item 
+	Notation TTT verwenden, nicht $S$
+\end{itemize}

@@ -1020,7 +1020,7 @@ $\bar \theta_{\text{full}} (\mathbf U , 2/3)$ and $\hat \theta_{\text{fid}} (\ma
 But first, we need to find the distribution of the order statistics $U_{1:2}$ and $U_{2:2}$. Their underlying random variables are exponentially distributed, i.e. $U_1, U_2 \sim \text{Exp(1)}$.
 
 \begin{align*}
-	F_{U_{1:2}}
+	F_{U_{1:2}} (x)
 	&=
 	\mathbb{P} \left( U_{1:2} \leq x \right) \\
 	&=
@@ -1080,11 +1080,11 @@ So
 	=
 	1 - 2 \exp(-2x) + \exp(-3x)
 \end{align*}
-and 
+and we can determine the PDF of $\bar \theta_{\text{full}} (\mathbf U, 2/3)$ by taking the derivative
 \begin{align} \label{theoretical density of full theta}
 	f_{\bar \theta_{\text{full}} (\mathbf U, 2/3)} (x)
 	= 
-	4 \exp(-2x) - 3 \exp(-3x)
+	4 \exp(-2x) - 3 \exp(-3x).
 \end{align}
 
 Now, we will obtain the distribution of $\hat \theta_{\text{fid}} (\mathbf U, 2/3) = 2 U_{1:2} \; | \; 2 U_{1:2} \leq U_{2:2}$. 
