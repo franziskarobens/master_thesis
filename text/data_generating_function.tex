@@ -1,32 +1,32 @@
 \chapter{Data Generating Function}
 
-\begin{definition}[Data generating function]
-	\textcolor{red}{($\star$) TBD}
+The idea of a data generating function comes from \cite{Lindqvist2025simulated}.
+
+\begin{definition}[Data Generating Function]
+	Let $T$ be a random variable whose distribution depends on an unknown
+	parameter $\theta$. A \textbf{data generating function} (DGF) for $T$ is a
+	function $\tau$ together with a random vector $\mathbf U$ whose distribution
+	is known and does not depend on $\theta$, such that for every possible
+	value of $\theta$
+	\[
+	T \overset{d}{=} \tau(\mathbf U, \theta).
+	\]
 \end{definition}
 
-
-
-If we have a random variable $T$ with parameter $\theta$, a data-generating function (DGF) with respect to $T$ is a function $\tau$,
-$\tau(\mathbf{U}, \theta)$,
-such that $T \overset{d}{=} \tau(\mathbf{U}, \theta)$, where $\mathbf{U}$ is a random vector independent of the parameter $\theta$. Intuitively, one can express this as
-\[
-\text{data} = \text{randomness} + \text{parameter},
-\]
-where the parameter is separated from the randomness. The random vector $\mathbf{U}$ must not depend on $\theta$. Thus, the randomness and the parameter $\theta$ are separated.
-
+The random vector $\mathbf{U}$ must not depend on $\theta$. Thus, the randomness and the parameter $\theta$ are separated.
+Meaning the DGF is a transformation of a random vector $\mathbf U$ such that 
 \[
 \mathbf{U} \overset{\tau(\cdot, \theta)}{\longrightarrow} T.
 \]
 
-\textcolor{red}{($\star$) 
-	Example:
-	\begin{enumerate}
-		\item Normal distribution
-		\item wo es keine DGF gibt
-	\end{enumerate}
-}
+Intuitively, one can say that the data $T$ comes from randomness $\mathbf U$ and the parameter $\theta$
+\[
+\text{data} = \text{randomness} + \text{parameter}.
+\]
 
-\begin{example}[Example: DGF, Normal distribution] \label{example: DGF normal} 
+
+
+\begin{example}[DGF for Normal distribution] \label{example: DGF normal} 
 	Let $T \sim \mathcal{N}(\theta, 1)$. Then we can say that 
 	\[
 	T \sim \theta + U
@@ -36,20 +36,17 @@ where the parameter is separated from the randomness. The random vector $\mathbf
 		\tau(U, \theta) = \theta + U.
 	\end{equation*}
 	
-	If $\theta$ is given, the DGF $\tau$ generates simulated data of $T$. Assume we observe $T= t$ and $U = u$ is given. Then we can get a best estimate of the parameter $\theta$ by inverting $\tau$:
-	\begin{align*}
-		t &= \tau(u, \theta) = \theta + u \\
-		\implies \theta &= t - u
-	\end{align*}
-	So the inversion is $\hat \theta (u, t) = t-u$. 
+	If $\theta$ is given, the DGF $\tau$ generates simulated data of $T$. Assume we observe $T= t$ and $U = u$ is given. Then we can get a best estimate of the parameter $\theta$ by inverting $\tau$.
+	The inversion is $\hat \theta (u, t) = t-u$. 
+	
 	
 	In this example, the inversion works perfectly, because $\tau$ is as a function of $\theta$ bijective and therefore invertible. There are also DGFs which can not be inverted, as one can see in Example \ref{example: non invertible DGF}.
 	
 \end{example}
 
-\begin{example}[Example: DGF with $n > 1$] \label{example:dgf with n large}
+\begin{example}[DGF with $n > 1$] \label{example:dgf with n large}
  	We can generalize Example \ref{example: DGF normal} by defining
-	$T = \sum_{i=1}^n X_i$ where $X_1, \ldots , X_n \overset{\text{iid}}{\sim} \mathcal{N}(\theta, 1)$.  Again use the interpretation as in Example \ref{example: DGF normal}: $X_i = \theta + U_i$ for $i \in \{1, \ldots, n\}$ with $U_1, \ldots , U_n \overset{\text{iid}}{\sim} \mathcal{N}(0, 1)$. Then it holds $T = \sum_{i=1} ^n \theta + U_i = n \theta + \sum_{i=1} ^n U_i$, so the DGF is defined as 
+	$T = \sum_{i=1}^n X_i$ where $X_1, \ldots , X_n \overset{\text{iid}}{\sim} \mathcal{N}(\theta, 1)$.  Again use the interpretation $X_i = \theta + U_i$ for $i \in \{1, \ldots, n\}$ with $U_1, \ldots , U_n \overset{\text{iid}}{\sim} \mathcal{N}(0, 1)$ as in Example \ref{example: DGF normal}. Then it holds $T = \sum_{i=1} ^n \theta + U_i = n \theta + \sum_{i=1} ^n U_i$, so the DGF is defined as 
 	\begin{align} \label{dgf of multi normal}
 	    \tau (\mathbf{U}, \theta )  = n \theta + \sum_{i=1} ^n U_i.
 	\end{align}
@@ -92,8 +89,9 @@ where the parameter is separated from the randomness. The random vector $\mathbf
 	=
 	\mathbb P(U_i \leq \theta)
 	=
-	\theta.
+	\theta
 	\]
+	for all $i \in \{1, \ldots , n\}$.
 	Thus,
 	\(
 	\mathds{1}(U_i \leq \theta)\sim\operatorname{Bin}(1,\theta)
@@ -148,17 +146,16 @@ where the parameter is separated from the randomness. The random vector $\mathbf
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=\textwidth]{figures/lindqvist/clopper_pearson_interval_dgf.pdf}
-		\caption{DGF for the example given in \eqref{dgf for clopper pearson example}.}
+		\caption{DGF $\tau(\mathbf U , \theta) = n \theta + \sum_{i = 1}^n U_i$ for fixed $\mathbf U$ and $n = 2$ (see \eqref{dgf for clopper pearson example})}
 		\label{fig:clopper_pearson_interval_dgf}
 	\end{figure}
-	
+	\textcolor{red}{($\star$) Ändere Figure: Notation von Order statistics}
 
-	For example if we observe $t = 1$, then $\hat \theta (\mathbf U, 1) \in (U_{1:2}, U_{2:2}]$. For any observation $t \in \{0, 1, 2\}$, we have infinitely many solutions for the parameter $\hat \theta (\mathbf U, t)$. In particular, the DGF $\tau$ is not invertible.
-	
+	For example if we observe $t = 1$, then $\hat \theta (\mathbf U, 1) \in (U_{1:2}, U_{2:2}]$, so there is no unique solution. For any observation $t \in \{0, 1, 2\}$, we have infinitely many solutions for the parameter $\hat \theta (\mathbf U, t)$. In particular, the DGF $\tau$ is not invertible.
 \end{example}
 
 
-Lindqvist~\cite{Lindqvist2025simulated} presents Theorem~1 in his paper, which provides a method for constructing an upper confidence bound for the parameter $\theta$ based on a DGF.
+\cite{Lindqvist2025simulated} presents Theorem~1 in his paper, which provides a method for constructing an upper confidence bound for the parameter $\theta$ based on a DGF.
 \begin{theorem}\label{theorem:dgf-upper bound}
 	Let $T$ be a random variable with parameter $\theta \in \Theta$ and let $\tau$ be the corresponding DGF.
 	Define \[\bar \theta ( \mathbf u, t) = \sup \{ \theta: \tau (\mathbf u, \theta) \leq t \}\] and let $a(t)$ be a left continuous function such that
@@ -170,9 +167,9 @@ Lindqvist~\cite{Lindqvist2025simulated} presents Theorem~1 in his paper, which p
 \end{theorem}
 
 
-For fixed observations \(T=t\) and \(\mathbf U=\mathbf u\), \(\bar{\theta}(\mathbf u,t)\) represents the supremum of all parameter values \(\theta\) for which \(\tau(\mathbf u,\theta)\leq t\). This construction does not require the DGF \(\tau\) to be monotone or continuous, allowing the method to accommodate functions with jumps. To illustrate the construction of $a$, we consider the following example.
+This construction of a confidence bound does not require the DGF \(\tau\) to be monotone or continuous, allowing the method to also address functions with jumps. To illustrate the construction of the mapping $a$, we consider the following example.
 
-\begin{example}
+\begin{example}[Construction of $a$ from Theorem~\ref{theorem:dgf-upper bound}]
 	Suppose $T \sim \text{Exp} \left( \frac{1}{\theta} \right)$ and $U \sim \text{Exp}(1)$. Then we can express $T$ in terms of the function $\tau$ if we define it as 
 	\[ \tau (U , \theta ) = \theta \cdot U\]
 	because then 
@@ -182,7 +179,7 @@ For fixed observations \(T=t\) and \(\mathbf U=\mathbf u\), \(\bar{\theta}(\math
 		\mathbb{P} \left( U \leq \frac{x}{\theta} \right) = 
 		1 - \exp \left( - \frac{x}{\theta} \right)
 	\]	
-	which is the CDF of an exponentially distributed random variable with parameter $ \frac{1}{\theta}$. So it holds $T \overset{d}{=} \tau (U, \theta)$. Now we calculate $\bar \theta (u, t)$ as
+	which is the CDF of an exponentially distributed random variable with parameter $ \frac{1}{\theta}$. So it holds $T \overset{d}{=} \tau (U, \theta)$. Now we calculate $\bar \theta (u, t)$ from Theorem~\ref{theorem:dgf-upper bound} as
 	\[
 		\bar \theta (u, t) = 
 		\sup \left\{ \theta : \tau (u, \theta) \leq t \right\}
@@ -215,15 +212,17 @@ For fixed observations \(T=t\) and \(\mathbf U=\mathbf u\), \(\bar{\theta}(\math
 	\[
 		\left( 0, a(T) \right] = \left( 0,  \frac{-T}{\ln(1- \alpha)} \right]
 	\]
-	is a one-sided $(1-\alpha)$-confidence interval for $\theta$. For example for $\alpha = 0.1$ the upper $(1-\alpha)$-confidence bound is given by $\frac{-T}{\ln(1 - 0.1)} \approx 9.49 T$.
+	is a one-sided $(1-\alpha)$-CI for $\theta$. For example for $\alpha = 0.1$ the upper $(1-\alpha)$-confidence bound is given by $\frac{-T}{\ln(1 - 0.1)} \approx 9.49 T$.
 \end{example}
+
+Now we come to the proof of Theorem~\ref{theorem:dgf-upper bound}.
 
 \begin{proof}
 	Let $\alpha \in (0, 1)$ be arbitrary but fixed. Let $\bar \theta$ be defined as in Theorem~\ref{theorem:dgf-upper bound}, and let $a$ be a left-continuous function such that
 	\begin{align*}
 		\mathbb{P} \left( \bar \theta (\mathbf U, t) \geq a(t) \right) \leq \alpha
 	\end{align*}
-	for all $t$.
+	for all $t$.s
 	We need to show that $a(T)$ is an upper confidence bound, i.\,e.\
 	\begin{align} \label{to show theorem 1}
 		\mathbb{P} \left( \theta \geq a(T) \right) \leq \alpha
@@ -258,9 +257,9 @@ For fixed observations \(T=t\) and \(\mathbf U=\mathbf u\), \(\bar{\theta}(\math
 	
 	Since $T \overset{d}{=} \tau (\mathbf U, \theta)$ because $\tau$ is a DGF of $T$, we can say that the equality 
 	\begin{align} \label{theorem 1: step ii}
-		\mathbb{P} \left( (T \leq a^{-1}(\theta)) \right)
+		\mathbb{P} \left( T \leq a^{-1}(\theta) \right)
 		=
-		\mathbb{P} \left( (\tau (\mathbf U, \theta) \leq a^{-1}(\theta)) \right)
+		\mathbb{P} \left( \tau (\mathbf U, \theta) \leq a^{-1}(\theta) \right)
 	\end{align}
 	holds.
 	
@@ -327,8 +326,8 @@ For fixed observations \(T=t\) and \(\mathbf U=\mathbf u\), \(\bar{\theta}(\math
 		\mathbb{P}_U\Big( \theta\big(U, a^{-1}(\theta)\big) \ge a\big(a^{-1}(\theta)\big) \Big) \le \alpha.
 	\end{align}
 	
-	\textbf{Conclusion:} \\
-	In the end, we can combine the knowledge derived in step (i) to step (v). It holds
+	\textbf{Step (vi):} \\
+	In the end, we can combine the knowledge derived in step (i) to step (v) to show that $a(T)$ is an upper CB. It holds
 	\begin{align*}
 		\mathbb{P} \left( \theta \geq a(T) \right)
 		&\overset{\eqref{theorem 1: step i}}{\leq}
@@ -351,7 +350,7 @@ For fixed observations \(T=t\) and \(\mathbf U=\mathbf u\), \(\bar{\theta}(\math
 \end{proof}
 
 
-The following corollary presents a corresponding result to Theorem~\ref{theorem:dgf-upper bound}, but in this case, we aim to construct a lower confidence bound.
+The following corollary presents a corresponding result to Theorem~\ref{theorem:dgf-upper bound}, but in this case, we aim to construct a lower CB.
 The proof works in the same way as the proof of Theorem~\ref{theorem:dgf-upper bound}.
 
 
@@ -372,6 +371,12 @@ The proof works in the same way as the proof of Theorem~\ref{theorem:dgf-upper b
 	\textcolor{red}{($\star$) Sollte ich sehr ausführlich, kürzer, oder garnicht beweisen?}
 \end{proof}
 
+
+Under the additional assumption that the DGF is strictly increasing in $\theta$,
+the values of $\underline \theta (\mathbf u, t)$ and $\bar \theta (\mathbf u, t)$ from Theorem~\ref{theorem:dgf-upper bound} and
+Corollary~\ref{corollary:dgf-lower bound} are the same, and the confidence
+niveau holds with equality.
+
 \begin{corollary} \label{corollary:Corollary 2 Lindqvist}
 	Let $\tau(\mathbf u, \theta)$ be strictly increasing as a function of $\theta$. 
 	Then 
@@ -388,9 +393,323 @@ The proof works in the same way as the proof of Theorem~\ref{theorem:dgf-upper b
 	\]
 \end{corollary}
 
+
 \begin{proof}
+	Let $\tau$ be strictly increasing as a function of $\theta$.
 	
-\end{proof}
+	In the first part, we show that $\underline \theta (\mathbf u, t) = \bar \theta (\mathbf u, t)$.
+	
+	For easier notation, denote 
+	\[
+		A := \{ \theta: \tau (\mathbf U, \theta) \leq t \} 
+		\quad \text{and} \quad
+		B := \{ \theta: \tau (\mathbf U, \theta) \geq t \}.
+	\]
+	Note that per construction $\underline \theta (\mathbf u, t) = \sup (A)$ and $\bar \theta (\mathbf u, t) = \inf (B)$. 
+	So the goal is to show that $\sup (A) = \inf (B)$.
+	
+	It holds $A \cup B = \Theta$ since for all $\theta \in \Theta$, it holds $\tau (\mathbf U, \theta) \leq t$ or $\tau (\mathbf U, \theta) \geq t$. 
+	Let $a \in A$ and $b \in B$, then $\tau (\mathbf U, a) \leq t \leq \tau (\mathbf U, b)$. Since $\tau$ is strictly increasing in $\theta$, it must holds $a \leq b$. $a$ and $b$ were arbitrary, so it holds $a \leq b$ for all $a \in A, b \in B$. Therefore $\sup (A) \leq \inf (B)$. To show that equality holds, we assume that $\sup (A) < \inf (B)$ and lead it to a contradiction. Assume $\sup (A) < \inf (B)$. Then there must be a $\theta' \in \Theta$ with $\sup (A) < \theta' < \inf (B)$. But this means that $\theta' \notin A$ and $\theta' \notin B$ what is a contradiction to $A \cup B = \Theta$. 
+	So we can follow that $\sup (A) = \inf (B)$ which is equivalent with $\underline \theta (\mathbf u, t) = \bar \theta (\mathbf u, t)$.
+	
+	The second part of the proof shows the exactness, i. e. $\mathbb{P} \left( \theta \geq a(T) \right) = \mathbb{P} \left( \theta \leq b(T) \right) = \alpha$. 
+	We first concentrate on $a$. The proof for $b$ is similar.
+	We will split the proof into seven steps.
+	
+	\textbf{Step (i):} Introduce $F^\vartheta$
+	
+	Denote 
+	\[
+	F^{\vartheta}(t) = \mathbb{P} \left( \tau (\mathbf U, \vartheta) \leq t \right)
+	\]
+	which is a CDF, so $F^{\vartheta}$ is right-continuous in $t$. Also $F^{\vartheta}$ is non-increasing in $\vartheta$. 
+	To see this, let $\vartheta_1 < \vartheta_2$. 
+	Since $\tau$ is strictly increasing in $\vartheta$, it holds 
+	\[
+	\tau(\mathbf u, \vartheta_1) \leq \tau(\mathbf u, \vartheta_2), 
+	\]
+	so for all $t$ holds
+	\[
+	\left\{ \tau(\mathbf u, \vartheta_2) \leq t \right\} \subseteq 
+	\left\{ \tau(\mathbf u, \vartheta_1) \leq t \right\}
+	\]
+	implying that
+	\[
+	\mathbb{P} \left( \tau(\mathbf u, \vartheta_2) \leq t \right)
+	\leq 
+	\mathbb{P} \left( \tau(\mathbf u, \vartheta_1) \leq t \right).
+	\]
+	Using the notation of $F^{\vartheta}$ gives for $\vartheta_1 < \vartheta_2$  
+	\[
+	F^{\vartheta_2} (t) \leq F^{\vartheta_1} (t)
+	\]
+	what concludes that $F^{\vartheta}$ is non-increasing in $\vartheta$.
+	Note that $F^\theta$ is the CDF of $T$, so $\mathbb{P} (T \leq t)  = F^\theta (t)$.
+	
+		
+	\textbf{Step (ii):} Show $F^{a(t)} (t) = \alpha$ for all $t$ \\
+	
+	Let $t$ be fix and $\vartheta = a(t)$.
+	\begin{itemize}
+		\item 
+		Show $\bar \theta (\mathbf u, t) > \vartheta \implies t \geq \tau (\mathbf u, \vartheta)$ \\
+		Let $\bar \theta (\mathbf u, t) > \vartheta$. Then $\theta' \in A$ exists with $\theta' > \vartheta$. 
+		Since $\tau$ is scrictly increasing in $\theta$, it holds 
+		\[
+		\tau (\mathbf u, \theta')
+		>
+		\tau (\mathbf u, \vartheta)
+		\]
+		Since $\theta' \in A$, it also holds $t \geq \tau (\mathbf u, \theta')$ resulting in 
+		\[
+		t \geq \tau (\mathbf u, \vartheta).
+		\]
+		\item 
+		Show $\tau (\mathbf u, \vartheta) \leq t \implies \vartheta \leq \bar \theta (\mathbf u, t)$ \\
+		Let $\tau (\mathbf u, \vartheta) \leq t$, then according to the definition of $A$, it holds $\vartheta \in A$, so $\vartheta$ is smaller than the supremum of the set $A$
+		\[
+		\vartheta \leq \sup(A) = \bar \theta (\mathbf u, t).
+		\]
+	\end{itemize}
+	We can summarize these results as
+	\[
+	\left\{ 
+	\bar \theta (\mathbf u, t) > \vartheta
+	\right\}
+	\subseteq
+	\left\{ 
+	\tau (\mathbf u, \vartheta) \leq t
+	\right\}
+	\subseteq
+	\left\{ 
+	\bar \theta (\mathbf u, t) \geq \vartheta
+	\right\}.
+	\]
+	We can observe the probabilities of these events and notice that 
+	\[
+	\mathbb{P}
+	\left(
+	\bar \theta (\mathbf u, t) > \vartheta
+	\right) 
+	\leq
+	\mathbb{P}
+	\left(
+	\tau (\mathbf u, \vartheta) \leq t
+	\right) 
+	\leq
+	\mathbb{P}
+	\left(
+	\bar \theta (\mathbf u, t) \geq \vartheta
+	\right) 
+	.
+	\]
+	The middle term is equal to $F^{\vartheta}(t)$ and regarding to the precondition on $a(t) = \vartheta$ it holds 
+	$\mathbb{P}
+	\left(
+	\bar \theta (\mathbf u, t) \geq a(t)
+	\right) = \alpha$ and since $\bar \theta(\mathbf u, t)$ has a continuous distribution, also $\mathbb{P}
+	\left(
+	\bar \theta (\mathbf u, t) > \vartheta
+	\right)  = \alpha$. So we can conclude that	for all $t$
+	\[
+	F^{a(t)} (t) 
+	=
+	\alpha .
+	\]
+	
+	\textbf{Step (iii): Introduce notation and split the probability} \\
+	
+	Define 
+	\[
+		S := \left\{ t : a(t) \leq \theta \right\}.
+	\]
+	Let $t$ and $\theta \in \Theta$ be fix. Then there are two cases.
+	\begin{enumerate}
+		\item 
+		$t \in S$: 
+		Then it holds $a(t) \leq \theta$ what implies $F^{a(t)}(t) \geq F^\theta(t)$ since $F^\theta$ is non-increasing in $\theta$. 
+		In step (ii), we showed that $F^{a(t)}(t) = \alpha$, so it holds $\alpha \geq F^\theta(t)$.
+		\item 
+		$t \notin S$: In this case, we have $a(t) > \theta$, what implies $\alpha \leq F^\theta(t)$.
+	\end{enumerate}
+	Those cases are equivalent to 
+	\begin{align}
+		&F^\theta (t) > \alpha \implies t \notin S \label{cor 2 case 1} 
+		\intertext{and}
+		&F^\theta (t) < \alpha \implies t \in S \label{cor 2 case 2}.
+	\end{align}
+	
+	Define 
+	\begin{align*}
+		q_1 := \inf \left\{ t : F^{\theta}(t) \geq \alpha \right\}
+		\quad \text{and} \quad
+		q_2 := \inf \left\{ t : F^{\theta}(t) > \alpha \right\}.
+	\end{align*}
+	It holds $\left\{  F^{\theta}(t) \geq \alpha \right\} \supseteq \left\{  F^{\theta}(t) > \alpha \right\}$, so $q_1 \leq q_2$.
+	For proving the exactness, we need to show $\mathbb{P} \left( a(T) \leq \theta \right) = \alpha$ but the left side of this equation is the same as $\mathbb{P} \left( T \in S \right)$. We can split $S$ into three parts
+	\begin{align*}
+		S = 
+		\underbrace{\left\{
+			t \in (- \infty, q_1] : a(t) \leq \theta
+		\right\}}_{ = S_1}
+		\cup
+		\underbrace{\left\{
+		t \in (q_1, q_2) : a(t) \leq \theta
+		\right\}}_{ = S_2}
+		\cup
+		\underbrace{\left\{
+		t \in [q_2, \infty) : a(t) \leq \theta
+		\right\}}_{ = S_3}.
+	\end{align*}
+	Since $S_1, S_2$ and $S_3$ are disjoint sets, we can write
+	\begin{align} \label{cor 2 aufteilung S}
+		\mathbb{P} \left( T\in S \right)
+		=
+		\mathbb{P} \left( T\in S_1 \right)
+		+
+		\mathbb{P} \left( T\in S_2 \right)
+		+
+		\mathbb{P} \left( T\in S_3 \right)
+	\end{align}
+	and calculate each probability seperately.
+	
+	
+	\textbf{Step (iv):} Calculate $\mathbb{P} \left( T \in S_1 \right)$
+	
+	
+	First, we show that $T \in (- \infty , q_1]$ implies $a(T) \leq \theta$. 
+	Let $T \in (- \infty , q_1]$. We can observe two cases.
+	\begin{enumerate}
+		\item 
+		$T < q_1$: \\
+		By the definition of the infimum, it must hold $T \notin \{t : F^\theta(t) \geq \alpha\}$. Otherwise $T$ would be the infimum of this set, not $q_1$. We can follow, that $F^\theta(T) < \alpha$ and with \eqref{cor 2 case 2}, we get $T \in S$, what means that $a(T) \leq \theta$.
+		\item 
+		$T = q_1$: \\
+		Define the sequence $(t_n)_{n \in \mathbb N}$, with $t_n = q_1 - 1 / n$ for all $n \in \mathbb N$. Then $t_n \nearrow q_1$. For all $n \in \mathbb N$, holds $t_n < q_1$, so with the first case we can conclude for all $n \in \mathbb N$ that $a(t_n) \leq \theta$. Since $a$ is a left-continuous function, we also get that 
+		\begin{equation} \label{cor 2 a(q_1)}
+			a(q_1) \leq \theta.
+		\end{equation}
+	\end{enumerate}
+	So we can say that in general
+	\begin{equation} \label{cor 2 sets}
+		\left\{ T \leq q_1 \right\}
+		\subseteq
+		\left\{ a(T) \leq \theta \right\}.
+	\end{equation}
+	Intersecting both sides of~\eqref{cor 2 sets} with the set $\left\{ T \leq q_1 \right\}$ and considering that the left set is a subset of the right gives  
+	\begin{equation} \label{cor 2 mengen}
+		\left\{ T \leq q_1 \right\}
+		=
+		\underbrace{\left\{ a(T) \leq \theta \right\} \cap \left\{ T \leq q_1 \right\}}_{ = \{T \in S_1\}}.
+	\end{equation}
+	
+	We can use all this knowledge to calculate the probability
+	\begin{align} \label{cor 2 vorbereitung S_1}
+		\mathbb{P} \left( T \in S_1 \right)
+		\overset{\eqref{cor 2 mengen}}{=}
+		\mathbb{P} \left( T \leq q_1 \right)
+		=
+		F^\theta (q_1). 
+	\end{align}
+	$q_1$ is constructed such that $F^\theta (q_1) \geq \alpha$. Assume it holds $F^\theta (q_1) > \alpha$. Then it follows with~\eqref{cor 2 case 1}, that $q_1 \notin S$ what implies $a(q_1) > \theta$. This is a contradiction to~\eqref{cor 2 a(q_1)}. So the assumption $F^\theta (q_1) > \alpha$ is false. In conclusion, it holds 
+	\begin{equation}  \label{cor 2 S_1}
+		\mathbb{P} \left( T \in S_1 \right) 
+		\overset{\eqref{cor 2 vorbereitung S_1}}{=}
+		F^\theta (q_1)
+		=
+		\alpha.
+	\end{equation}
+	
+	
+	\textbf{Step (v):} Calculate $\mathbb{P} \left( T \in S_2 \right)$ \\
+	
+	We know that $S_2 \subseteq (q_1, q_2)$, so we can conclude that 
+	\begin{equation} \label{cor 2 step iv prob}
+		\mathbb{P} \left( T \in S_2 \right)
+		\leq 
+		\mathbb{P} \left( q_1 < T < q_2 \right)
+		=
+		\lim_{t \nearrow q_2} F^\theta (t) - F^\theta (q_1).
+	\end{equation}
+	We can observe that $F^\theta$ is constant on $[q_1, q_2)$ because if $t \in [q_1, q_2)$, then $t \geq q_1$ what implies that $F^\theta (t) \geq F^\theta (q_1)$ since $F^\theta$ is monotone increasing in $t$. With the use of \eqref{cor 2 S_1}, we can bound $F^\theta (t) \geq \alpha$. But it also holds that $t < q_2$ and with the definition of the infimum, it must hold $F^\theta (t) \leq \alpha$. Combining these results gives 
+	\begin{equation} \label{cor 2 step iv F}
+		F^\theta (t) = \alpha \text{ for all } t \in [q_1, q_2).
+	\end{equation}
+	We can follow that $\lim_{t \nearrow q_2} F^\theta (t) = \alpha$ and therefore we can use \eqref{cor 2 step iv prob} to obtain 
+	\begin{equation*}
+		\mathbb{P} \left( T \in S_2 \right)
+		\overset{\eqref{cor 2 step iv prob}}{\leq}
+		\lim_{t \nearrow q_2} F^\theta (t) - F^\theta (q_1)
+		\overset{\eqref{cor 2 S_1} + \eqref{cor 2 step iv F}}{=}
+		\alpha - \alpha
+		=
+		0.
+	\end{equation*}
+	what finally gives us 
+	\begin{equation} \label{cor 2 S_2}
+		\mathbb{P} \left( T \in S_2 \right) = 0.
+	\end{equation}
+	
+	\textbf{Step (vi):} Calculate $\mathbb{P} \left( T \in S_3 \right)$ \\
+	
+	In the following, we will show that $t > q_2$ implies that $t \notin S$. Since $F^\theta$ is monotone increasing, we know that for $t > q_2$
+	\begin{equation*}
+		F^\theta (t) \geq F^\theta (q_2).
+	\end{equation*}
+	Since $q_2$ is the infimum of the set $\{t: F^\theta (t) > \alpha\}$, so there must be a $s \in \{t: F^\theta (t) > \alpha\}$ with $q_2 > s$. Also with the fact that $F^\theta$ is monotone increasing, we can follow 
+	\begin{align*}
+		F^\theta (q_2) \geq F^\theta (s)
+	\end{align*}
+	and since $s$ is in the set, it holds $F^\theta (s) > \alpha$. Combining these observations gives 
+	\begin{equation*}
+		F^\theta (t) \geq F^\theta (q_2) \geq F^\theta (s) > \alpha.
+	\end{equation*}
+	So $F^\theta (t) > \alpha$ holds.
+	With \eqref{cor 2 case 1}, we can follow that $t \notin S$. 
+	Therefore $S_3 \subseteq \{q_2\}$. It holds $F^\theta (q_2) \geq \alpha$ because $F^\theta$ is monotone increasing and \eqref{cor 2 step iv F}. We can distinguish between two cases.
+	\begin{enumerate}
+		\item 
+		$F^\theta (q_2) > \alpha$: \\
+		Then with \eqref{cor 2 case 1} follows $q_2 \notin S$ and per construction of $S_3$ also $q_2 \notin S_3$. Therefore $S_3 = \varnothing$ and $\mathbb{P} \left( T \in S_3 \right) = 0$.
+		\item 
+		$F^\theta (q_2) = \alpha$: \\
+		Then 
+		\begin{equation*}
+			\mathbb{P} (T \in S_3) = \mathbb{P} (T = q_2)
+			=
+			F^\theta (q_2) - \lim_{t \nearrow q_2} F^\theta (t).
+		\end{equation*}
+		It holds $F^\theta (q_2) = \alpha$ per construction and with \eqref{cor 2 step iv F}, we can follow that also in this case
+		\begin{equation*}
+			\mathbb{P} (T \in S_3)
+			=
+			F^\theta (q_2) - \lim_{t \nearrow q_2} F^\theta (t)
+			=
+			\alpha - \alpha = 0.
+		\end{equation*}
+	\end{enumerate}
+	So for all possible cases holds
+	\begin{equation} \label{cor 2 S_3}
+		\mathbb{P} (T \in S_3) = 0.
+	\end{equation}
+	
+	\textbf{Step (vii):} Calculate $\mathbb{P} (T \in S)$ \\
+	
+	We split the probability $\mathbb{P} (T \in S)$ into three parts in \eqref{cor 2 aufteilung S} and calculated every part what gives us
+	\begin{align*}
+		\mathbb{P} \left( \theta \geq a(T) \right)
+		=&
+		\mathbb{P} (T \in S)  \\
+		\overset{\eqref{cor 2 aufteilung S}}{=} &
+		\mathbb{P} (T \in S_1) + \mathbb{P} (T \in S_2) + \mathbb{P} (T \in S_3) \\
+		\overset{\text{Step (iv) - (vi)}}{=} &
+		\alpha + 0 + 0
+		=
+		\alpha.
+	\end{align*}
+	This proves the exactness for the function $a$. We can show $\mathbb{P} \left( \theta \leq b(T) \right) = \alpha$ analogously. In Table~\ref{tab:comparison a b} in the \ref{section:appendix}appendix, all major differences between the proofs of the exactness are summarized.
+\end{proof}	
+
 
 \section{Clopper Pearson Intervals}
 
@@ -1180,6 +1499,156 @@ In Section 6 of~\cite{Lindqvist2025simulated}, those two methods for retrieving 
 \end{figure}
 
 One can observe that the fiducial estimator concentrates more on smaller values for $\theta$. This is because the simulated pairs $(u_1, u_2)$ with $2 u_{1:2} \geq u_{2:2}$ are excluded although those pairs contribute to higher values of $\theta$.
+
+
+\section{Construction of CI using DGF and Monte Carlo}
+
+\cite{Lindqvist2025simulated} describe with Theorem~2 and Corollary~3 and 4 methods to find CBs and CI using a Monte Carlo simulation. The advantage over the methods presented in Theorem~\ref{theorem:dgf-upper bound} and Corollary~\ref{corollary:dgf-lower bound} and~\ref{corollary:Corollary 2 Lindqvist} is that we do not need to know the distribution of $\bar \theta$ and $\underline \theta$ and do not need to find $a$ and $b$.
+
+
+
+\begin{theorem}
+	Let the.... \textcolor{red}{($\star$) preconditions}.
+	Let $\mathbf U_1, \ldots , \mathbf U_m$ be independent with the same distirbution as $\mathbf U$. 
+	
+	Let $\bar \theta_{1:m}, \ldots , \bar \theta_{m:m}$ be the ordered values of $\bar \theta(U_j, t)$ for $j \in \{1, \ldots , m\}$ and 
+	$\underline \theta_{1:m}, \ldots , \underline \theta_{m:m}$ be the ordered values of $\underline \theta(U_j, t)$ for $j \in \{1, \ldots , m\}$.
+	Let $k \in \{1 , \ldots , \lfloor \frac{m+1}{2} \rfloor\}$.
+	Then the following statements hold.
+	\begin{enumerate}[label=(\alph*)]
+		\item \label{theorem_monte_carlo_a}
+		$\bar \theta_{(m-k+1):m}$ is a (possibly conservative) exact upper $\left(1 - \frac{k}{m+1} \right)$-CB for $\theta$.
+		\item \label{theorem_monte_carlo_b}
+		$\underline \theta_{k:m}$ is a (possibly conservative) exact lower $\left(1 - \frac{k}{m+1} \right)$-CB for $\theta$
+		\item \label{theorem_monte_carlo_c}
+		If $\tau(\mathbf u, \theta)$ is strictly increasing in $\theta$, then 
+		\[
+			\left[ \bar \theta_{k:m}, \bar \theta_{(m-k+1):m} \right]
+		\]
+		is an exact $\left( 1 - \frac{2k}{m+1} \right)$-CI.
+	\end{enumerate}
+\end{theorem}
+
+
+\begin{proof}% [of \ref{theorem_monte_carlo_a}]
+	Firstly, we show \ref{theorem_monte_carlo_a}.
+	
+	The goal is to show 
+	\[
+		\mathbb{P} \left( \theta \leq \bar \theta_{(m-k+1):m} (\mathbf u, T) \right) \geq 1 - \frac{k}{m+1}.
+	\]
+	We split the proof into \textcolor{red}{($\star$)} steps.
+	
+	\textbf{Step (i):} Show $\theta > \bar \theta (\mathbf u, T) \implies \tau(\mathbf u, \theta) > T$
+	
+	Let $\theta > \bar \theta (\mathbf u, T)$. 
+	Suppose it holds 
+	$\tau(\mathbf u, \theta) \leq T$. Then 
+	\[
+		\theta \in \{ \vartheta \in \Theta : \tau (\mathbf u, \vartheta) \leq T \}
+	\]
+	and since $\theta$ is an element of this set, it is also samller than its supremum which is exactly $\bar \theta (\mathbf u, T)$
+	\[
+		\theta
+		\leq
+		\sup \{ \vartheta \in \Theta : \tau (\mathbf u, \vartheta) \leq T \} = \bar \theta (\mathbf u, T).
+	\]
+	This is a contradiction to the assumption $\theta > \bar \theta (\mathbf u, T)$, so it must hold that $\tau(\mathbf u, \theta) > T$.
+	
+	\textbf{Step (ii):} Introduce notation
+	
+	The probability $\mathbb{P} \left( \theta > \bar \theta_{(m-k+1):m} (\mathbf u, T) \right)$ depends on the random vectors $\mathbf U_1, \ldots , \mathbf U_m$ and $T$. If we set $\mathbf U = \mathbf U_0$, it holds 
+	$T = \tau (\mathbf U, \theta)$. Define 
+	\[
+		R_j := \tau (\mathbf U_j, \theta)
+	\] 
+	for all $j \in \{0, \ldots , m\}$. Note that $R_0 = T$ holds. All of the random variables $R_0, \ldots , R_m$ are iid because the underlying random variables $\mathbf U_0, \ldots , \mathbf U_m$ are iid.
+	
+	For the further proof, we will use the notation
+	\[
+		N_i := \left| \{ j \in \{0, \ldots , m\} \backslash \{i\}  : R_j \leq R_i \} \right|
+	\]
+	what counts the number of $R_j$ which are smaller or equal to $R_i$.
+	
+	\textbf{Step (iii):} Show $\theta > \bar \theta _{(m-k+1):m} \implies N_0 \leq k-1$
+	
+	Let $\theta > \bar \theta _{(m-k+1):m}$. Then there are at least $m-k+1$ indices $j \in \{1, \ldots , m\}$ for which holds
+	\[
+		\theta > \bar \theta_j.
+	\]
+	Let $j_1, \ldots , j_{m-k+1}$ be these indices. From step (i), we know that we can conclude
+	\[
+		\tau (\mathbf U_j, \theta) > T
+	\]
+	for all $j \in \{j_1, \ldots , j_{m-k+1}\}$ and using the definition of $R_j$, we get
+	\[
+		R_j > R_0
+	\]
+	for all $j \in \{j_1, \ldots , j_{m-k+1}\}$. Since there are at least $m-k+1$ indices for which $R_j > R_0$, there are at most $k-1$ indices for which $R_j \leq R_0$. 
+	This means that 
+	\[
+		N_0 
+		=
+		\left| \{ j \in \{1, \ldots , m\}   : R_j \leq R_0 \} \right| 
+		\leq k-1.
+	\]
+	In conclusion, we showed that if $\theta > \bar \theta _{(m-k+1):m}$ holds then $N_0 \leq k-1$ also holds. Therefore we can write 
+	\begin{equation} \label{rank proof uff 3}
+		\mathbb{P} \left(\theta > \bar \theta _{(m-k+1):m}  \right)
+			\leq 
+		\mathbb{P} \left(N_0 \leq k-1  \right).
+	\end{equation}
+	
+	
+	\textbf{Step (iv):} bound $\mathbb{P} (N_0 \leq k-1)$
+	
+	For this step, we first observe that 
+	\begin{equation} \label{rank proof uff 1}
+		\sum_{i = 0}^m \mathds{1} (N_i \leq k-1) \leq k 
+	\end{equation}
+	because at most $k$ of the $m+1$ values can be among the $k$ smallest. If $k+1$ indices had $N_i \leq k-1$, then the one with the largest $R_i$ among them would have at least $k$ other smaller values itself which is a contradiction.
+	
+	Also the random variables $R_0, \ldots , R_m$ are iid, so the probability $\mathbb{P} (N_i \leq k-1)$ is the same for all $i \in \{0, \ldots , m\}$. So 
+	\begin{equation} \label{rank proof uff}
+		\sum_{i = 0}^m \mathbb{P} (N_i \leq k-1) = (m+1) \mathbb{P} (N_0 \leq k-1).
+	\end{equation} 
+	The left side of \eqref{rank proof uff} is equal to $\mathbb E \left[ \sum_{i = 0}^m \mathds{1} (N_i \leq k-1) \right]$, which has to be bounded by k regarding to \eqref{rank proof uff 1}. We can combine 
+	
+	\begin{align}
+		\mathbb{P} (N_0 \leq k-1) 
+		\overset{\eqref{rank proof uff}}{=} &
+		\frac{1}{m+1} \cdot \sum_{i = 0}^m \mathbb{P} (N_i \leq k-1)
+		\notag
+		\\
+		=&
+		\frac{1}{m+1} \cdot \mathbb E \left[ \sum_{i = 0}^m \mathds{1} (N_i \leq k-1) \right]
+		\notag
+		\\
+		\overset{\eqref{rank proof uff 1}}{\leq}&
+		\frac{k}{m+1}. \label{rank proof uff 4}
+	\end{align}
+	
+	\textbf{Step (v): Combine the results}
+	
+	Combining the results of Steps (iii) and (iv) yields
+	\begin{equation*}
+		\mathbb{P} \left( \theta > \bar \theta_{(m-k+1):m} \right)
+		\overset{\eqref{rank proof uff 3}}{\leq}
+		\mathbb{P} \left( N_0 \leq k-1 \right)
+		\overset{\eqref{rank proof uff 4}}{\leq}
+		\frac{k}{m+1}.
+	\end{equation*}
+	Taking the complement, we obtain
+	\[
+	\mathbb{P} \left( \theta \leq \bar \theta_{(m-k+1):m} \right) \geq 1 - \frac{k}{m+1}.
+	\]
+	Hence $\bar \theta_{(m-k+1):m}$ is an upper CB for $\theta$ with confidence level $1 - \frac{k}{m+1}$.
+\end{proof}
+
+\textcolor{red}{($\star$) zeige b und c.}
+
+
+
 
 
 

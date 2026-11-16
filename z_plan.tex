@@ -1,0 +1,102 @@
+
+\chapter{Plan für die MA: Inhaltsverzeichnis}
+
+\begin{enumerate}
+	\item 
+	Confidence intervals einführen
+	\begin{enumerate}
+		\item Definitionen
+		\item asymptotic vs exact
+		\item Bootstrapping
+		\item insgesamt nur kurzes kapitel, da später die meisten methoden eingeführt werden wo direkt zensierte Daten mit ins Spiel kommen
+	\end{enumerate}
+	\item 
+	Censoring einführen
+	\begin{enumerate}
+		\item Type I, Type II, hybrides Type I, hybrides Type II
+		\item Probleme mit zensierten Daten erklären
+	\end{enumerate}
+	\item 
+	CI for censored data, verschiedene Methoden
+	\begin{enumerate}
+		\item Pivoting the cdf
+		\item Fiducial distribution
+		\item Data Generating function
+		\item Sundberg (Approximate, Binomial Inversionx)
+	\end{enumerate}
+\end{enumerate}
+
+Wie kann ich DGF auf Hybrid zensierte Daten anwenden? Mehrere $c_i$ speichern? Das implementieren
+
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{lll}
+		\toprule
+		Author & Censoring & Method/Model \\
+		\midrule
+		Jeng          & I               &                                  \\
+		Sundberg      & I               & Exponential                      \\
+		Wright        & I               & Two Parameter Exponential        \\
+		Cramer2014a   & alle            & Pivoting CDF for Exponential     \\
+		Lindqvist     & I, hybrid type II & Simulation Exponential        \\
+		Cramer2024    & alle            &                                  \\
+		\bottomrule
+	\end{tabular}
+	\caption{Paper im Überblick}
+\end{table}
+
+
+
+
+\chapter{TODO}
+
+\begin{itemize}
+	\item Binomial Inversion (Sundberg p. 396), erklären warum Binomial inversion nur gut bei Heavy censoring und Beispiel gebens
+	\item Mehr Bootstrapping
+	\item CI miteinander vergleichen (coverage prob, Laufzeit)
+	\item C7 von Sundberg machen und verstehen
+	\item 
+	die Notation aus Cramer $\Upsilon$ benutzen, wo $\Upsilon(\mathbf D) = \max(D)$ z. b. 
+	\item 
+	Pivoting gut erklären. Lösung der Gleichungen 
+	\[
+	F^{\hat \vartheta}_{\vartheta}(\hat \vartheta_{\text{obs}}) = \alpha / 2
+	\quad
+	\text{ und }
+	\quad
+	F^{\hat \vartheta}_{\vartheta}(\hat \vartheta_{\text{obs}}) = 1 - \alpha / 2
+	\]
+	bzw. für one sided CI
+	\[
+	F^{\hat \vartheta}_{\vartheta}(\hat 	\vartheta_{\text{obs}}) = \alpha
+	\quad
+	\text{ oder }
+	\quad
+	F^{\hat \vartheta}_{\vartheta}(\hat \vartheta_{\text{obs}}) = 1 - \alpha
+	\]
+	\item 
+	renv in R benutzen (Library Manager)
+	\item 
+	Notation TTT verwenden, nicht $S$
+	\item 
+	Kritik an Sundberg, z. B. dass er den Fisher Info Term für Type I einfach weglässt oder das Integral was mega dumm approximiert ist
+	\item 
+	die fisher info für uncensored type I and type II vergleichen und sagen, dass diese mit $c$ größer zunimmt und mit $m$ größer zunimmt, wie man an den Formeln sehen kann
+	\item 
+	Sundberg: Ich habe jetzt auch ein CI für type I censoring selber erstellt (das hat nicht die Form $[c_l \hat \theta, c_u \hat \theta]$). Vergleiche das mit dem von Sundberg.
+	Für C2:
+	\[
+		1 - \alpha \approx \mathbb{P} \left( 
+			z_{\alpha / 2} \leq \sqrt{n (1 - \exp(-c \theta))} \left( \frac{\hat \theta}{\theta} - 1 \right) \leq z_{1 - \alpha / 2}
+		\right)
+	\]
+	\item 
+	Laufzeiten messen (auch von neuen C1 und C2 exaktes für type I)
+	\item 
+	In der compare.py in Sundberg auch das dritte CI einbinden wo R immer eingegebn wird und in plots als grüne linie hinzufügen
+	\item 
+	die Tabelle für Beweis a, b in den Anhang
+	\item 
+	vor dem replizieren von Sundberg sagen, dass ich parametrisierung $1 / \theta$ wähle um konsistent mit Sundberg zu bleiben
+\end{itemize}

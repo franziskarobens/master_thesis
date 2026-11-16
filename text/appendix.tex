@@ -1,0 +1,209 @@
+\chapter*{Appendix}
+\label{section:appendix}
+
+\begin{table}[H]
+	\renewcommand{\arraystretch}{1.5}
+	\begin{center}
+		\begin{tabularx}{\textwidth}{|p{2.1cm}|Y|Y|}
+			\hline
+			& \textbf{Proof of $\mathbb{P}(a(T)\leq 0)=\alpha$}
+			& \textbf{Proof of $\mathbb{P}(b(T)\geq 0)=\alpha$}
+			\\
+			\hline
+			\textbf{Preconditions}
+			&
+			\begin{itemize}[leftmargin=*,nosep]
+				\item $a$ is left-continuous.
+				\item $\mathbb{P}(\theta(u,t)\geq a(t))=\alpha
+				\quad \text{for all } t$
+			\end{itemize}
+			&
+			\begin{itemize}[leftmargin=*,nosep]
+				\item $b$ is right-continuous.
+				\item $\mathbb{P}(\theta(u,t)\leq b(t))=\alpha
+				\quad \text{for all } t$
+			\end{itemize}
+			\\
+			\hline
+			\textbf{Step (i)}
+			&
+			Define
+			\(
+			F^\theta(t):=
+			\mathbb{P}(\theta(u,v)\leq t)
+			\)
+			\begin{itemize}[nosep]
+				\item[$\rightarrow$] right-continuous in $t$
+				\item[$\rightarrow$] monotonically decreasing in $\theta$
+			\end{itemize}
+			&
+			Define
+			\(
+			G^\theta(t):=
+			\mathbb{P}(\theta(u,v)\geq t)
+			\)
+			\begin{itemize}[nosep]
+				\item[$\rightarrow$] left-continuous in $t$
+				\item[$\rightarrow$] monotonically increasing in $\theta$
+			\end{itemize}
+			\\
+			\hline
+			\textbf{Step (ii)}
+			&
+			Show:
+			\(
+			F^{a(t)}(t)=\alpha
+			\)
+			for all $t$
+			&
+			Show:
+			\(
+			G^{b(t)}(t)=\alpha
+			\)
+			for all $t$
+			\\
+			\hline
+			\textbf{Step (iii)}
+			&
+			Define
+			$S:=\{t:a(t)\leq \theta\}$
+			
+			Show that
+			\[
+			\begin{aligned}
+				F^\theta(t)>\alpha &\implies t\notin S,\\
+				F^\theta(t)<\alpha &\implies t\in S.
+			\end{aligned}
+			\]
+			Define
+			\[
+			\begin{aligned}
+				q_1&:=\inf\{t:F^\theta(t)\geq\alpha\},\\
+				q_2&:=\inf\{t:F^\theta(t)>\alpha\}.
+			\end{aligned}
+			\]
+			Then $q_1\leq q_2$.
+			Split $S=S_1\cup S_2\cup S_3$, with
+			\[
+			\begin{aligned}
+				S_1&=S\cap(-\infty,q_1],\\
+				S_2&=S\cap(q_1,q_2),\\
+				S_3&=S\cap[q_2,\infty).
+			\end{aligned}
+			\]
+			&
+			Define
+			$S':=\{t:b(t)\geq \theta\}$
+			
+			Show that
+			\[
+			\begin{aligned}
+				G^\theta(t)>\alpha &\implies t\notin S',\\
+				G^\theta(t)<\alpha &\implies t\in S'.
+			\end{aligned}
+			\]
+			Define
+			\[
+			\begin{aligned}
+				q_1'&:=\sup\{t:G^\theta(t)\geq\alpha\},\\
+				q_2'&:=\sup\{t:G^\theta(t)>\alpha\}.
+			\end{aligned}
+			\]
+			Then $q_1'\geq q_2'$.
+			Split $S'=S_1'\cup S_2'\cup S_3'$, with
+			\[
+			\begin{aligned}
+				S_1'&=S'\cap[q_1',\infty),\\
+				S_2'&=S'\cap(q_2',q_1'),\\
+				S_3'&=S'\cap(-\infty,q_2'].
+			\end{aligned}
+			\]
+			\\
+			\hline
+			\textbf{Step (iv)}
+			\\[-2mm]
+			&
+			Observe that $\{T\leq q_1\}=\{T\in S_1\}$
+			
+			It follows that
+			\[
+			\begin{aligned}
+				\mathbb{P}(T\in S_1)
+				&=\mathbb{P}(T\leq q_1)\\
+				&=F^\theta(q_1)\\
+				&=\alpha.
+			\end{aligned}
+			\]
+			&
+			Observe that $\{T\geq q_1'\}=\{T\in S_1'\}$
+			
+			It follows that
+			\[
+			\begin{aligned}
+				\mathbb{P}(T\in S_1')
+				&=\mathbb{P}(T\geq q_1')\\
+				&=G^\theta(q_1')\\
+				&=\alpha.
+			\end{aligned}
+			\]
+			\\
+			\hline
+			\textbf{Step (v)}
+			\\[-15mm]
+			&
+			\[
+			\begin{aligned}
+				\mathbb{P}(T\in S_2)
+				&\leq
+				\lim_{t\uparrow q_2}F^\theta(t)
+				-F^\theta(q_1)\\
+				&=\alpha-\alpha\\
+				&=0.
+			\end{aligned}
+			\]
+			&
+			\[
+			\begin{aligned}
+				\mathbb{P}(T\in S_2')
+				&\leq
+				\lim_{t\downarrow q_2'}G^\theta(t)
+				-G^\theta(q_1')\\
+				&=\alpha-\alpha\\
+				&=0.
+			\end{aligned}
+			\]
+			\\
+			\hline
+			\textbf{Step (vi)}
+			\\[-6mm]
+			&
+			Show: $t>q_2\implies t\notin S$
+			
+			\begin{itemize}[nosep]
+				\item[$\rightarrow$] $S_3\subseteq\{q_2\}$
+				\item[$\rightarrow$] $\mathbb{P}(T\in S_3)=0$
+			\end{itemize}
+			&
+			Show: $t<q_2'\implies t\notin S'$
+			
+			\begin{itemize}[nosep]
+				\item[$\rightarrow$] $S_3'\subseteq\{q_2'\}$
+				\item[$\rightarrow$] $\mathbb{P}(T\in S_3')=0$
+			\end{itemize}
+			\\
+			\hline
+			\textbf{Step (vii)}
+			\\[-2mm]
+			& Calculate $\mathbb{P}(T \in S)$
+			& Calculate $\mathbb{P}(T \in S')$
+			\\
+			\hline
+		\end{tabularx}
+		
+		\caption{Summary for the proof of exactness in Corollary~\ref{corollary:Corollary 2 Lindqvist}}
+		\label{tab:comparison a b}
+	\end{center}
+\end{table}
+
+
+\newpage
