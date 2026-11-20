@@ -30,7 +30,7 @@ for $i \in \{1, \ldots, n\}$ determine if an observation $X_i$ is censored ($\de
 
 The number of uncensored observations
 \[
-N 
+R
 = \sum_{i=1}^{n} \delta_i
 \]
 is random, since it depends on the realizations of $X_1, \dots, X_n$, whereas the censoring time $C$ is fixed in advance. This is what distinguishes Type-I censoring from Type-II censoring, where instead the number of observed failures is fixed and the censoring time is random.
@@ -97,7 +97,7 @@ This means that the test duration is given by
 \]
 and the number of observations by
 \[
-	\min \left( m, d_C \right)
+	R = \min \left( m, d_C \right)
 \]
 whereas $d_C = \sum_{i=1}^n (X_i \leq C)$.
 
@@ -146,3 +146,9 @@ For hybrid-type-II censoring, there is a guaranteed minimum number of observatio
 
 
 \textcolor{red}{($\star$) Decision trees einfügen, mehr konkrete examples}
+
+
+\textcolor{red}{($\star$) Einführen: R als number of uncensored observations, und für alle Censoring Schemes berechnen, TTT einführen. Notation für später}
+
+
+\textcolor{red}{($\star$)  denke daran, die Notation für order statistics anzupassen}

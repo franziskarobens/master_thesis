@@ -5,7 +5,7 @@
 
 \begin{definition}[Upper (lower) confidence bound]
 	Let $\mathbf X = (X_1, \ldots, X_n)$ be a random sample from a distribution that depends on an unknown parameter $\theta \in \Theta$.
-	An upper (lower) $1-\alpha$ confidence bound for $\theta$ is a statistic $U(\mathbf X)$ ($L(\mathbf X)$) such that
+	An upper (lower) $1-\alpha$ confidence bound (CB) for $\theta$ is a statistic $U(\mathbf X)$ ($L(\mathbf X)$) such that
 	\[
 	\mathbb{P}_\theta\left(\theta \leq U(\mathbf X)\right) \geq 1-\alpha
 	\qquad
@@ -26,7 +26,7 @@
 
 
 The quantity $1-\alpha$ is called the confidence level. It describes the probability with which the confidence interval is required to contain the true parameter.
-Thus, a confidence bound gives an upper or lower limit for an unknown parameter $\theta$.
+Thus, a CB gives an upper or lower limit for an unknown parameter $\theta$.
 
 
 If the parameter space $\Theta$ is a strict subset of $\mathbb{R}$, a one-sided confidence interval does not need to extend all the way to $\pm\infty$. Since $\theta \in \Theta$ is already known from the beginning, it is natural to intersect the interval with $\Theta$
@@ -49,13 +49,13 @@ For example, if $\theta$ denotes the rate parameter of an exponential distributi
 	\)
 	since the rate parameter of an exponential distribution must be positive.
 	
-	To obtain information about the unknown value of $\lambda$, we can construct an upper confidence bound $U(\mathbf X)$.
+	To obtain information about the unknown value of $\lambda$, we can construct an upper CB $U(\mathbf X)$.
 	
 	It is a standard result that
 	\begin{align} \label{chi squared distributed}
 	2\lambda\sum_{i=1}^n X_i \sim \chi^2_{2n},
 	\end{align}
-	where $\chi^2_{2n}$ denotes a chi-square distribution with $2n$ degrees of freedom (see for example \cite{bibid} \textcolor{red}{($\star$) }). Therefore,
+	where $\chi^2_{2n}$ denotes a chi-square distribution with $2n$ degrees of freedom (see e.g. Model D 4.2. in \cite{cramer2008grundlagen}). Therefore,
 	\[
 	\mathbb{P}\left(
 	2\lambda\sum_{i=1}^n X_i
@@ -84,7 +84,7 @@ For example, if $\theta$ denotes the rate parameter of an exponential distributi
 	\frac{\chi^2_{2n,1-\alpha}}
 	{2\sum_{i=1}^n X_i}.
 	\]
-	This statistic satisfies the definition of an upper $1-\alpha$ confidence bound for $\lambda$. Therefore, the corresponding one-sided upper confidence interval is
+	This statistic satisfies the definition of an upper $(1-\alpha)$-CB for $\lambda$. Therefore, the corresponding one-sided upper confidence interval is
 	\[
 		CI_{\text{upper}}
 		=
@@ -121,7 +121,7 @@ For example, if $\theta$ denotes the rate parameter of an exponential distributi
 	\sum_{i=1}^n x_i = 56.55463.
 	\)
 	
-	We can now calculate the upper confidence bound
+	We can now calculate the upper CB
 	\[
 	U(\mathbf x)
 	=
@@ -142,9 +142,9 @@ For example, if $\theta$ denotes the rate parameter of an exponential distributi
 	
 	The confidence level of the procedure is $1-\alpha=0.95$. This means that, if we repeatedly generate new samples and construct a confidence interval in the same way, we expect approximately $95\%$ of the resulting intervals to contain the true parameter value $\lambda=2$.
 	
-	We can illustrate this using a simulation. In Listing~\ref{listing:tbd} \textcolor{red}{($\star$) file: conf\_interval\_exp\_distn.R}, we construct $n_{\text{sim}}=100\,000$ confidence bounds, each based on a different realisation $\mathbf X$ of the sample. For each confidence bound, we check whether the true parameter value $\lambda=2$ is smaller than or equal to the upper confidence bound.
+	We can illustrate this using a simulation. In Listing~\ref{listing:tbd} \textcolor{red}{($\star$) file: conf\_interval\_exp\_distn.R}, we construct $n_{\text{sim}}=100\,000$ confidence bounds, each based on a different realisation $\mathbf X$ of the sample. For each CB, we check whether the true parameter value $\lambda=2$ is smaller than or equal to the upper CB.
 	
-	The simulation shows that $94\,908$ out of $100\,000$ confidence bounds are larger than or equal to $\lambda=2$. Thus
+	The simulation shows that $94\,908$ out of $100\,000$ CB are larger than or equal to $\lambda=2$. Thus
 	\(
 	94.908\%
 	\)
@@ -158,10 +158,10 @@ For example, if $\theta$ denotes the rate parameter of an exponential distributi
 
 
 
-If we want to bound the parameter $\theta$ from both sides, we can combine a lower and an upper confidence bound. While a one-sided confidence interval gives a bound for the parameter in one direction, a general confidence interval gives both a lower and an upper limit.
+If we want to bound the parameter $\theta$ from both sides, we can combine a lower and an upper CB. While a one-sided confidence interval gives a bound for the parameter in one direction, a general confidence interval gives both a lower and an upper limit.
 
 \begin{definition}[Confidence Interval]
-	Let $\mathbf X = (X_1, \dots, X_n)$ be a random sample with a distribution depending on an unknown parameter $\theta \in \Theta$. A \emph{confidence interval} for $\theta$ at confidence level $1-\alpha$, where $\alpha \in (0,1)$, is an interval
+	Let $\mathbf X = (X_1, \dots, X_n)$ be a random sample with a distribution depending on an unknown parameter $\theta \in \Theta$. A confidence interval (CI) for $\theta$ at confidence level $1-\alpha$, where $\alpha \in (0,1)$, is an interval
 	\[
 	CI = [L(\mathbf X), U(\mathbf X)],
 	\]
@@ -328,9 +328,9 @@ is also a confidence interval for $\lambda$ with confidence level $1 - \alpha$.
 
 
 
-\section{Exact vs. Asymptotic CIs}
+\subsection{Exact vs. Asymptotic CIs}
 
-\textcolor{red}{($\star$) Exact vs Asymptotic CI, plot x = n, y = P(noncoverage), dann müsste man bei exact sehen, dass n keinen einfluss auf p(nc) hat und bei asymptotischen CI sieht man dass diese mit größeren n besser wird, gib kleines Beispiel und plots (siehe \texttt{exact\_vs\_asymptotic.R})}
+\textcolor{red}{($\star$) was ist n? genauer definieren}
 
 \begin{definition}[Exact confidence interval]
 	A confidence interval $CI$ for a parameter $\theta$ is called \textbf{exact}, if and only if
@@ -410,7 +410,7 @@ So the main difference between exact and asymtotic confidence intervals is, that
 	\[
 		S_n := \sqrt{\frac{1}{n-1} \sum_{i=1}^n \left( X_i - \bar X \right)^2 }  \overset{p}{\longrightarrow} \sigma 
 	\]
-	\textcolor{red}{($\star$) Warum ist $S_n$ so verteilt?}
+	(see e.g. Example 5.5.3 in \cite{casella2002statistical}).
 	
 	With Slutsky's Theorem, we can conclude that 
 	\[

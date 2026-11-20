@@ -1,5 +1,10 @@
 \chapter*{Appendix}
-\label{section:appendix}
+\addcontentsline{toc}{chapter}{Appendix}
+
+
+\section*{Additional Material}
+\addcontentsline{toc}{section}{Additional Material}
+
 
 \begin{table}[H]
 	\renewcommand{\arraystretch}{1.5}
@@ -206,4 +211,153 @@
 \end{table}
 
 
+
 \newpage
+\section*{Calculations}
+\addcontentsline{toc}{section}{Calculations}
+
+\subsection{Distributions of $\bar \theta_{\text{full}}(\mathbf u, 2 / 3)$ and $\bar \theta_{\text{fid}}(\mathbf u, 2 / 3)$}
+
+
+
+In the following, we will obtain the distribution of $\hat \theta_{\text{fid}} (\mathbf U, 2/3) = 2 U_{1:2} \; | \; 2 U_{1:2} \leq U_{2:2}$. 
+
+
+For easier notation, let us define $M = U_{1:2}$.
+We can write
+\[
+U_{2:2} = M + E
+\]
+with $E \sim \text{Exp}(1)$ because of the memoryless property of the exponential distribution.
+The minimum $M = \min(U_1, U_2)$ is the time of the first event. 
+At this time, one of the two variables is "used up". 
+The other variable has not happened yet. 
+By the memoryless property, the remaining waiting time until it happens has the same $\text{Exp}(1)$ distribution as at the start, and it is independent of $M$.
+Therefore, the difference $E = U_{2:2} - U_{1:2}$ is $\text{Exp}(1)$-distributed and independent of $M$.
+
+We can also show this rigerously by applying the transformation theorem on the vector $(U_{1:2}, U_{2:2})$ and the function $T(x,y) = (x, y-x)$.
+Integrating out the first component gives $U_{2:2} - U_{1:2} = E \sim \text{Exp}(1)$.
+
+Next, note that
+\[
+2 U_{1:2} \leq U_{2:2}
+\iff 2M \leq M + E
+\iff M \leq E.
+\]
+So we can use this notation to describe the fiducial distribution as
+\[
+\hat{\theta}_{\text{fid}}(\mathbf{U}, 2/3) \sim 2M \;\big|\; M \leq E,
+\]
+where $M \sim \text{Exp}(2)$ and $E \sim \text{Exp}(1)$ are independent.
+
+
+\begin{align*}
+	\mathbb{P} \left( \hat{\theta}_{\text{fid}}(\mathbf{U}, 2/3) \leq x  \right)
+	=
+	\mathbb{P} \left( 2M \leq x \;\big|\; M \leq E  \right) \\
+	=
+	\frac{
+		\mathbb{P} \left( 2M \leq x , M \leq E  \right)
+	}{
+		\mathbb{P} \left( M \leq E  \right)
+	}
+\end{align*}
+The denominator is
+\begin{align*}
+	\mathbb{P} \left( M \leq E  \right) 
+	&=
+	\int_0^\infty \mathbb{P} (m \leq E \;\big|\; M = m) \; dM \\
+	&=
+	\int_0^\infty \mathbb{P} (m \leq E \;\big|\; M = m) f_M(m) \; dm \\
+	&=
+	\int_0^\infty \exp(-m) \cdot 2 \exp(-2m) \; dm \\
+	&=
+	\frac{2}{3}
+\end{align*}
+and for $x \geq 0$, the numerator is
+\begin{align*}
+	\mathbb{P} \left( 2M \leq x , M \leq E  \right)
+	&=
+	\mathbb{P} \left( M \leq \tfrac{x}{2} , M \leq E  \right) \\
+	&=
+	\int_0^{x/2} \mathbb{P} (m \leq E) \, f_M(m) \; dm \\
+	&=
+	\int_0^{x/2} \exp(-m) \cdot 2 \exp(-2m) \; dm \\
+	&=
+	\frac{2}{3} \left( 1 - \exp\!\left( -\frac{3x}{2} \right) \right).
+\end{align*}
+Putting both parts together, we get for $x \geq 0$
+\begin{align*}
+	\mathbb{P} \left( \hat{\theta}_{\text{fid}}(\mathbf{U}, 2/3) \leq x  \right)
+	=
+	\frac{\frac{2}{3} \left( 1 - \exp\left( -\frac{3x}{2} \right) \right)}{\frac{2}{3}}
+	=
+	1 - \exp\!\left( -\frac{3x}{2} \right).
+\end{align*}
+For $x < 0$ the probability is $0$.
+This is the CDF of an exponential distribution with rate $3/2$, so
+\[
+\hat{\theta}_{\text{fid}}(\mathbf{U}, 2/3) \sim \text{Exp}\!\left( \tfrac{3}{2} \right).
+\]
+
+
+Next, we will calculate the CDF and PDF of \(\bar{\theta}_{\text{full}}(\mathbf{U},2/3)\).
+It holds that
+\[
+\bar{\theta}_{\text{full}}(\mathbf{U},2/3)
+=
+\min\left(2U_{1:2},U_{2:2}\right)
+=
+\min\left(2M,M+E\right).
+\]
+The event \(\{\bar{\theta}_{\text{full}}(\mathbf{U},2/3)>x\}\) is equivalent to
+\(\{M>x/2\}\cap\{E>x-M\}\). Thus, using Fubini
+\begin{align*}
+	\mathbb{P}\left(\bar{\theta}_{\text{full}}(\mathbf{U},2/3)>x\right)
+	&=
+	\mathbb{P}(M>x/2,E>x-M)\\
+	&=
+	\int_{x/2}^{\infty}
+	\mathbb{P}(E>x-m)f_M(m)\,\mathrm{d}m.
+\end{align*}
+Moreover,
+\[
+\mathbb{P}(E>y)
+=
+\begin{cases}
+	\exp(-y), & \text{if } y>0,\\
+	1, & \text{if } y\leq 0.
+\end{cases}
+\]
+Therefore, splitting the integral at \(m=x\), we obtain
+\begin{align*}
+	\mathbb{P}\left(\bar{\theta}_{\text{full}}(\mathbf{U},2/3)>x\right)
+	&=
+	\int_{x/2}^{x}\exp\bigl(-(x-m)\bigr)f_M(m)\,\mathrm{d}m
+	+
+	\int_x^{\infty}f_M(m)\,\mathrm{d}m\\
+	&=
+	-\exp(-2x)+2\exp\left(-\frac{3}{2}x\right).
+\end{align*}
+Hence, the CDF is
+\[
+F_{\bar{\theta}_{\text{full}}(\mathbf{U},2/3)}(x)
+=
+1+\exp(-2x)-2\exp\left(-\frac{3}{2}x\right).
+\]
+Differentiating the CDF yields the PDF
+\[
+f_{\bar{\theta}_{\text{full}}(\mathbf{U},2/3)}(x)
+=
+-2\exp(-2x)+3\exp\left(-\frac{3}{2}x\right).
+\]
+
+
+
+\newpage
+
+
+\section*{Code}
+\addcontentsline{toc}{section}{Code}
+
+

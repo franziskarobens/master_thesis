@@ -1,5 +1,5 @@
 
-\chapter{CI for Exponentially Distributed (Censored) Data}
+\chapter{CI for Exponentially Distributed (Censored) Data - Pivoting} \label{section:sundberg}
 
 
 \cite{Sundberg2001} discusses several confidence intervals for the rate $\theta$
@@ -153,9 +153,9 @@ The log-likelihood function and its derivatives are given by
 	\ell''(\theta) &= - \frac{R}{\theta^2}. \notag
 \end{align}
 For $R \geq 1$, setting $\ell'(\theta) = 0$ gives the MLE
-\[
-\hat\theta = \frac{R}{TTT},
-\]
+\begin{equation} \label{MLE for type I}
+	\hat\theta = \frac{R}{TTT},
+\end{equation}
 where $TTT$ depends on the data and on the random variable $R$.
 For $R = 0$ we have $\ell'(\theta) = -TTT = -nc < 0$ for all $\theta$, so $\ell$ is strictly decreasing and the MLE does not exist.
 
@@ -665,7 +665,7 @@ which we can solve numerically. Find an implementation in \texttt{Sundberg/sundb
 
 \textbf{Type-II-censored data}
 The log-likelihood function for Type-II-censored data is given by~\eqref{log likelihood function type II censored}.
-According to Wilks' theorem (for details about Wilks Theorem see Theorem 10.3.1 in \cite{casella2024statistical}), the likelihood ratio statistic converges in distribution to a $\chi^2_1$ distribution as the sample size increases, i. e. 
+According to Wilks' theorem (for details about Wilks Theorem see Theorem 10.3.1 in \cite{casella2002statistical}), the likelihood ratio statistic converges in distribution to a $\chi^2_1$ distribution as the sample size increases, i. e. 
 \begin{equation} \label{Wilks Theorem}
 	2\left(\ell(\hat{\theta})-\ell(\theta)\right)
 	\overset{d}{\longrightarrow}

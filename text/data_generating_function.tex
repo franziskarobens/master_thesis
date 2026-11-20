@@ -2,9 +2,11 @@
 
 The idea of a data generating function comes from \cite{Lindqvist2025simulated}.
 
+\section{Definition and Examples}
+
 \begin{definition}[Data Generating Function]
 	Let $T$ be a random variable whose distribution depends on an unknown
-	parameter $\theta$. A \textbf{data generating function} (DGF) for $T$ is a
+	parameter $\theta$. A \textbf{Data Generating Function} (DGF) for $T$ is a
 	function $\tau$ together with a random vector $\mathbf U$ whose distribution
 	is known and does not depend on $\theta$, such that for every possible
 	value of $\theta$
@@ -14,67 +16,92 @@ The idea of a data generating function comes from \cite{Lindqvist2025simulated}.
 \end{definition}
 
 The random vector $\mathbf{U}$ must not depend on $\theta$. Thus, the randomness and the parameter $\theta$ are separated.
-Meaning the DGF is a transformation of a random vector $\mathbf U$ such that 
+Meaning the DGF is a transformation of a random vector $\mathbf U$ using $\theta$, such that 
 \[
 \mathbf{U} \overset{\tau(\cdot, \theta)}{\longrightarrow} T.
 \]
 
-Intuitively, one can say that the data $T$ comes from randomness $\mathbf U$ and the parameter $\theta$
-\[
-\text{data} = \text{randomness} + \text{parameter}.
-\]
+Intuitively, one can say that the data $T$ comes from randomness $\mathbf U$ and the parameter $\theta$.
+To understand the concept of DGF, we will look at the Examples~\ref{example: DGF normal}--\ref{example: non invertible DGF}.
 
-
-
-\begin{example}[DGF for Normal distribution] \label{example: DGF normal} 
-	Let $T \sim \mathcal{N}(\theta, 1)$. Then we can say that 
+\begin{example}[DGF for Normal Distribution] \label{example: DGF normal}
+	Let $T \sim \mathcal{N}(\theta, 1)$. Then we can write
 	\[
-	T \sim \theta + U
+	T \sim \theta + U,
 	\]
-	where $U \sim \mathcal{N}(0, 1)$. So $U$ does not depend on the parameter $\theta$. We can define the DGF
+	where $U \sim \mathcal{N}(0, 1)$. Thus, $U$ does not depend on the parameter $\theta$. We can define the DGF as
 	\begin{equation*}
 		\tau(U, \theta) = \theta + U.
 	\end{equation*}
 	
-	If $\theta$ is given, the DGF $\tau$ generates simulated data of $T$. Assume we observe $T= t$ and $U = u$ is given. Then we can get a best estimate of the parameter $\theta$ by inverting $\tau$.
-	The inversion is $\hat \theta (u, t) = t-u$. 
+	Given $\theta$, the DGF $\tau$ generates simulated data for $T$. Now, assume that we observe $T = t$ and that $U = u$ is given. We can then obtain an estimate of the parameter $\theta$ by inverting $\tau$.
+	The inverse is given by
+	\[
+	\hat{\theta}(u, t) = t - u.
+	\]
 	
-	
-	In this example, the inversion works perfectly, because $\tau$ is as a function of $\theta$ bijective and therefore invertible. There are also DGFs which can not be inverted, as one can see in Example \ref{example: non invertible DGF}.
-	
+	In this example, the inversion works perfectly because $\tau$, viewed as a function of $\theta$, is bijective and therefore invertible. However, there are also DGFs that cannot be inverted, as illustrated in Example \ref{example: non invertible DGF}.
 \end{example}
 
+
 \begin{example}[DGF with $n > 1$] \label{example:dgf with n large}
- 	We can generalize Example \ref{example: DGF normal} by defining
-	$T = \sum_{i=1}^n X_i$ where $X_1, \ldots , X_n \overset{\text{iid}}{\sim} \mathcal{N}(\theta, 1)$.  Again use the interpretation $X_i = \theta + U_i$ for $i \in \{1, \ldots, n\}$ with $U_1, \ldots , U_n \overset{\text{iid}}{\sim} \mathcal{N}(0, 1)$ as in Example \ref{example: DGF normal}. Then it holds $T = \sum_{i=1} ^n \theta + U_i = n \theta + \sum_{i=1} ^n U_i$, so the DGF is defined as 
+	We can generalize Example \ref{example: DGF normal} by defining
+	\[
+	T = \sum_{i=1}^n X_i,
+	\]
+	where $X_1, \ldots, X_n \overset{\text{iid}}{\sim} \mathcal{N}(\theta, 1)$.
+	As in Example \ref{example: DGF normal}, we can write
+	$X_i = \theta + U_i$ for $i \in \{1, \ldots, n\}$, where
+	$U_1, \ldots, U_n \overset{\text{iid}}{\sim} \mathcal{N}(0, 1)$.
+	It follows that
+	\[
+	T = \sum_{i=1}^n (\theta + U_i)
+	= n\theta + \sum_{i=1}^n U_i.
+	\]
+	Thus, the DGF is defined as
 	\begin{align} \label{dgf of multi normal}
-	    \tau (\mathbf{U}, \theta )  = n \theta + \sum_{i=1} ^n U_i.
+		\tau(\mathbf{U}, \theta) = n\theta + \sum_{i=1}^n U_i.
 	\end{align}
-	This again is invertible with
+	
+	This DGF is also invertible, with inverse
 	\begin{align} \label{dgf of multi normal fiducial distn}
-	    \hat \theta(\mathbf{u}, t ) = \frac{t - \sum_{i=1} ^n u_i}{n}.
+		\hat{\theta}(\mathbf{u}, t) =
+		\frac{t - \sum_{i=1}^n u_i}{n}.
 	\end{align}
 	
-	Figure~\ref{fig:dgf example} shows the DGF $\tau(\mathbf{U}, \cdot)$ for a fixed value of $\mathbf{U}$ and with $\theta$ as the argument. The DGF is a straight line with slope $\frac{1}{n}$ and intercept $\sum_{i=1}^n U_i$. Since $\tau$ is strictly monotonically increasing in $\theta$, we can easily solve the equation $\tau(\mathbf{U}, \theta) = t$ for $\theta$, obtaining $\hat{\theta}(\mathbf{U}, t)$, as illustrated in Figure~\ref{fig:dgf example inverse}.
+	Figure~\ref{fig:dgf example} shows the DGF
+	$\tau(\mathbf{U}, \cdot)$ for a fixed value of $\mathbf{U}$,
+	viewed as a function of $\theta$. The DGF is a straight line
+	with slope $n$ and intercept $\sum_{i=1}^n U_i$.
+	Since $\tau$ is a linear function in $\theta$,
+	we can easily solve the equation
+	$\tau(\mathbf{U}, \theta) = t$ for $\theta$, obtaining
+	$\hat{\theta}(\mathbf{U}, t)$, as illustrated in
+	Figure~\ref{fig:dgf example inverse}.
 	
-	\begin{figure}[H] 
+	\begin{figure}[H]
 		\centering
 		\begin{subfigure}[b]{0.48\textwidth}
 			\centering
 			\includegraphics[page=1, width=\textwidth]{figures/lindqvist/dgf_example.pdf}
-			\caption{DGF described in Example~\ref{example:dgf with n large} $\tau(\mathbf U, \theta)$ with fixed $\mathbf U$ as a function of $\theta$ (see \eqref{dgf of multi normal})}
+			\caption{DGF described in Example~\ref{example:dgf with n large},
+				$\tau(\mathbf{U}, \theta)$, for fixed $\mathbf{U}$ as a
+				function of $\theta$ (see \eqref{dgf of multi normal})}
 			\label{fig:dgf example}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}[b]{0.48\textwidth}
 			\centering
 			\includegraphics[page=2, width=\textwidth]{figures/lindqvist/dgf_example.pdf}
-			\caption{Inverse of the DGF (see \eqref{dgf of multi normal fiducial distn})}
+			\caption{Inverse of the DGF (see
+				\eqref{dgf of multi normal fiducial distn})}
 			\label{fig:dgf example inverse}
 		\end{subfigure}
 		\caption{}
 	\end{figure}
 \end{example}
+
+
 
 \begin{example}[Non invertible DGF] \label{example: non invertible DGF}
 	
@@ -93,9 +120,9 @@ Intuitively, one can say that the data $T$ comes from randomness $\mathbf U$ and
 	\]
 	for all $i \in \{1, \ldots , n\}$.
 	Thus,
-	\(
+	\[
 	\mathds{1}(U_i \leq \theta)\sim\operatorname{Bin}(1,\theta)
-	\)
+	\]
 	for all \(i\in\{1,\ldots,n\}\). Since the random variables $U_1, \ldots , U_n$ are independent and therefore also their transformations $\mathds{1}(U_1 \leq \theta), \ldots ,  \mathds{1}(U_n \leq \theta)$, their sum is binomially distributed too. Hence,
 	\[
 	\sum_{i=1}^n \underbrace{\mathds{1}(U_i \leq \theta)}_{\sim \text{Bin}(1, \theta)}
@@ -109,20 +136,17 @@ Intuitively, one can say that the data $T$ comes from randomness $\mathbf U$ and
 		\sum_{i=1}^n \mathds{1}(U_i\leq\theta)
 	\end{align}
 	and by construction it holds
-	\[
-	T\overset{d}{=}\tau(\mathbf U,\theta).
-	\]
-	
+	\(
+	T\overset{d}{=}\tau(\mathbf U,\theta)
+	\).	
 	To illustrate the DGF, let us fix \(\mathbf U\) and consider \(\tau(\mathbf U,\theta)\) as a function of \(\theta\).
 	
 	For example, let \(n=2\), and let \(U_{1:2}\) and \(U_{2:2}\) denote the order statistics of \(\mathbf U\), that is,
-	\(
+	\[
 	U_{1:2}=\min(U_1,U_2)
-	\)
-	and
-	\(
+	, \quad
 	U_{2:2}=\max(U_1,U_2).
-	\)
+	\]
 	Then the DGF is
 	\begin{align}
 		\tau (\mathbf U, \theta)
@@ -143,42 +167,53 @@ Intuitively, one can say that the data $T$ comes from randomness $\mathbf U$ and
 	\end{align}
 	
 	Figure~\ref{fig:clopper_pearson_interval_dgf} shows this function schematically.
-	\begin{figure}[htbp]
+	
+	For example if we observe $t = 1$, then $\hat \theta (\mathbf U, 1) \in (U_{1:2}, U_{2:2}]$, so there is no unique solution. For any observation $t \in \{0, 1, 2\}$, we have infinitely many solutions for the parameter $\hat \theta (\mathbf U, t)$. In particular, the DGF $\tau$ is not invertible.
+	\begin{figure}[h]
 		\centering
 		\includegraphics[width=\textwidth]{figures/lindqvist/clopper_pearson_interval_dgf.pdf}
 		\caption{DGF $\tau(\mathbf U , \theta) = n \theta + \sum_{i = 1}^n U_i$ for fixed $\mathbf U$ and $n = 2$ (see \eqref{dgf for clopper pearson example})}
 		\label{fig:clopper_pearson_interval_dgf}
 	\end{figure}
-	\textcolor{red}{($\star$) Ändere Figure: Notation von Order statistics}
 
-	For example if we observe $t = 1$, then $\hat \theta (\mathbf U, 1) \in (U_{1:2}, U_{2:2}]$, so there is no unique solution. For any observation $t \in \{0, 1, 2\}$, we have infinitely many solutions for the parameter $\hat \theta (\mathbf U, t)$. In particular, the DGF $\tau$ is not invertible.
 \end{example}
 
 
-\cite{Lindqvist2025simulated} presents Theorem~1 in his paper, which provides a method for constructing an upper confidence bound for the parameter $\theta$ based on a DGF.
+
+
+\section{Construction of CI using DGF}
+
+\subsection{Constructing a CB}
+
+\cite{Lindqvist2025simulated} presents Theorem~1 in his paper, which provides a method for constructing an upper CB for the parameter $\theta$ based on a DGF.
 \begin{theorem}\label{theorem:dgf-upper bound}
 	Let $T$ be a random variable with parameter $\theta \in \Theta$ and let $\tau$ be the corresponding DGF.
-	Define \[\bar \theta ( \mathbf u, t) = \sup \{ \theta: \tau (\mathbf u, \theta) \leq t \}\] and let $a(t)$ be a left continuous function such that
+	Define \[\bar \theta ( \mathbf u, t) = \sup \{ \theta: \tau (\mathbf u, \theta) \leq t \}\] and let $a(t)$ be a left-continuous function such that
 	\begin{align} \label{precondition theorem 1}
 		\mathbb{P} \left( \bar \theta (\mathbf U, t)  \geq a(t)\right) \leq \alpha
 	\end{align}
 	for all $t$ and $\alpha \in (0, 1)$. 
-	Then $a(T)$ is an upper confidence bound for $\theta$ that is $\mathbb{P} \left( \theta \geq a(T) \right) \leq \alpha $ for all $\alpha \in (0, 1)$.
+	Then $a(T)$ is an upper $(1-\alpha)$-CB for $\theta$, that is 
+	\[
+	\mathbb{P} \left( \theta \geq a(T) \right) \leq \alpha 
+	\]
+	for all $\alpha \in (0, 1)$.
 \end{theorem}
 
 
-This construction of a confidence bound does not require the DGF \(\tau\) to be monotone or continuous, allowing the method to also address functions with jumps. To illustrate the construction of the mapping $a$, we consider the following example.
+This construction of a CB does not require the DGF \(\tau\) to be monotone or continuous, allowing the method to also address all DGFs.
+To illustrate the construction of the mapping $a$, we consider the following example.
 
-\begin{example}[Construction of $a$ from Theorem~\ref{theorem:dgf-upper bound}]
+\begin{example}[Construction of $a$ from Theorem~\ref{theorem:dgf-upper bound}]\label{example:easy to find a}
 	Suppose $T \sim \text{Exp} \left( \frac{1}{\theta} \right)$ and $U \sim \text{Exp}(1)$. Then we can express $T$ in terms of the function $\tau$ if we define it as 
 	\[ \tau (U , \theta ) = \theta \cdot U\]
 	because then 
-	\[
+	\begin{equation} \label{exp distn rescale}
 		\mathbb{P} (\tau (U , \theta ) \leq x) = 
 		\mathbb{P} \left( \theta \cdot U \leq x \right) =
 		\mathbb{P} \left( U \leq \frac{x}{\theta} \right) = 
 		1 - \exp \left( - \frac{x}{\theta} \right)
-	\]	
+	\end{equation}
 	which is the CDF of an exponentially distributed random variable with parameter $ \frac{1}{\theta}$. So it holds $T \overset{d}{=} \tau (U, \theta)$. Now we calculate $\bar \theta (u, t)$ from Theorem~\ref{theorem:dgf-upper bound} as
 	\[
 		\bar \theta (u, t) = 
@@ -191,39 +226,72 @@ This construction of a confidence bound does not require the DGF \(\tau\) to be 
 		\frac{t}{u}.
 	\]
 	Let $\alpha \in (0, 1)$ be arbitrary.
-	Now the next objective is to find the function $a$ such that $\mathbb{P} \left( \bar \theta (U, t) \geq a(t) \right) = \alpha$.
-	\begin{align*}
-		&\mathbb{P} \left( \bar \theta (U, t) \geq a(t) \right) = \alpha
-		\\
-		\Leftrightarrow \quad &
-		\mathbb{P} \left( \frac{t}{U} \geq a(t) \right) = \alpha 
-		\\
-		\Leftrightarrow \quad &
-		\mathbb{P} \left( U \leq \frac{t}{a(t)} \right) = \alpha 
-		\\
-		\Leftrightarrow \quad &
-		1 - \exp \left( - \frac{t}{a(t)} \right) = \alpha 
-		\\
-		\Leftrightarrow \quad &
-		a(t) = \frac{- t}{\ln(1- \alpha)}
-	\end{align*}
-	The function $a$ is left continuous because it is a linear function of \(t\), so therefore we can use Theorem~\ref{theorem:dgf-upper bound} on the function $a$.
-	So after observing $T$, one can say that 
+	The next objective is to find the function $a$ such that~\eqref{precondition theorem 1} holds for all $\alpha \in (0, 1)$. We can also find $a$ such that \eqref{precondition theorem 1} holds with equality by calculating
+	\begin{align} \label{theorem 1 finding 1 in example}
+		\alpha 
+		\overset{!}{=}
+		\mathbb{P} \left( \bar \theta (U, t) \geq a(t) \right)
+		=
+		\mathbb{P} \left( \frac{t}{U} \geq a(t) \right)
+		=
+		1 - \exp \left( - \frac{t}{a(t)} \right).
+	\end{align}
+	We can solve \eqref{theorem 1 finding 1 in example} for $a(t)$ and get
+	\[
+		a(t) = \frac{- t}{\ln(1- \alpha)}.
+	\]
+	This is a left-continuous function because it is a linear function of \(t\). Therefore, the preconditions for Theorem~\ref{theorem:dgf-upper bound} are satisfied and we can apply it.
+	After observing $T$, one can say that 
 	\[
 		\left( 0, a(T) \right] = \left( 0,  \frac{-T}{\ln(1- \alpha)} \right]
 	\]
 	is a one-sided $(1-\alpha)$-CI for $\theta$. For example for $\alpha = 0.1$ the upper $(1-\alpha)$-confidence bound is given by $\frac{-T}{\ln(1 - 0.1)} \approx 9.49 T$.
 \end{example}
 
-Now we come to the proof of Theorem~\ref{theorem:dgf-upper bound}.
 
+In Example~\ref{example:easy to find a}, it was straightforward to construct the mapping \(a\) required for Theorem~\ref{theorem:dgf-upper bound}. In general, however, finding an appropriate mapping \(a\) can be difficult, as Example~\ref{example:hard to find a} illustrates.
+
+\begin{example}\label{example:hard to find a}
+	Assume that $T$ is a random variable with DGF
+	\[
+	\tau (\mathbf U, \theta) := \theta U_1 + \theta^2 U_2,
+	\]
+	where $U_1, U_2$ are independent and exponentially distributed with rate $1$, and $\theta \in (0, \infty)$.
+	Then
+	\[
+	\bar \theta (\mathbf u, t)
+	=
+	\sup \{ \theta : \theta u_1 + \theta^2 u_2 \leq t \}
+	=
+	\frac{- u_1 + \sqrt{u_1^2 + 4 u_2 t}}{2 u_2}.
+	\]
+	
+	Analogously to \eqref{theorem 1 finding 1 in example}, we try to find the mapping $a$ such that
+	\begin{align}
+		\alpha
+		&\overset{!}{=}
+		\mathbb{P} \left( \bar \theta (\mathbf U, t) \geq a(t) \right) \notag \\
+		&=
+		\mathbb{P} \left(
+		\frac{- U_1 + \sqrt{U_1^2 + 4 U_2 t}}{2 U_2}
+		\geq a(t) \right). \label{right hand side theorem i beispiel}
+	\end{align}
+	In Example~\ref{example:easy to find a}, the distribution of the term inside the probability in \eqref{right hand side theorem i beispiel} was known, but in this case, the distribution of this term is not easy to determine.
+\end{example}
+
+A caveat of finding an upper CB with Theorem~\ref{theorem:dgf-upper bound} is that the function $a$ must be found.
+
+On the other hand, in contrast to the CIs defined in Section~\ref{section:sundberg}, this CB is always valid, i.e., it attains the nominal level for every $\alpha \in (0,1)$ without asymptotic arguments. In particular, if $T$ depends on a sample size $n$, the CB from Theorem~\ref{theorem:dgf-upper bound} also holds for small $n$. If $a$ is chosen such that \eqref{precondition theorem 1} holds with equality, the coverage is often exactly $1-\alpha$, as in Example~\ref{example:easy to find a}.
+
+Next, we proof Theorem~\ref{theorem:dgf-upper bound}.
+	
 \begin{proof}
 	Let $\alpha \in (0, 1)$ be arbitrary but fixed. Let $\bar \theta$ be defined as in Theorem~\ref{theorem:dgf-upper bound}, and let $a$ be a left-continuous function such that
 	\begin{align*}
 		\mathbb{P} \left( \bar \theta (\mathbf U, t) \geq a(t) \right) \leq \alpha
 	\end{align*}
-	for all $t$.s
-	We need to show that $a(T)$ is an upper confidence bound, i.\,e.\
+	for all $t$.
+	We need to show that $a(T)$ is an upper CB, i.\,e.\
 	\begin{align} \label{to show theorem 1}
 		\mathbb{P} \left( \theta \geq a(T) \right) \leq \alpha
 	\end{align}
@@ -234,7 +302,7 @@ Now we come to the proof of Theorem~\ref{theorem:dgf-upper bound}.
 	a^{-1} (\theta ) = \sup \{ t : a(t) \leq \theta \}.
 	\]
 	
-	First, we show five statements in step i) to step v). Then, we use these statements to prove the inequality \eqref{to show theorem 1}.
+	First, we show five statements in step i) to step v). Then, we use these statements in step vi) to prove the inequality \eqref{to show theorem 1}.
 	
 	\textbf{Step (i):} \\	
 	Assume $\theta \geq a(T)$. Then $T \in \{ t: a(t) \leq \theta \}$. Since $T$ is an element of this set, $T$ has to be smaller or equal to the supremum of this set, i.e. 
@@ -345,7 +413,7 @@ Now we come to the proof of Theorem~\ref{theorem:dgf-upper bound}.
 		&\overset{\eqref{theorem 1: step v}}{\leq}
 		\alpha
 	\end{align*}
-	and this shows that $a(T)$ is an upper confidence bound with confidence level $1 - \alpha$.
+	and this shows that $a(T)$ is an upper CB with confidence level $1 - \alpha$.
 	
 \end{proof}
 
@@ -359,23 +427,29 @@ The proof works in the same way as the proof of Theorem~\ref{theorem:dgf-upper b
 	\[
 		\underline \theta (\mathbf u, t) = \inf \{\theta: \tau(\mathbf u, \theta) \geq t\}
 	\]
-	and let $b(t)$ be a right continuous function such that
+	and let $b(t)$ be a right-continuous function such that
 	\[
 	\mathbb{P} \left( \underline \theta (\mathbf U, t)  \leq b(t)\right) \leq \alpha
 	\]
 	for all $t$ and $\alpha \in (0, 1)$. 
-	Then $b(T)$ is a lower confidence bound for $\theta$ that is $\mathbb{P} \left( \theta \leq b(T) \right) \leq \alpha $ for all $\alpha \in (0, 1)$.
+	Then $b(T)$ is a lower CB for $\theta$ that is $\mathbb{P} \left( \theta \leq b(T) \right) \leq \alpha $ for all $\alpha \in (0, 1)$.
 \end{corollary}
 
 \begin{proof}
-	\textcolor{red}{($\star$) Sollte ich sehr ausführlich, kürzer, oder garnicht beweisen?}
+	The proof of Corollary~\ref{corollary:dgf-lower bound} is analogous to the proof of Theorem~\ref{theorem:dgf-upper bound}, but we define
+	\[
+	b^{-1}(\theta) = \inf \{ t: b(t) \geq \theta \}
+	\]
+	instead of $a^{-1}$. Steps i) to v) work analogously, except that the direction of the inequality signs have to be reversed.
 \end{proof}
 
+
+\subsection{Constructing a CI}
 
 Under the additional assumption that the DGF is strictly increasing in $\theta$,
 the values of $\underline \theta (\mathbf u, t)$ and $\bar \theta (\mathbf u, t)$ from Theorem~\ref{theorem:dgf-upper bound} and
 Corollary~\ref{corollary:dgf-lower bound} are the same, and the confidence
-niveau holds with equality.
+niveau holds with equality, what is summarized in the following corollary.
 
 \begin{corollary} \label{corollary:Corollary 2 Lindqvist}
 	Let $\tau(\mathbf u, \theta)$ be strictly increasing as a function of $\theta$. 
@@ -707,17 +781,19 @@ niveau holds with equality.
 		=
 		\alpha.
 	\end{align*}
-	This proves the exactness for the function $a$. We can show $\mathbb{P} \left( \theta \leq b(T) \right) = \alpha$ analogously. In Table~\ref{tab:comparison a b} in the \ref{section:appendix}appendix, all major differences between the proofs of the exactness are summarized.
+	This proves the exactness for the function $a$. We can show $\mathbb{P} \left( \theta \leq b(T) \right) = \alpha$ analogously. In Table~\ref{tab:comparison a b} in the Appendix, all major differences between the proofs of the exactness are summarized.
 \end{proof}	
 
 
-\section{Clopper Pearson Intervals}
+\subsection{Example: Binomial Distribution}
 
+The example from this section is discussed by~\cite{Lindqvist2025simulated} in Section 2.1.
+\textcolor{red}{($\star$) erwähne dass es Clopper Pearson Intervals sind }
 
 \textcolor{red}{($\star$) start, ab hier generall über n nicht direkt in $n = 2$ starten}
 
 
-Let \(T \sim \operatorname{Bin}(n,\theta)\), and let \(t \in \{0,\ldots,n\}\) be the observed value of \(T\). The goal is to construct a confidence interval for the success probability \(\theta \in \Theta=[0,1]\).
+Let \(T \sim \mathrm{Bin}(n,\theta)\), and let \(t \in \{0,\ldots,n\}\) be the observed value of \(T\). The goal is to construct a CI for the success probability \(\theta \in \Theta=[0,1]\).
 
 We already analysed this situation in Example~\ref{example: non invertible DGF}, so we know that the function given in \eqref{dgf in clopper pearson case} is a valid DGF of $T$. 
 
@@ -738,165 +814,227 @@ To use Theorem~\ref{theorem:dgf-upper bound}, we define
 	1 &\text{ for } t = n, \\
 \end{cases}
 \]
-All in all, $\bar \theta (\mathbf u, t) = u_{(t+1):n}$ for all $t \in \{1, \ldots , n\}$ whereas we define $u_{(n+1):n} := 1$.
+All in all, $\bar \theta (\mathbf u, t) = u_{(t+1):n}$ for all $t \in \{0, \ldots , n\}$ whereas we define $u_{(n+1):n} := 1$.
 
 
 
-Next, we want to find a left continuous function $a$ such that
-\begin{align} \label{condition for theorem 1}
-	\mathbb{P} \left( \bar \theta (\mathbf U, t) \geq a(t) \right) \leq \alpha
-\end{align}
-for all $t\in \{0, \ldots , n\}$ and $\alpha \in (0, 1)$.
-
+Next, we want to find a left-continuous function $a$ such that $\mathbb{P} \left( \bar \theta (\mathbf U, t) \geq a(t) \right) \leq \alpha$ for all $t\in \{0, \ldots , n\}$ and $\alpha \in (0, 1)$.
 To construct $a(t)$, we consider all possible values of $t$ and choose $a(t)$ accordingly. Assume that $t\in\{0,\ldots,n-1\}$. We require that
 \begin{align}
 	\alpha
-	\overset{!}{=}&
+	\overset{!}{=}
 	\mathbb{P}\left(
-	\bar{\theta}(\mathbf{U},t) \leq a(t)
-	\right) \\
-	=&
+	\bar{\theta}(\mathbf{U},t) \geq a(t)
+	\right) 
+	=
 	\mathbb{P}\left(
-	U_{(t+1):n} \leq a(t)
+	U_{(t+1):n} \geq a(t)
 	\right).
 	\label{criteria clopper pearson}
 \end{align}
-Since the order statistics of independent standard uniformly distributed random variables follow Beta distributions, i.e.,
+The order statistics of independent standard uniformly distributed random variables follow Beta distributions, i.e.,
 \[
 U_{k:n}\sim\operatorname{Beta}(k,n-k+1),
 \]
-for all $k \in \{1, \ldots, n\}$,
-we can use the quantiles of the Beta distribution to determine $a(t)$.
-Let $\text{Beta}_\beta (p, q)$ denote the $\beta$ quantile of the $\text{Beta}(p, q)$ distribution. 
+for all $k \in \{1, \ldots, n\}$. This is proven in Example 2.3. in \cite{david2004order}.
+We can use the quantiles of the Beta distribution to determine $a(t)$ for all $t \in \{0, \ldots, n\}$.
+Let $\beta_q (v, w)$ denote the $q$-quantile of the $\text{Beta}(v, w)$ distribution. 
 If we define
 \[
-a(t)=\text{Beta}_{1-\alpha}(t+1,n-t),
+a(t)=\beta_{1-\alpha}(t+1,n-t),
 \]
-this choice of $a(t)$ satisfies the criterion in~\eqref{criteria clopper pearson}.
+this choice of $a(t)$ satisfies the criterion in~\eqref{criteria clopper pearson} for all $t \in \{0, \ldots , n-1\}$.
 
-We set $a(n) = 1$ because \textcolor{red}{($\star$) das machen wir halt einfach so also $a(n) = 1$, aber wieso?}. 
+For $t = n$ we have $\bar\theta(\mathbf U, n) = 1$, which is deterministic, so
+$\mathbb P(\bar\theta(\mathbf U,n) \geq a(n)) \in \{0,1\}$ and equality with $\alpha$ is impossible.
+Instead, we can directly choose $a(n)= 1$ because if we observe $T = n$, then it is natural to get the upper CB of $1$.
 
+All in all, define the mapping $a$ as
 
-If we observe $T = t$, we can conclude with Theorem~\ref{theorem:dgf-upper bound} that $[0, a(T)]$ whereas $a$ is defined as in \eqref{a for clopper pearson}, is an upper $(1-\alpha)$  confidence interval for $\theta$.
-
-
-In the case of $n = 2$, $\bar \theta$ is given as 
-\[
-	\bar \theta (\mathbf u, t)
-	=
+\begin{equation} \label{a for clopper pearson}
+	a(t) = 
 	\begin{cases}
-		u_{1:2} &, \text{ if } t = 0 \\
-		u_{2:2} &, \text{ if } t = 1 \\
-		1 &, \text{ if } t = 2
+		\beta_{1- \alpha}(t+1, n-t) &\text{for } t < n, \\
+		1 &\text{for } t = n.
 	\end{cases}
-\]
-and the function $a$ as
+\end{equation}
+
+If we observe $T = t$, we can conclude with Theorem~\ref{theorem:dgf-upper bound} that $[0, a(T)]$ whereas $a$ is defined as in \eqref{a for clopper pearson}, is an upper $(1-\alpha)$-CI for $\theta$.
+
+For further insight, let us consider the case $\alpha = 0.1$ and \(n=2\). In this case, \(\bar{\theta}\) is given by
 \[
-	a(t) =
-	\begin{cases}
-		\text{Beta}_{1-\alpha}(1,2) &, \text{ if } t = 0 \\
-		\text{Beta}_{1-\alpha}(2,1) &, \text{ if } t = 1 \\
-		1 &, \text{ if } t = 2.
-	\end{cases}
+\bar \theta(\mathbf{u},t)
+=
+\begin{cases}
+	u_{1:2}, & \text{if } t=0,\\
+	u_{2:2}, & \text{if } t=1,\\
+	1, & \text{if } t=2.
+\end{cases}
 \]
-The function $\bar \theta$ in the case of $n = 2$ is illustrated in Figure~\ref{fig:theorem_1_example}.
-
-\textcolor{red}{($\star$)  erstelle eine für dieses Beispiel, aber gleiches Layout, irgendwie schwer das zu plotten weil es diskrete functionen sind}
-
-
-On the other hand, if we want to construct a lower $(1-\alpha)$ confidence interval based on Corollary~\ref{corollary:dgf-lower bound}.
-First, we observe that 
-
-\begin{align} \label{precondition for corollary 1}
-	\underline{\theta}(\mathbf U, t)
-	=
-	\inf \{ \theta \in \Theta : \tau (\mathbf U , \theta ) \geq t \}
-	=
-	U_{(t:n)}.
-\end{align}
-
-
-So if we want to find a right continuous function $b$, with 
-\begin{align*}
-	\mathbb{P} \left( \underline{\theta} (\mathbf U, t) \leq b(t) \right) \leq \alpha 
-\end{align*}
-for all $t\in \{0, \ldots , n\}$ and $\alpha \in (0, 1)$, we can use that $\underline{\theta}$ is given by \eqref{precondition for corollary 1} and try to find 
-\begin{align*}
-	&\mathbb{P} \left( \underline{\theta} (\mathbf U, t) \leq b(t) \right) 
-	=
-	\mathbb{P} \left( U_{(t:n)} \leq b(t) \right) \overset{!}{=}& \alpha \\
-	\Longleftrightarrow&
-	b(t) =& B(\alpha; t, n+1-t).
-\end{align*}
-
-The function $b$ is right continuous because \textcolor{red}{($\star$)}. 
-With Corollary~\ref{corollary:dgf-lower bound}, we can conclude that for a given observation $T = t$, the interval $[b(T), 1] = \left[ B(\alpha; T, n+1-T), 1 \right]$ is a lower $(1- \alpha)$ confidence interval for $\theta$.
-
-
-
-
-\section{Example from Lindqvist Section 5: DGF of Type I Censored Exponentially Distributed Lifetimes}
-
-\textcolor{red}{($\star$) das sollte kein ganzer abschnitt sein, oder? Sondern nur example, oder andere examples auch zu einer section machen}
-
-Let $X_1 , \ldots , X_n$ be independent exponentially distributed random variables with unknown hazard rate $\theta>0$. Let $Y_1, \ldots , Y_n$ be the zugehörigen type I censored data with fixed censoring time $c>0$, i. e. $Y_i = \min(X_i, c)$ for all $i \in \{1, \ldots , n\}$. Define the number of uncensored obervations as
+The function \(a\) is given by
 \[
-	R = \sum_{i = 1}^n \mathds{1} \left( Y_i = X_i \right) = \sum_{i = 1}^n \mathds{1} _{(0, c]} (X_i).
-\] 
-The MLE of $\theta$ is of interest and we can define $T$ such that $T$ matches the MLE.
-The density of $Y_i$ for $i \in \{1 , \ldots , n\} $ is given by
-\[
-	f_{Y_i}(y) = 
-	\begin{cases}
-		\theta \exp(- \theta y),  & \text{ if } y \leq c \\
-		\exp(- \theta c),  & \text{ if } y > c
-	\end{cases}
+a(t)
+=
+\begin{cases}
+	\beta_{1-\alpha}(1,2), & \text{if } t=0,\\
+	\beta_{1-\alpha}(2,1), & \text{if } t=1,\\
+	1, & \text{if } t=2.
+\end{cases}
 \]
-since if $Y_i$ is uncensored $\mathbb{P} \left( Y_i = y \right) = \mathbb{P} \left( X_i = y \right) = f_{X_i}(y)$ and if $Y_i$ is censored
-$\mathbb{P} \left( Y_i = y \right) = \mathbb{P} \left( X_i > c \right) = 1 - F_{X_i}(c) = \exp(- \theta c)$.
-The likelihood function of the censored sample is given by
+
+Tables~\ref{tab:upper-CB-example-0.9} and~\ref{tab:upper-CB-example-0.99} show the resulting upper CIs for all possible observations of $T$. 
+
+Next, we construct a lower \((1-\alpha)\)-CI based on Corollary~\ref{corollary:dgf-lower bound}. First, we observe that
 \begin{align}
-	L(\theta) = \prod_{i=1}^n f_{Y_i}(y_i)
-	&=
-	\underbrace{\prod_{i=1}^R \theta \exp(- \theta y_{i:n}) }_{\text{uncensored}} 
-	\cdot 
-	\underbrace{\prod_{i=R+1}^n \exp(- \theta c) }_{\text{censored}}  \\
-	&=
-	\theta^R \exp \left( - \theta \left[ \underbrace{\sum_{i = 1}^R y_{i:n} + (n - R) c}_{= \sum_{i = 1}^n y_i} \right] \right)
+	\label{precondition for corollary 1}
+	\underline{\theta}(\mathbf U,t)
+	&= U_{(t:n)}.
 \end{align}
-For simplicity, lets define 
+As in the construction of \(a\), we can find a function \(b\). In particular,
 \[
-	S = \sum_{i = 1}^n y_i
+b(t)=
+\begin{cases}
+	0, & \text{if } t=0,\\
+	\beta_{\alpha}(t,n-t+1), & \text{if } t>0.
+\end{cases}
 \]
-Then log likelihood is given by 
-\begin{align*}
-	l(\theta) = \ln L(\theta) = R \log(\theta) - \theta S
-\end{align*}
-and we can determine the MLE if we set the derivate of $l$ equal to zero
-\begin{align}
-	l'(\theta) = 0 \Longleftrightarrow \frac{R}{\theta} - S = 0 \Longleftrightarrow \theta = \frac{R}{S}.
-\end{align}
-We can easily define 
+By Corollary~\ref{corollary:dgf-lower bound}, for an observed value \(T=t\), the interval \([b(t),1]\) is a lower \((1-\alpha)\)-CI for \(\theta\). Concrete examples of these intervals are given in Tables~\ref{tab:lower-CB-example-0.9} and~\ref{tab:lower-CB-example-0.99}.
+
+\begin{table}[ht]
+	\centering
+	
+	\begin{subtable}[t]{0.48\textwidth}
+		\centering
+		\begin{tabular}{c|c}
+			Observed value of \(T\) & $\left[0, a(T)\right]$ \\
+			\hline
+			\(0\) & \([0, 0.68]\) \\
+			\(1\) & \([0, 0.95]\) \\
+			\(2\) & \([0, 1]\)
+		\end{tabular}
+		\caption{Upper \(90\%\)-CIs}
+		\label{tab:upper-CB-example-0.9}
+	\end{subtable}
+	\hfill
+	\begin{subtable}[t]{0.48\textwidth}
+		\centering
+		\begin{tabular}{c|c}
+			Observed value of \(T\) &  $\left[0, a(T)\right]$ \\
+			\hline
+			\(0\) & \([0, 0.90]\) \\
+			\(1\) & \([0, 0.99]\) \\
+			\(2\) & \([0, 1]\)
+		\end{tabular}
+		\caption{Upper \(99\%\)-CIs}
+		\label{tab:upper-CB-example-0.99}
+	\end{subtable}
+	
+	\medskip
+	
+	\begin{subtable}[t]{0.48\textwidth}
+		\centering
+		\begin{tabular}{c|c}
+			Observed value of \(T\) & $[b(T), 1]$ \\
+			\hline
+			\(0\) & \([0, 1]\) \\
+			\(1\) & \([0.05, 1]\) \\
+			\(2\) & \([0.32, 1]\)
+		\end{tabular}
+		\caption{Lower \(90\%\)-CIs}
+		\label{tab:lower-CB-example-0.9}
+	\end{subtable}
+	\hfill
+	\begin{subtable}[t]{0.48\textwidth}
+		\centering
+		\begin{tabular}{c|c}
+			Observed value of \(T\) & $[b(T), 1]$ \\
+			\hline
+			\(0\) & \([0, 1]\) \\
+			\(1\) & \([0.005, 1]\) \\
+			\(2\) & \([0.1, 1]\)
+		\end{tabular}
+		\caption{Lower \(99\%\)-CIs}
+		\label{tab:lower-CB-example-0.99}
+	\end{subtable}
+	
+	\caption{CIs for the success probability \(\theta\) of a
+		\(\mathrm{Bin}(2,\theta)\) random variable, by observed value of \(T\).
+		The intervals are constructed using Theorem~\ref{theorem:dgf-upper bound} and Corollary~\ref{corollary:dgf-lower bound}.}
+	\label{tab:CB-examples}
+\end{table}
+
+
+
+\subsection{Example: Type I Censored Exponentially Distributed Lifetimes}
+\label{section:Type I Censored Exponentially Distributed Lifetimes}
+
+The following example is discussed in Section 5 in~\cite{Lindqvist2025simulated}.
+
+Let $X_1 , \ldots , X_n$ be independent exponentially distributed random variables with unknown rate $\theta>0$. 
+%Let $Y_1, \ldots , Y_n$ be the zugehörigen type I censored data with fixed censoring time $c>0$, i. e. $Y_i = \min(X_i, c)$ for all $i \in \{1, \ldots , n\}$. Define the number of uncensored obervations as
+%\[
+%	R = \sum_{i = 1}^n \mathds{1} \left( Y_i = X_i \right) = \sum_{i = 1}^n \mathds{1} _{(0, c]} (X_i).
+%\] 
+%The MLE of $\theta$ is of interest and we can define $T$ such that $T$ matches the MLE.
+%The density of $Y_i$ for $i \in \{1 , \ldots , n\} $ is given by
+%\[
+%	f_{Y_i}(y) = 
+%	\begin{cases}
+%		\theta \exp(- \theta y),  & \text{ if } y \leq c \\
+%		\exp(- \theta c),  & \text{ if } y > c
+%	\end{cases}
+%\]
+%since if $Y_i$ is uncensored $\mathbb{P} \left( Y_i = y \right) = \mathbb{P} \left( X_i = y \right) = f_{X_i}(y)$ and if $Y_i$ is censored
+%$\mathbb{P} \left( Y_i = y \right) = \mathbb{P} \left( X_i > c \right) = 1 - F_{X_i}(c) = \exp(- \theta c)$.
+%The likelihood function of the censored sample is given by
+%\begin{align}
+%	L(\theta) = \prod_{i=1}^n f_{Y_i}(y_i)
+%	&=
+%	\underbrace{\prod_{i=1}^R \theta \exp(- \theta y_{i:n}) }_{\text{uncensored}} 
+%	\cdot 
+%	\underbrace{\prod_{i=R+1}^n \exp(- \theta c) }_{\text{censored}}  \\
+%	&=
+%	\theta^R \exp \left( - \theta \left[ \underbrace{\sum_{i = 1}^R y_{i:n} + (n - R) c}_{= \sum_{i = 1}^n y_i} \right] \right)
+%\end{align}
+%For simplicity, lets define 
+%\[
+%	S = \sum_{i = 1}^n y_i
+%\]
+%Then log likelihood is given by 
+%\begin{align*}
+%	l(\theta) = \ln L(\theta) = R \log(\theta) - \theta S
+%\end{align*}
+%and we can determine the MLE if we set the derivate of $l$ equal to zero
+%\begin{align}
+%	l'(\theta) = 0 \Longleftrightarrow \frac{R}{\theta} - S = 0 \Longleftrightarrow \theta = \frac{R}{S}.
+%\end{align}
+We can define 
 \begin{align} \label{T for exp distn}
-	T = \frac{R}{S} = \frac{
+	T 
+	:= 
+	%\hat \theta 
+	%\overset{\eqref{MLE for type I}}{=}
+	\frac{R}{TTT} = \frac{
 	\sum_{i = 1}^n \mathds{1}(X_i \leq c)
 	}{
 	\sum_{i = 1}^n \min(X_i, c)}
 \end{align}
-To seperate the randomness and the parameter $\theta$ which is now not seperated since $X_i$ is a random variable dependent on the parameter $\theta$, we can use a trick. Define $U_1, \ldots , U_n $ as independent standard exponentially distributed random variables. It is a standard result that $\frac{U_i}{\theta}$ is exponentially distributed with parameter $\theta$. So $X_i \overset{d}{=} \frac{U_i}{\theta}$ and we can substitute this into \eqref{T for exp distn}. 
+which matches the MLE of $\theta$ as we derived in~\eqref{MLE for type I}.
+To seperate the randomness and the parameter $\theta$ which is now not seperated since $X_i$ is a random variable dependent on the parameter $\theta$, we can use a trick. Define $U_1, \ldots , U_n $ as independent standard exponentially distributed random variables. 
+We already saw in \eqref{exp distn rescale}, that $U_i / \theta$ is exponentially distributed with parameter $\theta$. So $X_i \overset{d}{=} U_i / \theta$ and we can substitute this into \eqref{T for exp distn}. 
 So if we define 
 \begin{align}
 	\tau(\mathbf U, \theta)
 	= 
 	\frac{
-	\sum_{i = 1}^n \mathds{1}(\frac{U_i}{\theta} \leq c)
+	\sum_{i = 1}^n \mathds{1}\left(\frac{U_i}{\theta} \leq c \right)
 	}{
-	\sum_{i = 1}^n \min(\frac{U_i}{\theta}, c)}
+	\sum_{i = 1}^n \min \left(\frac{U_i}{\theta}, c \right)}
 \end{align}
-it holds $T \overset{d}{=} \tau(\mathbf U, \theta)$, so $\tau$ is a DGF for the MLE $T$. 
+it holds $T \overset{d}{=} \tau(\mathbf U, \theta)$, so $\tau$ is a DGF for the MLE.
 
 
-Since $\frac{U_i}{\theta} < c$ if and only if $\frac{U_i}{c} < \theta$ for all $i \in \{1, \ldots , n\}$, and the ordering of the summands does not matter, we can use the order statistics
+Since $U_i / \theta < c$ if and only if $U_i / c < \theta$ for all $i \in \{1, \ldots , n\}$, and the ordering of the summands does not matter, we can use the order statistics
 \begin{align} 	\label{DGF for MLE of Exp distn}
 	\tau(\mathbf U, \theta) = \frac
 	{
@@ -969,11 +1107,11 @@ Since
 \frac{U_{1:2}}{c}<\theta,
 \]
 because $U_{1:2}\leq U_{2:2}$ by the definition of order statistics, condition $A_2$ implies condition $A_1$. Therefore, if exactly one condition is satisfied, $A_1$ is satisfied but $A_2$ is not. Thus,
-\[
-\frac{U_{1:2}}{c}<\theta
-\qquad\text{and}\qquad
-\frac{U_{2:2}}{c}\geq\theta,
-\]
+\begin{equation} \label{inequalitites R = 1}
+	\frac{U_{1:2}}{c}<\theta
+	\qquad\text{and}\qquad
+	\frac{U_{2:2}}{c}\geq\theta,
+\end{equation}
 which means that
 \[
 \theta\in
@@ -986,30 +1124,9 @@ which means that
 Hence,
 $\mathds{1}(A_1)=1$
 and
-$\mathds{1}(A_2)=0$.
-Therefore, the numerator is equal to $1$.
+$\mathds{1}(A_2)=0$ and the numerator is equal to $1$.
 
-We can also determine the two minimums in the denominator. Since
-\[
-\frac{U_{1:2}}{c}<\theta
-\leq
-\frac{U_{2:2}}{c},
-\]
-we obtain
-\[
-c>\frac{U_{1:2}}{\theta}
-\geq
-c\frac{U_{1:2}}{U_{2:2}}
-\]
-and
-\[
-c\frac{U_{2:2}}{U_{1:2}}
->
-\frac{U_{2:2}}{\theta}
-\geq c.
-\]
-
-Therefore,
+We can also determine the two minimums in the denominator of\eqref{dgf for n = 2} with the inequalities~\eqref{inequalitites R = 1}
 \[
 \min\left(\frac{U_{1:2}}{\theta},c\right)
 =
@@ -1032,7 +1149,7 @@ the DGF is given by
 \begin{align}
 	\tau(\mathbf U,\theta)
 	=
-	\frac{1}{
+	\frac{1 + 0}{
 		\frac{U_{1:2}}{\theta}+c
 	}
 	=
@@ -1055,55 +1172,19 @@ which implies
 \right).
 \]
 
-Since
+From the inequalities of $A_1$ and $A_2$ follows that the minimums in the denominator are
 \[
-\frac{U_{2:2}}{c}<\theta,
-\]
-taking reciprocals and multiplying by $U_{1:2}$ and $U_{2:2}$, respectively, gives
-\[
-c\frac{U_{1:2}}{U_{2:2}}
->
-\frac{U_{1:2}}{\theta}
-\]
-and
-\[
-c>
-\frac{U_{2:2}}{\theta}.
-\]
-
-Since
-$U_{1:2}\leq U_{2:2}$,
-we have
-\[
-\frac{U_{1:2}}{U_{2:2}}\leq 1.
-\]
-Therefore,
-\[
-c
-\geq
-c\frac{U_{1:2}}{U_{2:2}}
->
-\frac{U_{1:2}}{\theta}.
-\]
-
-It follows that the minimums in the denominator are
-\[
-\min\left(\frac{U_{1:2}}{\theta},c\right)
+\min\left(\frac{U_{i:2}}{\theta},c\right)
 =
-\frac{U_{1:2}}{\theta}
+\frac{U_{i:2}}{\theta}
 \]
-and
-\[
-\min\left(\frac{U_{2:2}}{\theta},c\right)
-=
-\frac{U_{2:2}}{\theta}.
-\]
+for $i \in \{1, 2\}$.
 
-Thus, for Case C,
+Thus, for $\theta\in \left( \frac{U_{2:2}}{c}, \infty \right)$, the DGF is given by
 \[
 \tau(\mathbf U,\theta)
 =
-\frac{2}{
+\frac{1+1}{
 	\frac{U_{1:2}}{\theta}
 	+
 	\frac{U_{2:2}}{\theta}
@@ -1113,7 +1194,7 @@ Thus, for Case C,
 \]
 
 
-Combining all three cases gives
+Combining all three cases A - C gives
 \begin{align} \label{dgf for exp with cases}
 \tau(\mathbf U,\theta)
 =
@@ -1164,7 +1245,7 @@ For a fixed $\mathbf U = (U_1, U_2)$, we can plot $\tau (\mathbf U, \theta)$ as 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\textwidth]{figures/lindqvist/figure1auslindqvist.pdf}
-	\caption{\textcolor{red}{($\star$)}}
+	\caption{DGF as a function of \(\theta\) for fixed \(\mathbf U\), based on the MLE for type-I-censored exponential data with sample size \(n=2\); see \eqref{dgf for exp with cases}.}
 	\label{fig:Figure 1 from Lindqvist}
 \end{figure}
 
@@ -1191,7 +1272,7 @@ This corresponds to case B of \eqref{dgf for exp with cases}, and therefore
 	\Longleftrightarrow 
 	\frac{\theta}{u_{1:2} + c\theta} = t
 	\Longleftrightarrow 
-	\hat \theta = \frac{t u_{1:2}}{1 - ct}.
+	\hat \theta (\mathbf u, t) = \frac{t u_{1:2}}{1 - ct}.
 \end{align}
 
 \textbf{Case C: $t \in \left( \frac{2}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}}, \infty \right)$}
@@ -1202,13 +1283,15 @@ This corresponds to case C of \eqref{dgf for exp with cases}, and therefore
 	\Longleftrightarrow 
 	\frac{2\theta}{u_{1:2} + u_{2:2}} = t
 	\Longleftrightarrow 
-	\hat \theta = \frac{t (u_{1:2} + u_{2:2})}{2}.
+	\hat \theta (\mathbf u, t) = \frac{t (u_{1:2} + u_{2:2})}{2}.
 \end{align}
 
-For all other cases. i. e. where $\tau$ has jumps $t \in \left( 0, \frac{1}{2c} \right] \cup \left( \frac{1}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}}, \frac{2}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}} \right]$, the equation $\tau(\mathbf u, \theta) = t$ has no solution. \textcolor{red}{($\star$) fiducial distn!}
+For all other cases. i. e. where $\tau$ has jumps and $t \in \left( 0, \frac{1}{2c} \right] \cup \left( \frac{1}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}}, \frac{2}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}} \right]$, the equation $\tau(\mathbf u, \theta) = t$ has no solution. 
 
 
-So the fiducial distribution is \textcolor{red}{($\star$) hier wie lasse ich $t = 0$ behandeln? soll das uniform verteilt sein? Und das ist keine fid. distribution!}
+\textcolor{red}{($\star$) Fiducial distribution????}
+
+So the solution for the equation $\tau (\mathbf u, \theta) = t$ is given by
 \begin{align} \label{solution for all cases}
 	\hat{\theta}(\mathbf{u},t)
 	=
@@ -1230,7 +1313,14 @@ So the fiducial distribution is \textcolor{red}{($\star$) hier wie lasse ich $t 
 		\right).
 	\end{cases}
 \end{align}
+and there is no solution for $t \in \left( 0, \frac{1}{2c} \right] \cup \left( \frac{1}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}}, \frac{2}{c} \cdot \frac{u_{2:2}}{u_{1:2} + u_{2:2}} \right]$.
 
+Theorem~\ref{theorem:dgf-upper bound} and Corollary~\ref{corollary:dgf-lower bound} deliver with $\bar \theta (\mathbf u, t)$ and $\underline \theta (\mathbf u, t)$ generalized versions of the inverse of the equation $\tau (u, \theta) = t$. 
+Namely, 
+$\bar \theta (\mathbf u, t)$ is the largest value for $\theta$ for which $\tau$ has not yet exceeded $t$ and 
+$\underline \theta (\mathbf u, t)$ is the smallest value for $\theta$ for which $\tau$ has reached $t$.
+Figure~\ref{fig:comparison_theorem_corollary} illustrates these generalized inverse as a function of $t$ and for a fixed $\mathbf U$. 
+They only differ in the point $t = 0$. 
 
 \begin{figure}[H] 
 	\centering
@@ -1252,258 +1342,113 @@ So the fiducial distribution is \textcolor{red}{($\star$) hier wie lasse ich $t 
 \end{figure}
 
 
+\textcolor{red}{($\star$) andere herangehensweise:}
 
-\textcolor{red}{($\star$) Beginn von Beispiel $t = 2/3$}
+In the following, we consider a more concrete example. Let $c = 1$ be given and suppose we observe $X_1 = 0.5$, while $X_2$ is censored.
+In this case, $R = 1$ and $TTT = 0.5 + 1 = 1.5$, and therefore we observe $T = 2/3$.
 
-Assume $c = 1, Y_1 = 0.5, Y_2 = 1$. \textcolor{red}{($\star$) ....}
+We now try to find $\hat \theta (\mathbf u, 2/3)$.
+In Figure~\ref{fig:Figure 1 from Lindqvist}, we see that $\tau$ is a piecewise linear function, so we can perform a case distinction over all possible intervals where $T$ could be in.
 
-Then it must holds $\frac{2}{3} = \tau (\mathbf u, \theta)$. Then $t = \frac{2}{3}$. 
+\textbf{A:} $\left[0, \frac{1}{2} \right]$ \\
+The observed value $T = 2/3$ trivially does not lie in the first interval.
 
-
-
-\textbf{Case 1:} $\mathbf{2 u_{1:2} \leq u_{2:2}}$ \\
-The inequality $2 u_{1:2} \leq u_{2:2}$ can be transformed in the following way. 
-\begin{align*}
-	& 2 u_{1:2} \leq u_{2:2} \\
-	\overset{\pm 2 u_{2:2}}{\Longleftrightarrow} &
-	2 \left( u_{1:2} + u_{2:2} \right) \leq 3 u_{2:2} \\
-	\overset{: 3 \left( u_{1:2} + u_{2:2} \right)}{ \underset{\cdot 3 \left( u_{1:2} + u_{2:2} \right)}{\Longleftrightarrow}} & 
-	\frac{2}{3}  \leq \frac{u_{2:2}}{u_{1:2} + u_{2:2})}
-\end{align*}
-what means that the condition $2 u_{1:2} \leq u_{2:2}$ is equivalent to $t = \frac{2}{3} \in \left( \frac{1}{2}, \frac{u_{2:2}}{u_{1:2} + u_{2:2})} \right]$ i. e. $t = \frac{2}{3}$ is in the region $R=1$. For this case we can get a solution for $\theta$ with the help of \eqref{solution for all cases}. It holds 
+\textbf{B:} $\left(\frac{1}{2}, \frac{u_{2:2}}{u_{1:2} + u_{2:2}} \right]$ \\
+This case is shown in Figure~\ref{fig:fiducial dist 2}. Basic algebraic transformations show that $T = 2/3$ lies in this interval if and only if $2 u_{1:2} \leq u_{2:2}$.
+Moreover, $T = 2/3$ lies in the region for $R = 1$, and with \eqref{solution for all cases} we obtain
 \[
-	\hat \theta (\mathbf u, \frac{2}{3}) = \frac{\frac{2}{3} u_{1:2}}{1 - 1 \cdot \frac{2}{3}} = 2 u_{1:2}
+\hat \theta \left(\mathbf u, 2 / 3 \right) = \frac{\frac{2}{3} u_{1:2}}{1 - 1 \cdot \frac{2}{3}} = 2 u_{1:2}.
 \]
-under the condition $2 u_{1:2} \leq u_{2:2}$.
 
-\textbf{Case 2:} $\mathbf{2 u_{1:2} > u_{2:2}}$ \\
-Assuming that $2 u_{1:2} > u_{2:2}$, it holds that the region for $R = 1$ ends below $\frac{2}{3}$ because 
-\begin{align*}
-	2 u_{1:2} > u_{2:2} 
-	\overset{+ 2 u_{1:2}}{\implies}
-	2 \left( u_{1:2} + u_{2:2} \right) > 3 u_{2:2}
-	\overset{\cdot \frac{1}{3 \left( u_{1:2} + u_{2:2} \right)}}{\implies}
-	\frac{2}{3} > \frac{u_{2:2}}{u_{1:2} + u_{2:2}}
-\end{align*}
-but on the other hand the region for $R = 2$ starts above $\frac{2}{3}$ because 
-\begin{align*}
-	2 u_{1:2} > u_{2:2}
-	&\overset{+ u_{1:2}}{\implies}
-	3 u_{1:2} > u_{1:2} + u_{2:2} \\
-	&\overset{(\ldots)^{-1}}{\implies}
-	\frac{1}{3 u_{1:2}} < \frac{1}{u_{1:2} + u_{2:2}} \\
-	&\overset{\cdot 2 u_{2:2}}{\implies}
-	\frac{2}{3} \frac{u_{2:2}}{u_{1:2}} < \frac{2 u_{2:2}}{u_{1:2} + u_{2:2}} \\
-	&\overset{\frac{u_{2:2}}{u_{1:2}} \geq 1}{\implies}
-	\frac{2}{3} < \frac{2 u_{2:2}}{u_{1:2} + u_{2:2}}.
-\end{align*}
+\textbf{C:} $\left(\frac{u_{2:2}}{u_{1:2} + u_{2:2}}, 2 \frac{u_{2:2}}{u_{1:2} + u_{2:2}} \right]$ \\
+First, we note that $T = 2/3$ lies in this interval if and only if $2 u_{1:2} > u_{2:2}$.
+In Figure~\ref{fig:fiducial dist 1}, we see that in this case the equation $\tau(\mathbf u, \theta) = 2/3$ has no solution because $\tau$ has a jump at this point. However, we can set
+\[
+\hat \theta \left(\mathbf u, 2 / 3 \right) = u_{2:2}.
+\]
 
-So in the case $2 u_{1:2} > u_{2:2}$, it holds $t = \frac{2}{3} \in \left( \frac{u_{2:2}}{u_{1:2} + u_{2:2}}, \frac{2 u_{2:2}}{u_{1:2} + u_{2:2}}  \right)$. This is illustrated in Figure~\ref{fig:fiducial dist 1}. One can see that in case 2, the equation $t = 2/3 = \tau(\mathbf u, \theta)$ has no solution for $\theta$, but one can set $\bar \theta = u_{2:2}$ since \textcolor{red}{($\star$)}. 
+\textbf{D:} $\left(2 \frac{u_{2:2}}{u_{1:2} + u_{2:2}}, \infty \right)$ \\
+$T = 2/3$ cannot lie in this interval, because for the lower bound it holds that
+\[
+2 \frac{u_{2:2}}{u_{1:2} + u_{2:2}} \geq 2 \frac{u_{2:2}}{u_{2:2} + u_{2:2}} = 1 > \frac{2}{3}.
+\]
+Here, we used $u_{1:2} \leq u_{2:2}$, which holds by the definition of order statistics.
+
+All in all, we obtain
+\begin{equation} \label{full theta}
+	\bar \theta_{\text{full}} (\mathbf u, 2/3) =
+	\begin{cases}
+		2 u_{1:2} & \text{for } 2 u_{1:2} \leq u_{2:2} \text{ (B)}, \\
+		u_{2:2}   & \text{for } 2 u_{1:2} > u_{2:2} \text{ (C)}.
+	\end{cases}
+\end{equation}
+Alternatively, we can set
+\begin{equation} \label{fiducial theta}
+	\hat \theta_{\text{fid}} (\mathbf u, 2/3) = 2 u_{1:2}
+\end{equation}
+conditional on $2 u_{1:2} \leq u_{2:2}$, if we want to ignore the case where $T = 2/3$ is not actually a realisation of the DGF $\tau$.
+
 
 \begin{figure}[H] 
 	\centering
 	\begin{subfigure}[b]{0.48\textwidth}
 		\centering
 		\includegraphics[page=2,width=\textwidth]{figures/lindqvist/dgf_in_case_of_2_3.pdf}
-		\caption{$2 u_{1:2} \leq u_{2:2}$}
+		\caption{Case B: $2 u_{1:2} \leq u_{2:2}$}
 		\label{fig:fiducial dist 2}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[b]{0.48\textwidth}
 		\centering
 		\includegraphics[page=1,width=\textwidth]{figures/lindqvist/dgf_in_case_of_2_3.pdf}
-		\caption{$2 u_{1:2} > u_{2:2}$}
+		\caption{Case C: $2 u_{1:2} > u_{2:2}$}
 		\label{fig:fiducial dist 1}
 	\end{subfigure}
-	\caption{Comparison of \textcolor{red}{($\star$)}}
+	\caption{Figure~\ref{fig:Figure 1 from Lindqvist} for the case $c = 1$ and observing $T = 2 / 3$}
 \end{figure}
+ 
 
-So there are two different solutions
+$\bar \theta_{\text{full}} (\mathbf U , 2/3)$ and $\hat \theta_{\text{fid}} (\mathbf U , 2/3)$ are random variables itself, so we can determine their distributions.
 
-\begin{equation} \label{full theta}
-	\bar \theta_{\text{full}} (\mathbf u, 2/3) =
-	\begin{cases}
-		2 u_{1:2} &\text{ for } 2 u_{1:2} \leq u_{2:2} \text{ (case 1)}\\
-		u_{2:2} &\text{ for } 2 u_{1:2} > u_{2:2}  \text{ (case 2)}\\
-	\end{cases}
-\end{equation}
-
-or we set 
-\begin{equation} \label{fiducial theta}
-	\hat \theta_{\text{fid}} (\mathbf u, 2/3) = 2 u_{1:2}
-\end{equation}
-conditional on $2 u_{1:2} \leq u_{2:2}$.
-
-$\bar \theta_{\text{full}} (\mathbf U , 2/3)$ and $\hat \theta_{\text{fid}} (\mathbf U , 2/3)$ are random variables itself, so we can determine their distribution.
-
-But first, we need to find the distribution of the order statistics $U_{1:2}$ and $U_{2:2}$. Their underlying random variables are exponentially distributed, i.e. $U_1, U_2 \sim \text{Exp(1)}$.
-
-\begin{align*}
-	F_{U_{1:2}} (x)
-	&=
-	\mathbb{P} \left( U_{1:2} \leq x \right) \\
-	&=
-	\mathbb{P} \left( \min(U_1, U_2) \leq x \right) \\
-	&=
-	1 - \mathbb{P} \left( \min(U_1, U_2) > x \right) \\
-	&=
-	1 - \left( \mathbb{P} \left( U_1 > x \right) \cdot \mathbb{P} \left( U_2 > x \right) \right) \\
-	&=
-	1 - \left( \left(1 - F_{U_1}(x) \right) \cdot \left(1 - F_{U_2}(x) \right)  \right) \\
-	&=
-	1 - (\exp(-x) \cdot \exp(-x)) \\
-	&=
-	1 - \exp(-2x)
-\end{align*}
-which is the CDF of a $\text{Exp}(2)$ distribution.
-
-The CDF of the second order statistic is given by
-\begin{align*}
-	F_{U_{2:2}}(x) 
-	&=
-	\mathbb{P} \left( U_{2:2} \leq x \right) \\
-	&=
-	\mathbb{P} \left( \max \left( U_1, U_2 \right) \leq x \right) \\
-	&=
-	\mathbb{P} \left(U_1 \leq x \right) \cdot \mathbb{P} \left(U_1 \leq x \right) \\
-	&=
-	F_{U_1}(x) \cdot F_{U_2}(x)	\\
-	&=
-	\left( 1 - \exp(-x) \right)^2.
-\end{align*}
-
-Observe that $\bar \theta_{\text{full}} (\mathbf u , 2/3)$ can also be expressed as $\min \left( 2 u_{1:2}, u_{2:2} \right)$. We can use this to determine its distribution 
-\begin{align*}
-	\mathbb{P} \left( \bar \theta_{\text{full}} (\mathbf U, 2/3) > x \right)
-	&=
-	\mathbb{P} \left( \min \left( 2 U_{1:2}, U_{2:2} \right) > x \right) \\
-	&=
-	\mathbb{P} \left( 2 U_{1:2} > x \right) \cdot \mathbb{P} \left( U_{2:2} > x \right) \\
-	&=
-	\left[ 1 - \mathbb{P} \left( U_{1:2} \leq \frac{x}{2} \right) \right] \cdot 
-	\left[ 1 - \mathbb{P} \left( U_{2:2} \leq x \right) \right] \\
-	&=
-	\left[ 1 - F_{U_{1:2}} \left( \frac{x}{2} \right) \right] \cdot 
-	\left[ 1 - F_{U_{2:2}}(x) \right] \\
-	&=
-	\left[ \exp \left( -2 \frac{x}{2} \right) \right] \cdot \left[ 1 - \left( 1 - \exp(-x) \right)^2 \right] \\
-	&= 
-	2 \exp(-2x) - \exp(-3x)
-\end{align*}
-
-So
-\begin{align*}
-	F_{\bar \theta_{\text{full}} (\mathbf U, 2/3)}  (x)
-	= 
-	1 - \mathbb{P} \left( \bar \theta_{\text{full}} (\mathbf U, 2/3) > x \right)
-	=
-	1 - 2 \exp(-2x) + \exp(-3x)
-\end{align*}
-and we can determine the PDF of $\bar \theta_{\text{full}} (\mathbf U, 2/3)$ by taking the derivative
-\begin{align} \label{theoretical density of full theta}
-	f_{\bar \theta_{\text{full}} (\mathbf U, 2/3)} (x)
-	= 
-	4 \exp(-2x) - 3 \exp(-3x).
+Indeed, the density of \(\bar{\theta}_{\text{full}}(\mathbf{U},2/3)\) is
+\begin{align}
+	\label{theta full distn}
+	f_{\bar{\theta}_{\text{full}}(\mathbf{U},2/3)}(x)
+	&= 3\exp\left(-\frac{3}{2} x \right)-2 \exp(-2x).
 \end{align}
+Moreover,
+\begin{equation}
+	\label{theta fid distn}
+	\bar{\theta}_{\text{fid}}(\mathbf{U},2/3)
+	\sim \mathrm{Exp}\left(\frac{2}{3}\right).
+\end{equation}
+The exact calculations leading to these results are provided in the Appendix (see \textcolor{red}{(\(\star\)) [insert reference to the relevant calculations]}).
 
-Now, we will obtain the distribution of $\hat \theta_{\text{fid}} (\mathbf U, 2/3) = 2 U_{1:2} \; | \; 2 U_{1:2} \leq U_{2:2}$. 
+In Section 6 of~\cite{Lindqvist2025simulated}, those two methods for retrieving a solution for $\theta$ are compared. The simulation study is replicated in Listing~\ref{listing:lindqvist section 6.R} and the theoretical density is added to the plot. The results of Listing~\ref{listing:lindqvist section 6.R} are shown in Figure~\ref{fig:lindqvist Figure 2}. One can see that the theoretical densities from~\eqref{theta full distn} and~\eqref{theta fid distn} approximately match the simulation.
 
-
-For easier notation, let us define $M = U_{1:2}$.
-We can write
-\[
-U_{2:2} = M + E
-\]
-with $E \sim \text{Exp}(1)$ because of the memoryless property of the exponential distribution.
-The minimum $M = \min(U_1, U_2)$ is the time of the first event. 
-At this time, one of the two variables is "used up". 
-The other variable has not happened yet. 
-By the memoryless property, the remaining waiting time until it happens has the same $\text{Exp}(1)$ distribution as at the start, and it is independent of $M$.
-Therefore, the difference $E = U_{2:2} - U_{1:2}$ is $\text{Exp}(1)$-distributed and independent of $M$.
-
-We can also show this rigerously by applying the transformation theorem on the vector $(U_{1:2}m U_{2:2})$ and the function $T(x,y) = (x, y-x)$.
-Integrating out the first component gives $U_{2:2} - U_{1:2} = E \sim \text{Exp}(1)$.
-
-Next, note that
-\[
-2 U_{1:2} \leq U_{2:2}
-\iff 2M \leq M + E
-\iff M \leq E.
-\]
-So we can use this notation to describe the fiducial distribution as
-\[
-\hat{\theta}_{\text{fid}}(\mathbf{U}, 2/3) \sim 2M \;\big|\; M \leq E,
-\]
-where $M \sim \text{Exp}(2)$ and $E \sim \text{Exp}(1)$ are independent.
-
-
-\begin{align*}
-	\mathbb{P} \left( \hat{\theta}_{\text{fid}}(\mathbf{U}, 2/3) \leq x  \right)
-	=
-	\mathbb{P} \left( 2M \leq x \;\big|\; M \leq E  \right) \\
-	=
-	\frac{
-		\mathbb{P} \left( 2M \leq x , M \leq E  \right)
-	}{
-		\mathbb{P} \left( M \leq E  \right)
-	}
-\end{align*}
-The denominator is
-\begin{align*}
-	\mathbb{P} \left( M \leq E  \right) 
-	&=
-	\int_0^\infty \mathbb{P} (m \leq E \;\big|\; M = m) \; dM \\
-	&=
-	\int_0^\infty \mathbb{P} (m \leq E \;\big|\; M = m) f_M(m) \; dm \\
-	&=
-	\int_0^\infty \exp(-m) \cdot 2 \exp(-2m) \; dm \\
-	&=
-	\frac{2}{3}
-\end{align*}
-and for $x \geq 0$, the numerator is
-\begin{align*}
-	\mathbb{P} \left( 2M \leq x , M \leq E  \right)
-	&=
-	\mathbb{P} \left( M \leq \tfrac{x}{2} , M \leq E  \right) \\
-	&=
-	\int_0^{x/2} \mathbb{P} (m \leq E) \, f_M(m) \; dm \\
-	&=
-	\int_0^{x/2} \exp(-m) \cdot 2 \exp(-2m) \; dm \\
-	&=
-	\frac{2}{3} \left( 1 - \exp\!\left( -\frac{3x}{2} \right) \right).
-\end{align*}
-Putting both parts together, we get for $x \geq 0$
-\begin{align*}
-	\mathbb{P} \left( \hat{\theta}_{\text{fid}}(\mathbf{U}, 2/3) \leq x  \right)
-	=
-	\frac{\frac{2}{3} \left( 1 - \exp\left( -\frac{3x}{2} \right) \right)}{\frac{2}{3}}
-	=
-	1 - \exp\!\left( -\frac{3x}{2} \right).
-\end{align*}
-For $x < 0$ the probability is $0$.
-This is the cdf of an exponential distribution with rate $3/2$. Hence
-\[
-\hat{\theta}_{\text{fid}}(\mathbf{U}, 2/3) \sim \text{Exp}\!\left( \tfrac{3}{2} \right).
-\]
-
-In Section 6 of~\cite{Lindqvist2025simulated}, those two methods for retrieving $\theta$ are compared. The simulation study is replicated in Listing~\ref{listing:lindqvist section 6.R} and the theoretical density is added to the plot. The results of Listing~\ref{listing:lindqvist section 6.R} are shown in Figure~\ref{fig:lindqvist Figure 2}. One can see that the theoretical densities approximately match the simulation.
-
-\begin{figure}[htbp]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{figures/lindqvist/lindqvist Figure 2.png}
 	\caption[Histograms of $\bar\theta_{\text{full}}$ and $\hat\theta_{\text{fid}}$ for $n = 2$ censored observations]{%
 		Histograms of two estimators of the parameter $\theta$, based on $n_{\text{sim}} = $ 100\,000 simulated pairs $U_1, U_2 \sim \text{Exp}(1)$ (see Listing~\ref{listing:lindqvist section 6.R}).
-		\emph{Left:} the estimator $\bar\theta_{\text{full}}(\mathbf{u}, 2/3)$ from~\eqref{full theta}, together with its theoretical density from~\eqref{theoretical density of full theta}.
-		\emph{Right:} the fiducial estimator $\hat\theta_{\text{fid}}(\mathbf{u}, 2/3)$ from~\eqref{fiducial theta}, together with the density of the $\text{Exp}\!\left(\tfrac{3}{2}\right)$ distribution.}
+		\emph{Left:} the estimator $\bar\theta_{\text{full}}(\mathbf{u}, 2/3)$ from~\eqref{full theta}, together with its theoretical density from~\eqref{theta full distn}.
+		\emph{Right:} the fiducial estimator $\hat\theta_{\text{fid}}(\mathbf{u}, 2/3)$ from~\eqref{fiducial theta}, together with the density of the $\text{Exp}\!\left(3 / 2\right)$ distribution.}
 		\label{fig:lindqvist Figure 2}
 \end{figure}
 
-One can observe that the fiducial estimator concentrates more on smaller values for $\theta$. This is because the simulated pairs $(u_1, u_2)$ with $2 u_{1:2} \geq u_{2:2}$ are excluded although those pairs contribute to higher values of $\theta$.
+
+One can observe that $\hat\theta_{\text{fid}}(\mathbf U, 2 / 3)$ is concentrated more strongly on small values of $\theta$ than $\bar\theta_{\text{full}}(\mathbf U, 2 / 3)$.
+The reason is that $\hat\theta_{\text{fid}}(\mathbf U, 2 / 3)$ is conditioned on the event $\{2u_{1:2} \leq u_{2:2}\}$,
+%, which has probability $2/3$ (see \eqref{} in the appendix), 
+so the draws with $2u_{1:2} > u_{2:2}$ are discarded.
+These discarded draws tend to produce larger values of $\theta$, because in this case $\bar\theta_{\text{full}}(\mathbf U, 2 / 3) = U_{2:2}$ which tends to be larger since $U_{2:2}$ is the larger value of $U_1$ and $U_2$.
+
+
 
 
 \section{Construction of CI using DGF and Monte Carlo}
 
-\cite{Lindqvist2025simulated} describe with Theorem~2 and Corollary~3 and 4 methods to find CBs and CI using a Monte Carlo simulation. The advantage over the methods presented in Theorem~\ref{theorem:dgf-upper bound} and Corollary~\ref{corollary:dgf-lower bound} and~\ref{corollary:Corollary 2 Lindqvist} is that we do not need to know the distribution of $\bar \theta$ and $\underline \theta$ and do not need to find $a$ and $b$.
+\cite{Lindqvist2025simulated} describe with Theorem~2 and Corollary~3 and 4 methods to find CBs and a CI using a Monte Carlo simulation. The advantage over the methods presented in Theorem~\ref{theorem:dgf-upper bound} and Corollary~\ref{corollary:dgf-lower bound} and~\ref{corollary:Corollary 2 Lindqvist} is that we do not need to know the distribution of $\bar \theta$ and $\underline \theta$ and do not need to find the functions $a$ and $b$.
 
 
 
@@ -1537,7 +1482,7 @@ One can observe that the fiducial estimator concentrates more on smaller values 
 	\[
 		\mathbb{P} \left( \theta \leq \bar \theta_{(m-k+1):m} (\mathbf u, T) \right) \geq 1 - \frac{k}{m+1}.
 	\]
-	We split the proof into \textcolor{red}{($\star$)} steps.
+	We split the proof into five steps.
 	
 	\textbf{Step (i):} Show $\theta > \bar \theta (\mathbf u, T) \implies \tau(\mathbf u, \theta) > T$
 	
@@ -1555,7 +1500,7 @@ One can observe that the fiducial estimator concentrates more on smaller values 
 	\]
 	This is a contradiction to the assumption $\theta > \bar \theta (\mathbf u, T)$, so it must hold that $\tau(\mathbf u, \theta) > T$.
 	
-	\textbf{Step (ii):} Introduce notation
+	\textbf{Step (ii):} Introduce Notation
 	
 	The probability $\mathbb{P} \left( \theta > \bar \theta_{(m-k+1):m} (\mathbf u, T) \right)$ depends on the random vectors $\mathbf U_1, \ldots , \mathbf U_m$ and $T$. If we set $\mathbf U = \mathbf U_0$, it holds 
 	$T = \tau (\mathbf U, \theta)$. Define 
@@ -1656,11 +1601,16 @@ One can observe that the fiducial estimator concentrates more on smaller values 
 % see Section 7 in Lindqvist
 \textcolor{red}{($\star$) Motivation with no failures}
 
-\subsection{Hybrid Type-I censoring}
+\subsection{Example: Hybrid Type-I-censored Exponentially Distributed Lifetimes}
+
+In Sections~\ref{section:sundberg} and \ref{section:Type I Censored Exponentially Distributed Lifetimes}, we consider type-I-censored exponential lifetimes and construct CIs for the MLE of the rate parameter \(\theta\in\Theta=(0,\infty)\).
+
+In this section, we will use a hybrid censoring scheme instead. Just as in Section~\ref{section:Type I Censored Exponentially Distributed Lifetimes}, we will construct the DGF for the MLE $\hat \theta$.
+
 
 Assume $X_1, \ldots, X_n \overset{\text{iid}}{\sim} \text{Exp}(\theta)$. We want to find the MLE of the parameter $\theta \in \Theta = (0, \infty)$ based on the censored data $Y_1, \ldots, Y_n$. 
-In Section~\ref{...} we analysed this situation for type I and type II censoring. 
-Now we apply a hybrid type I censoring scheme to the random variables $X_1, \ldots, X_n$ and derive the MLE.
+
+
 The experiment stops at the time
 \[
 C_{\text{stop}} = \min \left( X_{r:n}, c \right),
@@ -1676,7 +1626,7 @@ f_{Y_i} (x) =
 	\exp(- \theta C_{\text{stop}}) & \text{ if } x > C_{\text{stop}}.
 \end{cases}
 \]
-For type I censoring we have $C_{\text{stop}} = c$. For hybrid type I censoring we have $C_{\text{stop}} \in \{X_{r:n}, c\}$.
+For hybrid type-I-censoring we have $C_{\text{stop}} \in \{X_{r:n}, c\}$.
 
 \textbf{Case 1:} $\mathbf{R \geq r}$
 
@@ -1733,7 +1683,7 @@ All in all, for hybrid type I censoring the MLE is given by
 \end{align}
 and it does not exist for $R = 0$. The problem that the MLE does not exist in the case $R = 0$ is solved by hybrid type II censoring.
 
-\subsection{Hybrid Type-II Censoring}
+\subsection{Example: Hybrid Type-II-censored Exponentially Distributed Lifetimes}
 
 For a hybrid type-II censoring scheme, we set 
 \[
@@ -1803,6 +1753,26 @@ Similarly to ... we can substitute $X_i$ with $U_i / \theta$ where $U_i \sim \te
 	\centering
 	\begin{subfigure}[b]{0.48\textwidth}
 		\centering
+		\includegraphics[page=3, width=\textwidth]{figures/lindqvist/hybrid_DGF_of_MLE/hybrid1_n6_theta1_r3_c1}
+		\caption{Hybrid Type-I-censoring}
+		\label{fig:DGF for hybrid I}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[page=2, width=\textwidth]{figures/lindqvist/hybrid_DGF_of_MLE/hybrid2_n6_theta1_r3_c1}
+		\caption{Hybrid Type-II-censoring}
+		\label{fig:DGF for hybrid II}
+	\end{subfigure}
+	\caption{DGF of hybrid censored $X_1, \ldots , X_6 \sim \mathrm{Exp}(\theta)$ with $r = 3$ and $c = 1$ (used \texttt{Sundberg/hybrid\_censoring.py} to generate plots)}
+	\label{fig:DGF for hybrid}
+\end{figure}
+
+
+\begin{figure}[H] 
+	\centering
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
 		\includegraphics[page=3, width=\textwidth]{figures/lindqvist/hybrid_mle.pdf}
 		\caption{}
 		\label{fig:}
@@ -1819,15 +1789,15 @@ Similarly to ... we can substitute $X_i$ with $U_i / \theta$ where $U_i \sim \te
 
 The functions $\tau^\ast_{\text{hybrid I}}$ and $\tau^\ast_{\text{hybrid II}}$ are strictly monotonically rising, meaning we can apply Corollary~\ref{corollary:Corollary 2 Lindqvist} on these functions. 
 
+\textcolor{red}{($\star$) Apply the Monte Carlo on hybrid censoring schemes}
 
-
-\section{Confidence Intervals for the Binomial Distribution}
+\section{Confidence Intervals for the Binomial Distribution: Binomial Inversion}
+\textcolor{red}{($\star$) was mit diesem Section machen? passt nicht ganz in die DGF Section}
 
 Let $N \sim \text{Bin}(n, p)$ with known $n \in \mathbb{N}$ and unknown $p \in [0, 1]$.
 In this section, we present two \textcolor{red}{($\star$)} methods for constructing a CI for the parameter $p$.
 Throughout, let $\alpha \in (0,1)$ be the significance level and let $k$ denote the observed value of $N$.
 
-\subsection{Binomial Inversion}
 
 The idea of binomial inversion is to find all parameter values $p$ for which the observed value $k$ is not too extreme.
 A value $p$ is rejected if the observed $k$ lies in one of the tails of the $\text{Bin}(n,p)$ distribution with probability at most $\alpha/2$.
@@ -1860,7 +1830,7 @@ However, it is \emph{conservative}: since $N$ is discrete, the tail probabilitie
 As a consequence, the interval is often wider than necessary.
 
 \begin{example}
-	Let $n = 20$ and $p$ be very high, meaning we get the realisation $k = 20$. 
+	Let $n = 20$ and $p$ be very high, such that we get the realisation $k = 20$. 
 	\[
 		\mathbb{P}_{p_L} \left( N \geq 20 \right) 
 		=
